@@ -2,6 +2,9 @@
 
 using namespace std;
 
+#ifndef MATERIAL_H
+#define MATERIAL_H
+
 class Material
 {
 private:
@@ -19,3 +22,5 @@ public:
 	string getName() const;
 	string getColour() const;
 };
+
+#endif
