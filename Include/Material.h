@@ -9,9 +9,9 @@ class Material
 {
 private:
 	//Variables
-	int MatID;//Material Unique ID
+	int MatID;//Unique ID
 	int Density;
-	string MatName;//Material Name
+	string MatName;//Name
 	string Colour;
 
 public:
@@ -19,34 +19,34 @@ public:
 	Material();
 
 	/*Overload Constructor
-	@param RCMat = Material Unique ID
-				 RCDen = Density
-				 RCCol = Colour
-				 RCNam = Material Name*/
+	@param RCMat = Unique ID
+		   RCDen = Density
+		   RCCol = Colour
+		   RCNam =  Name*/
 	Material(int RCMat, int RCDen, string RCCol,string RCNam);
 
 	//Destructor
 	~Material();
 
 	/*Setup Function (Just in case)
-	@param RCMat = Material Unique ID
-				 RCDen = Density
-				 RCCol = Colour
-				 RCNam = Material Name*/
+	@param RCMat = Unique ID
+		   RCDen = Density
+		   RCCol = Colour
+		   RCNam =  Name*/
 	void setMaterial(int RCMat, int RCDen, string RCCol,string RCNam);
 
 	//Accessor Functions
 	int getMatID();
-				//return Material Unique ID
+			//return Unique ID
 
 	int getDensity();
-				//return Density
+			//return Density
 
 	string getName();
-				//return Material Name
+			//return Name
 
 	string getColour();
-				//return Colour in <string "HEX Color Code">
+			//return Colour in <string "HEX Color Code">
 };
 
 #endif
