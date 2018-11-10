@@ -8,19 +8,45 @@ using namespace std;
 class Material
 {
 private:
-	int MatID;
+	//Variables
+	int MatID;//Material Unique ID
 	int Density;
-	string MatName;
+	string MatName;//Material Name
 	string Colour;
 
 public:
+	//Default Constructor
 	Material();
+
+	/*Overload Constructor
+	@param RCMat = Material Unique ID
+				 RCDen = Density
+				 RCCol = Colour
+				 RCNam = Material Name*/
+	Material(int RCMat, int RCDen, string RCCol,string RCNam);
+
+	//Destructor
 	~Material();
+
+	/*Setup Function (Just in case)
+	@param RCMat = Material Unique ID
+				 RCDen = Density
+				 RCCol = Colour
+				 RCNam = Material Name*/
 	void setMaterial(int RCMat, int RCDen, string RCCol,string RCNam);
-	int getMatID() const;
-	int getDensity() const;
-	string getName() const;
-	string getColour() const;
+
+	//Accessor Functions
+	int getMatID();
+				//return Material Unique ID
+
+	int getDensity();
+				//return Density
+
+	string getName();
+				//return Material Name
+
+	string getColour();
+				//return Colour in <string "HEX Color Code">
 };
 
 #endif

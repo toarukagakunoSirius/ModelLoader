@@ -1,31 +1,43 @@
 #include "Material.h"
 
-
-
+//Create Material with Default Value
 Material::Material()
 {
-  int MatID = 0;
-  int Density = 0;
+  this->MatID = 0;
+  this->Density = 0;
 }
+
+//Create Material by Overload Constructor
+Material::Material(int RCMat, int RCDen, string RCCol, string RCNam){
+	this->MatID = RCMat;
+	this->Density = RCDen;
+	this->MatName = RCNam;
+	this->Colour = RCCol;
+}
+
+//Destructor
 Material::~Material()
 {
 }
 
+//Create Material by Setup Function
 void Material::setMaterial(int RCMat, int RCDen, string RCCol, string RCNam){
 	this->MatID = RCMat;
 	this->Density = RCDen;
 	this->MatName = RCNam;
 	this->Colour = RCCol;
 }
-int Material::getMatID() const{
+
+//Accessor Functions
+int Material::getMatID(){
 	return MatID;
 }
-string Material::getColour() const{
+string Material::getColour(){
 	return Colour;
 }
-int Material::getDensity() const{
+int Material::getDensity(){
 	return Density;
 }
-string Material::getName() const{
+string Material::getName(){
 	return MatName;
 }

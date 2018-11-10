@@ -15,48 +15,79 @@ void Model::LoadModel(void) {
 	ifstream file;
 	Count(); //Counts the number of materials,cells and vertices
 
-	Vertices = new Vector[CapV];
+	Vertices = new Vector[CapV]; //Create multiple objects of class type Vector
 	Materials = new Material[CapM];
 	Cells = new Cell[CapC];
 
-	CapV = 0, CapM = 0, CapC = 0;
+	
 	file.open(FileName);
-	while (getline(file, data)) {
+	while (getline(file, data)) { //Read each line and send data to classes
 		line = data[0];
 		if (line == "v") {
-			SetVertices(data, CapV);
+			SetVertices(data, VNum); //
 			CapV++;
 		}
 		else if (line == "m") {
-			SetMaterial(data, CapM);
+			SetMaterial(data, MNum);
 			CapM++;
 		}
 		else if (line == "c") {
-			SetCell(data, CapC);
+			SetCell(data, CNum);
 			CapC++;
 		}
 	}
 	file.close();
 }
-string Model::SetCell(string data, int CapV) {
+string Model::SetCell(string data, int NumC) {
 	istringstream iss(data);
 	vector<std::string> results((std::istream_iterator<std::string>(iss)),
 		istream_iterator<std::string>());
 
-	Cells[CapV].ID = stoi(results[1]);
+	int Vertices_List[sizeof(results)];
+	for (int i = 0; i < sizeof(results); i++) {
+		Vertices_List[i] = stoi(results[i + 3]);
+	}
+	
+	int ID = stoi(results[1]);
+	string Type = results[2];
+	int MaterialID = stoi(results[3]);
+	Cells[NumC].setCells(ID, MaterialID, Type);
+
+	if (Type == "h") {
+		int Vertices_List[8];
+		for (int i = 0; i < 8; i++) {
+			Vertices_List[i] = stoi(results[i + 4]);
+		}
+		Cells[NumC].setHexahedron(Vertices_List);
+	}
+	else if (Type == "p") {
+		int Vertices_List[5];
+		for (int i = 0; i < 5; i++) {
+			Vertices_List[i] = stoi(results[i + 4]);
+		}
+		Cells[NumC].setPyramid(Vertices_List);
+	}
+	else if (Type == "t") {
+		int Vertices_List[4];
+		for (int i = 0; i < 4; i++) {
+			Vertices_List[i] = stoi(results[i + 4]);
+		}
+		Cells[NumC].setTetrahedron(Vertices_List);
+	}
 
 }
-string Model::SetVertices(string data, int CapV) {
+string Model::SetVertices(string data, int NumV) {
 	istringstream iss(data);
 	vector<std::string> results((std::istream_iterator<std::string>(iss)),
 		istream_iterator<std::string>());
+	int ID = stoi(results[1]);
+	int X = stof(results[2]);
+	int Y = stof(results[3]);
+	int Z = stof(results[4]);
 
-	Vertices[CapV].ID = stoi(results[1]);
-	Vertices[CapV].X = stof(results[2]);
-	Vertices[CapV].Y = stof(results[3]);
-	Vertices[CapV].Z = stof(results[4]);
+	Vertices[NumV].setVertices(ID, X, Y, Z);
 }
-string Model::SetMaterial(string data, int CapM) {
+string Model::SetMaterial(string data, int NumM) {
 
 	istringstream iss(data);
 	vector<string> results((istream_iterator<string>(iss)),
@@ -66,8 +97,14 @@ string Model::SetMaterial(string data, int CapM) {
 	string Name = results[4];
 	string Colour = results[3];
 
-	Materials[CapM].setMaterial(ID, Density, Colour, Name);
+	Materials[NumN].setMaterial(ID, Density, Colour, Name);
 
+}
+string Model::GetCell(int c) {
+}
+string Model::GetVertices(int v) {
+}
+string Model::GetMaterial(int m) {
 }
 int Model::Count() {
 	string line, data;
