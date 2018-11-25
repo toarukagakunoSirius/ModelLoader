@@ -30,14 +30,14 @@ void Material::setMaterial(int RCMat, int RCDen, string RCCol, string RCNam){
 
 //Accessor Functions
 int Material::getMatID(){
-	return MatID;
+	return this->MatID;
 }
 string Material::getColour(){
-	return Colour;
+	return this->Colour;
 }
 int Material::getDensity(){
-	return Density;
+	return this->Density;
 }
 string Material::getName(){
-	return MatName;
+	return this->MatName;
 }
