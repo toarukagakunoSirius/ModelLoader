@@ -7,12 +7,23 @@
 
 using namespace std;
 
-/*----------------------------------------------------------------------------*/
 
-cell :: setCell(int ID, int m, string type){
+
+void cell::setCell(int ID, int m, string type){
+
+/*Class cell functions*/
+
+//store cellID, matID and cell type
+void cell :: setCell(int ID, int m, string type){
+
       this->CellID = ID;
       this->material = m;
       this->type = type;
+	  cout << "test";
+}
+
+void cell :: setVertices(int v){
+      this->p.push_back(v);
 }
 
 /*double cell :: getvoulume() {
@@ -31,12 +42,20 @@ double cell :: getcentre() {
       return 0;
 }*/
 
-/*----------------------------------------------------------------------------*/
 
-tetrahedron :: setTetrahedron(int p[4]) {
+
+void tetrahedron::setTetrahedron(int p[4]) {
+      p = new int [4];
+	  for (int i = 0; i < 4; i++) {
+            p[i] = p[i];
+
+/*Member class tetrahedron functions*/
+//store tetrahedron veteces
+void tetrahedron :: setTetrahedron(int p[4]) {
       this->p = new int [4];
       for (i = 0, i < 4, i++){
             this->p[i] = p[i];
+
       }
 }
 
@@ -48,15 +67,23 @@ double tetrahedron :: getcentre() {
 
 }*/
 
-/*----------------------------------------------------------------------------*/
 
-pyramid :: setPyramid(int p[5]) {
+
+void pyramid::setPyramid(int p[5]) {
+      p = new int [5];
+	  for (int i = 0; i < 5; i++) {
+            p[i] = p[i];
+
+/*Member class pyramid functions*/
+//store pyramid veteces
+void pyramid :: setPyramid(int p[5]) {
       this->p = new int [5];
       for (i = 0, i < 5, i++){
             this->p[i] = p[i];
+
       }
 }
-}
+
 
 /*double pyramid :: getvolume() {
 
@@ -66,11 +93,16 @@ double pyramid :: getcentre() {
 
 }*/
 
-/*----------------------------------------------------------------------------*/
 
-hexahedron :: setHexahedron(int p[8]) {
+
+void hexahedron::setHexahedron(int p[8]) {
+
+/*Member class hexahedron functions*/
+//store hexaahedron veteces
+void hexahedron :: setHexahedron(int p[8]) {
+
       this->p = new int [8];
-      for (i = 0, i < 8, i++){
+	  for (int i = 0; i < 8; i++) {
             this->p[i] = p[i];
       }
 }
