@@ -29,6 +29,7 @@ Vector::Vector() { //default constructor just in case no values are entered
     this->y = 0.;
     this->z = 0.;
 }
+
 /*---------------------------------------------------------*/
 //add function
 void Vector::add( Vector v ) {
@@ -71,7 +72,7 @@ float Vector::scalarproduct( Vector v ){ //dot product
     return scalarresult;
 }
 
-//vector product function - MUST BE A 3D VECTOR
+//vector product function
 Vector  Vector:: vectorproduct( Vector v){ //cross product
     float vectorresult1 = this->y*v.z - this->z*v.y;
     float vectorresult2 = this->z*v.x - this->x*v.z;
@@ -84,7 +85,9 @@ Vector  Vector:: vectorproduct( Vector v){ //cross product
 /*---------------------------------------------------------*/
 //print function - prints vectors
 void Vector::print() {
-	cout << this -> x << "," << this -> y << "," << this -> z << endl;
+
+	cout << this-> x << "," << this-> y << "," << this-> z << endl;
+
 }
 
 float Vector::getx(){ return x; }
