@@ -8,20 +8,20 @@
 using namespace std;
 
 int main(int argc, char **argv) {
-	int x = 1;
-	int y = 2;
-	int z = 3;
+	int x1 = 1;
+	int y1= 2;
+	int z1 = 3;
 
-	int v.x = 4;
-	int v.x = 5;
-	int v.x = 6;
+	int x2 = 4;
+	int y2 = 5;
+	int z2 = 6;
 
-	Vector v = Vector(x, y, z);
-	int add(Vector v);
+	Vector x, y, z;
+	x = x1 + x2;
+	y = y1 + y2;
+	z = z1 + z2;
 
-	cout << v << endl;
-	//cout << y2 << endl;
-	//cout << z2 << endl;
+	Vector::print();
 }
 
 
