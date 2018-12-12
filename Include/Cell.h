@@ -9,20 +9,19 @@ protected:
       string type;
       vector<int> p;
 public:
-<<<<<<< HEAD
+
       void setCell(int ID, int m, string type);
       //virtual double getvolume();
       //double getweight(double volume);
       //virtual double getcentre();
 };
-=======
+
       void setCell(int ID, int m, string type); //store cellID, matID and cell type
       void setVertices(int v);
       //virtual double getvolume();
       //double getweight(double volume);
       //virtual double getcentre();
-}£»
->>>>>>> 7cb026488e61f6ec722340465bcb35adf322a3b5
+}
 
 
 /*Member class tetrahedron*/
@@ -47,13 +46,11 @@ public:
       //double getcentre();
 };
 /*----------------------------------------------------------------------------*/
-=======
+/*
       void setPyramid(int p[5]); //store pyramid veteces
       //double getvolume();
       //double getcentre();
-}*/
-
->>>>>>> 7cb026488e61f6ec722340465bcb35adf322a3b5
+}
 
 /*Menber class hexahedron*/
 /*class hexahedron : public cell {
@@ -68,4 +65,4 @@ public:
       //double getvolume();
       //double getcentre();
 }*/
->>>>>>> 7cb026488e61f6ec722340465bcb35adf322a3b5
+
