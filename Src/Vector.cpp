@@ -1,4 +1,4 @@
-//
+﻿//
 //  vector.cpp
 //  vector
 //
@@ -6,14 +6,9 @@
 //  Copyright © 2018 Hana Makhlouf. All rights reserved.
 //
 
-#include "vector.h"
-//#include "cell.hpp"
-//#include "material.hpp"
-//#include "model.hpp"
-
+#include <iostream>
+#include "Vector.h"
 using namespace std;
-
-
 
 /*-- -------------------------------------------------------*/
 Vector::Vector( float x, float y, float z ) { //constructor
@@ -35,7 +30,6 @@ Vector::Vector() { //default constructor just in case no values are entered
     this->z = 0.;
 }
 /*---------------------------------------------------------*/
-
 //add function
 void Vector::add( Vector v ) {
     this->x += v.x;
@@ -43,11 +37,31 @@ void Vector::add( Vector v ) {
     this->z += v.z;
 }
 
+//add function using operator overloading
+Vector Vector::operator+(Vector v) { //this allows us to use + to add 2 vectors instead of using the add function above
+	Vector vector1;
+	vector1.x = this->x + v.x;
+	vector1.y = this->y + v.y;
+	vector1.z = this->z + v.z;
+	return vector1;
+}
+
+/*---------------------------------------------------------*/
+
 //subtract function
 void Vector::subtract( Vector v ){
     this->x -= v.x;
     this->y -= v.y;
     this->z -= v.z;
+}
+
+//subtract function using operator overloading 
+Vector Vector::operator-(Vector v) {
+	Vector vector1;
+	vector1.x = this->x - v.x;
+	vector1.y = this->y - v.y;
+	vector1.z = this->z - v.z;
+	return vector1;
 }
 
 /*---------------------------------------------------------*/
@@ -68,19 +82,13 @@ Vector  Vector:: vectorproduct( Vector v){ //cross product
     return final;
 }
 /*---------------------------------------------------------*/
-
-
-/*Vector  vectorproduct( Vector v1, Vector v2 ){ //cross product
- float vectorresult1 = v1.y*v2.z - v1.z*v2.y;
- float vectorresult2 = v1.z*v2.x - v1.x*v2.z;
- float vectorresult3 = v1.x*v2.y - v1.y*v2.x;
- 
- Vector final(vectorresult1,vectorresult2,vectorresult3);
- 
- return final;
- }*/
+//print function - prints vectors
+void Vector::print() {
+	cout << this -> x << "," << this -> y << "," << this -> z << endl;
+}
 
 float Vector::getx(){ return x; }
 float Vector::gety(){ return y; }
 float Vector::getz(){ return z; }
 
+/*---------------------------------------------------------*/
