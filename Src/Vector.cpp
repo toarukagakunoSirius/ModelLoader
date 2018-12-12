@@ -1,4 +1,4 @@
-//
+﻿//
 //  vector.cpp
 //  vector
 //
@@ -75,3 +75,4 @@ float Vector::getx(){ return x; }
 float Vector::gety(){ return y; }
 float Vector::getz(){ return z; }
 
+/*---------------------------------------------------------*/
