@@ -28,9 +28,9 @@ public:
 	void SetVertices(string data);
 	void SetMaterial(string data);
 	string GetCell(int ID, string Type);
-	void GetVertices(int ID, string Type);
-	void GetMaterial(int ID, string Type);
-	void int FindCentre(void);
+	void GetVertices(int ID);
+	void GetMaterial(int ID);
+	void FindCentre(void);
 
 
 };
