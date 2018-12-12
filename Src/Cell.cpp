@@ -17,6 +17,10 @@ void cell :: setCell(int ID, int m, string type){
       this->type = type;
 }
 
+void cell :: setVertices(int v){
+      this->p.push_back(v);
+}
+
 /*double cell :: getvoulume() {
       return 0;
 }
