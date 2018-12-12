@@ -84,7 +84,7 @@ Vector  Vector:: vectorproduct( Vector v){ //cross product
 /*---------------------------------------------------------*/
 //print function - prints vectors
 void Vector::print() {
-	cout << this > x << "," << this > y << "," << this > z << endl;
+	cout << this -> x << "," << this -> y << "," << this -> z << endl;
 }
 
 float Vector::getx(){ return x; }

@@ -138,12 +138,12 @@ string Model::GetCell(int ID, string Type) {
 	return "";
 }
 void Model::GetVertices(int ID) {
-	int x = Vertices[ID].getx();
-	int y = Vertices[ID].gety();
-	int z = Vertices[ID].getz();
+	float x = Vertices[ID].getx();
+	float y = Vertices[ID].gety();
+	float z = Vertices[ID].getz();
 }
 void Model::GetMaterial(int ID) {
-	int ID = Materials[ID].getMatID();
+	int ID2 = Materials[ID].getMatID();
 	string Colour = Materials[ID].getColour();
 	string Name = Materials[ID].getName();
 	int Density = Materials[ID].getDensity();

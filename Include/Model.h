@@ -15,7 +15,7 @@ class Model
 private:
 	vector<Vector> Vertices;
 	vector<Material> Materials;
-	vector<cell> Cells;
+	vector<cell> VectorCell;
 
 
 	
