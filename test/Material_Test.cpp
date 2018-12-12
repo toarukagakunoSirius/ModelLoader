@@ -6,11 +6,12 @@ using namespace std;
 #include "Material.h"
 
 int main() {
-	string NAME;
+  string NAME;
 	Material Mat1;
 	string Col;
 	int id;
 	int den;
+  while(1){
 	cout << "What is your Material ID" << endl;
 	cin >> id;
 	cout << "What is your Density" << endl;
@@ -25,4 +26,5 @@ int main() {
 		<< "	Density: " << Mat1.getDensity() << endl
 		<< "	Colour: " << Mat1.getColour() << endl
 		<< "	Name: " << Mat1.getName() << endl;
+}
 }
