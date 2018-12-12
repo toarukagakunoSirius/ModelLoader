@@ -17,8 +17,6 @@ private:
 	vector<Material> Materials;
 	vector<cell> VectorCell;
 
-
-	
 public:
 	Model(string FileName);
 	~Model();
