@@ -44,43 +44,28 @@ void Model::SetCell(string data) {
 	vector<std::string> results((std::istream_iterator<std::string>(iss)),
 		istream_iterator<std::string>());
 
-	int Vertices_List[sizeof(results)];
-	for (int i = 0; i < sizeof(results); i++) {
-		Vertices_List[i] = stoi(results[i + 3]);
-	}
-
 	int ID = stoi(results[1]);
 	string Type = results[2];
 	int MaterialID = stoi(results[3]);
+
+	cell *C = new cell;
 	C->setCell(ID, MaterialID, Type);
 	VectorCell.push_back(*C);
 
 	if (Type == "h") {
-		cell *C = new cell;
 		for (int i = 0; i < 8; i++) {
 			C->setVertices(stoi(results[i + 4]));
 		}
-		
-	
 	} 
 	else if (Type == "p") {
-		cell *C = new cell;
-		for (int i = 0; i < 5; i++) {
-			
+		for (int i = 0; i < 5; i++) {	
 			C->setVertices(stoi(results[i + 4]));
-		}
-		
-		
+		}	
 	}
 	else if (Type == "t") {
-		cell *C = new cell;
-
-		for (int i = 0; i < 4; i++) {
-			
+		for (int i = 0; i < 4; i++) {		
 			C->setVertices(stoi(results[i + 4]));
-		}
-		
-		
+		}	
 	}
 
 }
@@ -138,6 +123,7 @@ void Model::GetMaterial(int ID) {
 	string Colour = Materials[ID].getColour();
 	string Name = Materials[ID].getName();
 	int Density = Materials[ID].getDensity();
+	cout << ID2 << Colour << Name << Density;
 }
 void Model::FindCentre(void) {
 }
