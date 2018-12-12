@@ -1,9 +1,6 @@
-#include <iostream>
-#include <string>
-#include "Material.h"
+
 #include "Cell.h"
-#include "Model.h"
-#include "Vector.h"
+
 
 using namespace std;
 

@@ -17,7 +17,7 @@ void Model::LoadModel(string FileName) {
 	
 	vector<Vector> Vertices;
 	vector<Material> Materials;
-	vector<cell> Cells;
+	vector<cell> VectorCell;
 	
 
 	
@@ -55,12 +55,12 @@ void Model::SetCell(string data) {
 	if (Type == "h") {
 		cell *C = new cell;
 		C->setCell(ID, MaterialID, Type);
-		Cells.push_back(*C);
+		VectorCell.push_back(*C);
 
 		int Vertices_List[8];
 		for (int i = 0; i < 8; i++) {
 			Vertices_List[i] = stoi(results[i + 4]);
-			C->SetVertices(Vertices_List[i]);
+			C->setVertices(Vertices_List[i]);
 		}
 		
 	
@@ -68,12 +68,12 @@ void Model::SetCell(string data) {
 	else if (Type == "p") {
 		cell *C = new cell;
 		C->setCell(ID, MaterialID, Type);
-		Cells.push_back(*C);
+		VectorCell.push_back(*C);
 
 		int Vertices_List[5];
 		for (int i = 0; i < 5; i++) {
 			Vertices_List[i] = stoi(results[i + 4]);
-			C->SetVertices(Vertices_List[i]);
+			C->setVertices(Vertices_List[i]);
 		}
 		
 		
@@ -81,12 +81,12 @@ void Model::SetCell(string data) {
 	else if (Type == "t") {
 		cell *C = new cell;
 		C->setCell(ID, MaterialID, Type);
-		Cells.push_back(*C);
+		VectorCell.push_back(*C);
 
 		int Vertices_List[4];
 		for (int i = 0; i < 4; i++) {
 			Vertices_List[i] = stoi(results[i + 4]);
-			C->SetVertices(Vertices_List[i]);
+			C->setVertices(Vertices_List[i]);
 		}
 		
 		
@@ -137,9 +137,16 @@ string Model::GetCell(int ID, string Type) {
 		cout << "Type not Found" << endl;*/
 	return "";
 }
-void Model::GetVertices(int ID, string Type) {
+void Model::GetVertices(int ID) {
+	float x = Vertices[ID].getx();
+	float y = Vertices[ID].gety();
+	float z = Vertices[ID].getz();
 }
-void Model::GetMaterial(int ID, string Type) {
+void Model::GetMaterial(int ID) {
+	int ID2 = Materials[ID].getMatID();
+	string Colour = Materials[ID].getColour();
+	string Name = Materials[ID].getName();
+	int Density = Materials[ID].getDensity();
 }
 void Model::FindCentre(void) {
 }
