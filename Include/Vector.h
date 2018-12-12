@@ -11,13 +11,23 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <math.h>
 using namespace std;
 
 class Vector{
 public:
-    Vector( float x, float y, float z );
-    Vector();
+
+// Overload + and - operator to add two 2 vectors
+	Vector operator+(Vector v);
+	Vector operator-(Vector v);
+
+	Vector();
+	Vector( float x, float y, float z ); //initialise
+    
 	void SetVector(int iD, float x, float y, float z);
+	void print();
+
+	//add, subtract, scalar and vector product with no operator overloading
     void add( Vector v );
     void subtract( Vector v);
     float scalarproduct (Vector v);
@@ -27,12 +37,6 @@ public:
     float gety(); //{ return y; }
     float getz(); //{ return z; }
 
-	//Still working on this part
-// Overload + operator to add two 2 vectors
-	Vector operator+(const Vector& v) {
-		Vector vector1;
-		vector1.add = this->add + v.add;
-		return vector1;
 
     //friend Vector vectorproduct( Vector v1, Vector v2 );
 
