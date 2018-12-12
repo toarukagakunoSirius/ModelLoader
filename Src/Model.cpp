@@ -124,6 +124,22 @@ void Model::GetMaterial(int ID) {
 	string Name = Materials[ID].getName();
 	int Density = Materials[ID].getDensity();
 	cout << ID2 << Colour << Name << Density;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 void Model::FindCentre(void) {
 }
