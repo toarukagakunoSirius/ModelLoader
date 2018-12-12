@@ -9,35 +9,34 @@ protected:
       string type;
       int* p;
 public:
-      setCell(int ID, int m, string type);
+      void setCell(int ID, int m, string type);
       //virtual double getvolume();
       //double getweight(double volume);
       //virtual double getcentre();
-}
+};
 
 /*----------------------------------------------------------------------------*/
 
 class tetrahedron : public cell {
 public:
-      setTetrahedron(int p[4]);
+      void setTetrahedron(int p[4]);
       //double getvolume();
       //double getcentre();
-}
+};
 
 /*----------------------------------------------------------------------------*/
 
 class pyramid : public cell {
 public:
-      setyPyramid(int p[5]);
+      void setPyramid(int p[5]);
       //double getvolume();
       //double getcentre();
-}
-
+};
 /*----------------------------------------------------------------------------*/
 
 class hexahedron : public cell {
 public:
-      setHexahedron(int p[8]);
+      void setHexahedron(int p[8]);
       //double getvolume();
       //double getcentre();
-}
+};
