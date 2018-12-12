@@ -10,14 +10,23 @@
 //#include "cell.hpp"
 //#include "material.hpp"
 //#include "model.hpp"
-#include <iostream>
+
 using namespace std;
 
-/*---------------------------------------------------------*/
+
+
+/*-- -------------------------------------------------------*/
 Vector::Vector( float x, float y, float z ) { //constructor
     this->x = x;
     this->y = y;
     this->z = z;
+}
+
+void Vector::SetVector(int iD, float x, float y, float z) {
+	this->ID = iD;
+	this->x = x;
+	this->y = y;
+	this->z = z;
 }
 
 Vector::Vector() { //default constructor just in case no values are entered
