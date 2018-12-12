@@ -10,13 +10,14 @@
 #define vector_h
 
 #include <stdio.h>
+#include <iostream>
 using namespace std;
 
 class Vector{
 public:
     Vector( float x, float y, float z );
     Vector();
-
+	void SetVector(int iD, float x, float y, float z);
     void add( Vector v );
     void subtract( Vector v);
     float scalarproduct (Vector v);
