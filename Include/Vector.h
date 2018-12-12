@@ -1,4 +1,4 @@
-//
+﻿//
 //  vector.h
 //  vector
 //
@@ -26,6 +26,13 @@ public:
     float getx(); //{ return x; }
     float gety(); //{ return y; }
     float getz(); //{ return z; }
+
+	//Still working on this part
+// Overload + operator to add two 2 vectors
+	Vector operator+(const Vector& v) {
+		Vector vector1;
+		vector1.add = this->add + v.add;
+		return vector1;
 
     //friend Vector vectorproduct( Vector v1, Vector v2 );
 
