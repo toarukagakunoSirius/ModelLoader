@@ -9,7 +9,7 @@
 #ifndef vector_h
 #define vector_h
 
-#include <stdio.h>
+
 #include <iostream>
 #include <math.h>
 using namespace std;
