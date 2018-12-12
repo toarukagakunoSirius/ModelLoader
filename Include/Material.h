@@ -1,6 +1,6 @@
-#include <string>
+#include <string>//For string type variables
 
-using namespace std;
+using namespace std;//For std::
 
 #ifndef MATERIAL_H
 #define MATERIAL_H
@@ -49,4 +49,4 @@ public:
 			//return Colour in <string "HEX Color Code">
 };
 
-#endif
+#endif //End of material.h
