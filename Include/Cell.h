@@ -13,8 +13,10 @@ protected:
 public:
       void setCell(int ID, int m, string type); //store cellID, matID and cell type
       void setVertices(int v);
-
-
+	  string getType();
+	  int getCellID();
+	  int getMaterialID();
+	  int getVerticesID(int n);
       //virtual double getvolume();
       //double getweight(double volume);
       //virtual double getcentre();
