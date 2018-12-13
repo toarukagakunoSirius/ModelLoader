@@ -13,23 +13,10 @@ void cell :: setCell(int ID, int m, string type){
 
 void cell :: setVertices(int v){
       this->p.push_back(v);
+
+
 	 
-}
 
-string cell :: getType(){
-	return this->type;
-}
-
-int cell :: getCellID(){
-	return this->CellID;
-}
-
-int cell::getMaterialID() {
-	return this->material;
-}
-
-int cell::getVertexID(int n) {
-	return this->p[n];
 }
 
 /*double cell :: getvoulume() {

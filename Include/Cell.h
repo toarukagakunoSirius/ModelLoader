@@ -13,14 +13,13 @@ protected:
 public:
       void setCell(int ID, int m, string type); //store cellID, matID and cell type
       void setVertices(int v);
-	  string getType();
-	  int getCellID();
-	  int getMaterialID();
-	  int getVertexID(int n);
+
+
       //virtual double getvolume();
       //double getweight(double volume);
       //virtual double getcentre();
 };
+
 
 class Pyramid : public cell {
 	
@@ -33,6 +32,8 @@ class Tetrahedron : public cell {
 class Hexahedron : public cell {
 
 };
+
+
 
 
 /*Member class tetrahedron*/

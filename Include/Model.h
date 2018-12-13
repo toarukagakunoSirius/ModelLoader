@@ -30,6 +30,9 @@ public:
 	void GetMaterial(int ID);
 	void FindCentre(void);
 
+	int NumberVertices(void);
+
+
 
 };
 

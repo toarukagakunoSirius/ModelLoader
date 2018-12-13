@@ -17,7 +17,13 @@ void Model::LoadModel(string FileName) {
 	
 	vector<Vector> Vertices;
 	vector<Material> Materials;
+<<<<<<< HEAD
 	vector<cell> VectorCell;
+=======
+	vector<Pyramid> Pyramids;
+	vector<Hexahedron> Hexahedrons;
+	vector<Tetrahedron> Tetrahedrons;
+>>>>>>> 6ce248dbfaef437a7d29eb0abf19073b142b74be
 	
 
 	file.open(FileName);
@@ -48,23 +54,30 @@ void Model::SetCell(string data) {
 	string Type = results[2];
 	int MaterialID = stoi(results[3]);
 
-	cell *C = new cell;
-	C->setCell(ID, MaterialID, Type);
-	VectorCell.push_back(*C);
 
 	if (Type == "h") {
+		Hexahedron *H = new Hexahedron;
+		H->setCell(ID, MaterialID, Type);
+		Hexahedrons.push_back(*H);
 		for (int i = 0; i < 8; i++) {
-			C->setVertices(stoi(results[i + 4]));
+			H->setVertices(stoi(results[i + 4]));
 		}
 	} 
 	else if (Type == "p") {
+		Pyramid *P = new Pyramid;
+		P->setCell(ID, MaterialID, Type);
+		Pyramids.push_back(*P);
 		for (int i = 0; i < 5; i++) {	
-			C->setVertices(stoi(results[i + 4]));
+			P->setVertices(stoi(results[i + 4]));
 		}	
 	}
 	else if (Type == "t") {
+		Tetrahedron *C = new Tetrahedron;
+		T->setCell(ID, MaterialID, Type);
+		Tetrahedrons.push_back(*T);
 		for (int i = 0; i < 4; i++) {		
-			C->setVertices(stoi(results[i + 4]));
+			T->setVertices(stoi(results[i + 4]));
+
 		}	
 	}
 
@@ -117,29 +130,23 @@ void Model::GetVertices(int ID) {
 	float x = Vertices[ID].getx();
 	float y = Vertices[ID].gety();
 	float z = Vertices[ID].getz();
+
+	cout << x << y << z;
+
 }
 void Model::GetMaterial(int ID) {
 	int ID2 = Materials[ID].getMatID();
 	string Colour = Materials[ID].getColour();
 	string Name = Materials[ID].getName();
 	int Density = Materials[ID].getDensity();
-	cout << ID2 << Colour << Name << Density;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	cout << "ID: "<<ID2 << "Colour: "<< Colour << "Name: "<<Name <<"Density"<< Density;
+	
 
 }
 void Model::FindCentre(void) {
+}
+int Model::NumberVertices(void) {
+	return Vertices.size();
+
 }
