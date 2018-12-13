@@ -8,6 +8,7 @@ project( Material )
 # output library name and File input for library
 add_library( material STATIC Src/Material.cpp )
 
+#Add include path
 include_directories(Inc)
 
 # Create executable
