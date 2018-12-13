@@ -12,7 +12,9 @@ Run the following commands
 *Place the Model file to load in the same directory as the executable*
 
 EXPECTED OUTPUT
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 >The number of vertices = 301
 >There are 0 Pyramid Cells
 >There are 0 Tetrahedron Cells
 >There are 129 Hexahedron Cells
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
