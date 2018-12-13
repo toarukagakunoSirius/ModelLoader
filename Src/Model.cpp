@@ -17,13 +17,11 @@ void Model::LoadModel(string FileName) {
 	
 	vector<Vector> Vertices;
 	vector<Material> Materials;
-<<<<<<< HEAD
-	vector<cell> VectorCell;
-=======
+
 	vector<Pyramid> Pyramids;
 	vector<Hexahedron> Hexahedrons;
 	vector<Tetrahedron> Tetrahedrons;
->>>>>>> 6ce248dbfaef437a7d29eb0abf19073b142b74be
+
 	
 
 	file.open(FileName);
