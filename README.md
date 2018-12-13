@@ -18,7 +18,7 @@ A .gitignore file is included
 How to Fetch/Push
 https://help.github.com/articles/syncing-a-fork/
 
-~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .
 ├── Include                 # Contains header files (.h)
 ├── Resources               # Contains and extra files needed 
@@ -31,4 +31,4 @@ https://help.github.com/articles/syncing-a-fork/
 │   ├── Vector_Test         # Tests basic functionality for vectors 
 │   └── Matrix_Test         # Tests the matrix functionality
 └── ...
-~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
