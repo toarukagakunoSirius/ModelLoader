@@ -1,4 +1,4 @@
-BUILD INSTRUCTIONS
+**BUILD INSTRUCTIONS**
 
 A test which shows the material class working individually. 
 

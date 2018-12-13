@@ -1,4 +1,4 @@
-BUILD INSTRUCTIONS
+**BUILD INSTRUCTIONS**
 
 Test program for cell class
 The input is specified with variables in the celltest.cpp 
