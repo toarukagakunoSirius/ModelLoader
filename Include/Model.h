@@ -15,7 +15,9 @@ class Model
 private:
 	vector<Vector> Vertices;
 	vector<Material> Materials;
-	vector<cell> VectorCell;
+	vector<Pyramid> Pyramids;
+	vector<Hexahedron> Hexahedrons;
+	vector<Tetrahedron> Tetrahedrons;
 
 public:
 	Model(string FileName);
@@ -29,7 +31,7 @@ public:
 	void GetVertices(int ID);
 	void GetMaterial(int ID);
 	void FindCentre(void);
-
+	void NumberCells(void);
 	int NumberVertices(void);
 
 

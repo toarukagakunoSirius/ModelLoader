@@ -17,7 +17,6 @@ void Model::LoadModel(string FileName) {
 	
 	vector<Vector> Vertices;
 	vector<Material> Materials;
-
 	vector<Pyramid> Pyramids;
 	vector<Hexahedron> Hexahedrons;
 	vector<Tetrahedron> Tetrahedrons;
@@ -70,7 +69,7 @@ void Model::SetCell(string data) {
 		}	
 	}
 	else if (Type == "t") {
-		Tetrahedron *C = new Tetrahedron;
+		Tetrahedron *T = new Tetrahedron;
 		T->setCell(ID, MaterialID, Type);
 		Tetrahedrons.push_back(*T);
 		for (int i = 0; i < 4; i++) {		
@@ -147,4 +146,14 @@ void Model::FindCentre(void) {
 int Model::NumberVertices(void) {
 	return Vertices.size();
 
+}
+
+void Model::NumberCells(void) {
+	int NumP = Pyramids.size();
+	int NumT = Tetrahedrons.size();
+	int NumH = Hexahedrons.size();
+
+	cout << "There are " << NumP << " Pyramid Cells" << endl;
+	cout << "There are " << NumT << " Tetrahedron Cells" << endl;
+	cout << "There are " << NumH << " Hexahedron Cells" << endl;
 }
