@@ -7,8 +7,8 @@
 using namespace std;
 
 
-void rotateMatrix(Matrix mat);
-void displayMatrix(Matrix mat);
+void rotateMatrix(int mat[N][N]);
+void displayMatrix(int mat[N][N]);
 
 int main()
 {
