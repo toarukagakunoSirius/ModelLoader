@@ -1,4 +1,3 @@
-
 #include "Cell.h"
 
 
@@ -26,7 +25,7 @@ int cell :: getMaterialID() {
 	  return this->material;
 }
 
-int cell::getVerticesID(int n) {
+int cell :: getVerticesID(int n) {
 	return this->p[n];
 }
 
