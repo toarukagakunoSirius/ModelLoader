@@ -147,7 +147,6 @@ int Model::NumberVertices(void) {
 	return Vertices.size();
 
 }
-
 void Model::NumberCells(void) {
 	int NumP = Pyramids.size();
 	int NumT = Tetrahedrons.size();
