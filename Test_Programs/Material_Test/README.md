@@ -1,5 +1,7 @@
 BUILD INSTRUCTIONS
 
+A test which shows the material class working individually. 
+
 Run the following commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1)	>mkdir build
