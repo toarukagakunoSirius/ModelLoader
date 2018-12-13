@@ -44,7 +44,7 @@ Matrix::Matrix() { //default constructor just in case no values are entered
 }
 /*---------------------------------------------------------*/
 //identity matrix for a 3x3 matrix
-Vector::identity() {
+void Matrix::identity(Matrix m) {
 	this->m11 = 1;
 	this->m12 = 0;
 	this->m13 = 0;
@@ -54,14 +54,15 @@ Vector::identity() {
 	this->m31 = 0;
 	this->m32 = 0;
 	this->m33 = 1;
+}
+
 	/*---------------------------------------------------------*/
 	//rotation
-	// C++ program to rotate a matrix by 90 degrees 
-#define N 3 
+	// C++ program to rotate a matrix by 90 degrees  
 
 	// An Inplace function to rotate a N x N matrix 
 	// by 90 degrees in anti-clockwise direction 
-	void rotateMatrix(int mat[][N])
+	void Matrix::rotateMatrix(int mat[][N])
 	{
 		// Consider all squares one by one 
 		for (int x = 0; x < N / 2; x++)
@@ -89,7 +90,7 @@ Vector::identity() {
 	}
 
 	// Function to print the matrix 
-	void displayMatrix(int mat[N][N])
+	void Matrix::displayMatrix(int mat[N][N])
 	{
 		for (int i = 0; i < N; i++)
 		{
