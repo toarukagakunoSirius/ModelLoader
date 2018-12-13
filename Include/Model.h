@@ -29,6 +29,7 @@ public:
 	void GetVertices(int ID);
 	void GetMaterial(int ID);
 	void FindCentre(void);
+	int NumberVertices(void);
 
 
 };
