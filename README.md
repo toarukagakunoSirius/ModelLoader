@@ -12,10 +12,10 @@ For this project we will be designing and creating software to view 3D CAD model
 
 **ROLES**
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Vector class: Hana
-Model class: Ed
-Cell class: Harry
-Material class: P
+- Vector class: Hana
+- Model class: Ed
+- Cell class: Harry
+- Material class: P
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This repository will include 4 classes (.cpp and .h files) as well as a main.cpp file combining all classes and integrating them.
