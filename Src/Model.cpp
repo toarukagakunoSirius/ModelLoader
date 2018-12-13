@@ -17,9 +17,13 @@ void Model::LoadModel(string FileName) {
 	
 	vector<Vector> Vertices;
 	vector<Material> Materials;
+<<<<<<< HEAD
+	vector<cell> VectorCell;
+=======
 	vector<Pyramid> Pyramids;
 	vector<Hexahedron> Hexahedrons;
 	vector<Tetrahedron> Tetrahedrons;
+>>>>>>> 6ce248dbfaef437a7d29eb0abf19073b142b74be
 	
 
 	file.open(FileName);
@@ -50,6 +54,7 @@ void Model::SetCell(string data) {
 	string Type = results[2];
 	int MaterialID = stoi(results[3]);
 
+
 	if (Type == "h") {
 		Hexahedron *H = new Hexahedron;
 		H->setCell(ID, MaterialID, Type);
@@ -72,6 +77,7 @@ void Model::SetCell(string data) {
 		Tetrahedrons.push_back(*T);
 		for (int i = 0; i < 4; i++) {		
 			T->setVertices(stoi(results[i + 4]));
+
 		}	
 	}
 
@@ -124,13 +130,16 @@ void Model::GetVertices(int ID) {
 	float x = Vertices[ID].getx();
 	float y = Vertices[ID].gety();
 	float z = Vertices[ID].getz();
+
 	cout << x << y << z;
+
 }
 void Model::GetMaterial(int ID) {
 	int ID2 = Materials[ID].getMatID();
 	string Colour = Materials[ID].getColour();
 	string Name = Materials[ID].getName();
 	int Density = Materials[ID].getDensity();
+
 	cout << "ID: "<<ID2 << "Colour: "<< Colour << "Name: "<<Name <<"Density"<< Density;
 	
 
@@ -139,4 +148,5 @@ void Model::FindCentre(void) {
 }
 int Model::NumberVertices(void) {
 	return Vertices.size();
+
 }

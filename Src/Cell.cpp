@@ -14,7 +14,9 @@ void cell :: setCell(int ID, int m, string type){
 void cell :: setVertices(int v){
       this->p.push_back(v);
 
+
 	 
+
 }
 
 /*double cell :: getvoulume() {
