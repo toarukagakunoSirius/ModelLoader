@@ -8,11 +8,12 @@ void cell :: setCell(int ID, int m, string type){
       this->CellID = ID;
       this->material = m;
       this->type = type;
-	    cout << "test";
+	   
 }
 
 void cell :: setVertices(int v){
       this->p.push_back(v);
+	 
 }
 
 /*double cell :: getvoulume() {
