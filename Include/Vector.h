@@ -28,7 +28,7 @@ public:
 	void SetVector(int iD, float x, float y, float z);
 	void print();
 
-	//add, subtract, scalar and vector product with no operator overloading
+	//add, subtract,divide, scalar and vector product with no operator overloading
     void add( Vector v );
     void subtract( Vector v);
     float scalarproduct (Vector v);
@@ -40,8 +40,6 @@ public:
     float gety(); //{ return y; }
     float getz(); //{ return z; }
 
-
-    //friend Vector vectorproduct( Vector v1, Vector v2 );
 
 private:
     int ID;
