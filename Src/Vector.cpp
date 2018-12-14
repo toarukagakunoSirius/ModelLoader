@@ -18,7 +18,7 @@ Vector::Vector( float x, float y, float z ) { //constructor
     this->z = z;
 }
 
-void Vector::SetVector(int iD, float x, float y, float z) {
+void Vector::SetVector(int iD, float x, float y, float z) { //setting vector values using this
 	this->ID = iD;
 	this->x = x;
 	this->y = y;
@@ -40,7 +40,7 @@ void Vector::add( Vector v ) {
 }
 
 
-Vector Vector::divide(int n) {
+Vector Vector::divide(int n) { //divide function
 	Vector vector1;
 	vector1.x = this->x / n;
 	vector1.y = this->y / n;
