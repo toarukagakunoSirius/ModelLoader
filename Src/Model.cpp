@@ -1,12 +1,16 @@
 #include "Model.h"
 #include <vector>
-Model::Model(string FileName) {
+Model::Model(string FileName) { //Model class constructor
 	LoadModel(FileName);
 }
 Model::~Model() {
-	//delete[]Vertices;
-	//delete[]Cells;
-	//delete[]Materials;
+	Vertices.clear();
+	Materials.clear();
+	Cells.clear();
+	Pyramids.clear();
+	Tetrahedrons.clear();
+	Hexahedrons.clear();
+
 }
 int Model::SaveModel(void) {
 	return 0;
@@ -38,6 +42,7 @@ void Model::LoadModel(string FileName) {
 	}
 	else
 		throw "Error opening file, use a compatible model file";
+
 }
 void Model::SetCell(string data) {
 	istringstream iss(data);
@@ -47,7 +52,7 @@ void Model::SetCell(string data) {
 	int ID = stoi(results[1]);
 	string Type = results[2];
 	int MaterialID = stoi(results[3]);
-
+	
 
 
 	if (Type == "h") {
@@ -110,24 +115,24 @@ void Model::SetMaterial(string data) {
 	M->setMaterial(ID, Density, Colour, Name);
 	Materials.push_back(*M);
 }
-string Model::GetCell(int ID, string Type) {
+int Model::GetCell(int ID, string Type) {
 	if (Type == "p") {
 		if (ID <= Pyramids.size())
-			return Pyramids[ID].getCellID;
+			return Pyramids[ID].getCellID();
 	}
 	else if (Type == "t") {
 		if (ID <= Tetrahedrons.size())
-			return Tetrahedrons[ID].getCellID
+			return Tetrahedrons[ID].getCellID();
 
 	}
 	else if (Type == "h") {
 		if (ID <= Pyramids.size())
-			return Pyramids[ID].getCellID;
+			return Pyramids[ID].getCellID();
 
 	}
 	else
 		cout << "Type not Found" << endl;
-	return "";
+		
 }
 void Model::GetVertices(int ID) {
 	float x = Vertices[ID].getx();
@@ -175,5 +180,6 @@ void Model::NumberCells(void) {
 	cout << "There are " << NumH << " Hexahedron Cells" << endl;
 }
 void Model::GetCellVolume(int ID) {
-	Pyramids[ID].getvolume(Vertices);
+	Hexahedrons[ID].setV(Vertices);
+	cout << "test" << Hexahedrons[ID].getvolume() << endl;
 }

@@ -40,10 +40,12 @@ int cell :: getVerticesID(int n) {
 //CellVertices[p[0]].getx()
 
 
-void cell :: setV(int id, double x, double y, double z) {
+void cell :: setV(vector<Vector>& CellVertices) {
 	Vector *V = new Vector;
-	V->SetVector(id, x, y, z);
-	v.push_back(*V);
+	for (int Vertex = 0; Vertex < p.size(); Vertex++) {
+		*V = CellVertices[p[Vertex]];
+		v.push_back(*V);
+	}
 }
 
 std::vector<Vector> cell :: getV() {

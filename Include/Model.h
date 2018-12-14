@@ -7,6 +7,9 @@
 #include "Cell.h"
 #include "Vector.h"
 #include "Material.h"
+#include "Pyramid.h"
+#include "Hexahedron.h"
+#include "Tetrahedron.h"
 
 using namespace std;
 
@@ -32,7 +35,7 @@ public:
 	void SetCell(string data);
 	void SetVertices(string data);
 	void SetMaterial(string data);
-	string GetCell(int ID, string Type);
+	int GetCell(int ID, string Type);
 	void GetVertices(int ID);
 	void GetMaterial(int ID);
 	void GetCellVolume(int ID);
