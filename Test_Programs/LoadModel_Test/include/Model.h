@@ -18,7 +18,6 @@ private:
 	vector<Pyramid> Pyramids;
 	vector<Hexahedron> Hexahedrons;
 	vector<Tetrahedron> Tetrahedrons;
-	float x, y, z;
 
 public:
 	Model(string FileName);
@@ -34,5 +33,8 @@ public:
 	void FindCentre(void);
 	void NumberCells(void);
 	int NumberVertices(void);
+
+
+
 };
 

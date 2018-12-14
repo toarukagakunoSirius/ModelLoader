@@ -11,7 +11,6 @@ protected:
       string type;
       vector<int> p;
 public:
-	 
       void setCell(int ID, int m, string type); //store cellID, matID and cell type
       void setVertices(int v);
 	  string getType();
