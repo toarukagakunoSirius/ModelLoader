@@ -7,7 +7,7 @@
 using namespace std;
 
 /*-- -------------------------------------------------------*/
-Matrix::Matrix(float m11, float m12, float m13, float m21, float m22, float m23, float m31, float m32, float m33) { //constructor
+Matrix::Matrix( float m11, float m12, float m13, float m21, float m22, float m23, float m31, float m32, float m33) { //constructor
 	this->m11 = m11;
 	this->m12 = m12;
 	this->m13 = m13;
@@ -100,4 +100,17 @@ void Matrix::identity(Matrix m) {
 			printf("\n");
 		}
 		printf("\n");
+	}
+
+	/*---------------------------------------------------------*/
+//determinant calculation
+	float Matrix::det(float m) {
+		m = (m11*((m22*m33) - (m23*m32))) - (m12* ((m21*m33) - (m23*m31))) + (m13* ((m21*m32) - (m22*m31)));
+		return m;
+		cout << m << endl;
+	}
+
+	//print function
+	void Matrix::print() {
+		cout << this->m << endl;
 	}
