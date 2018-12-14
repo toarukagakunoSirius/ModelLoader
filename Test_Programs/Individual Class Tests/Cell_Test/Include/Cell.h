@@ -9,62 +9,12 @@ class cell {
 protected:
       int CellID, material;
       string type;
-      vector<int> p;
+      vector<int> p;                            //vector storing verticesID
 public:
       void setCell(int ID, int m, string type); //store cellID, matID and cell type
-      void setVertices(int v);
-	  string getType();
+      void setVertices(int v);                          //store verticesID
+	  string getType();                       //return cell type, cellID, materialID and verticesID
 	  int getCellID();
 	  int getMaterialID();
 	  int getVerticesID(int n);
-      //virtual double getvolume();
-      //double getweight(double volume);
-      //virtual double getcentre();
 };
-
-
-class Pyramid : public cell {
-	
-};
-
-class Tetrahedron : public cell {
-
-};
-
-class Hexahedron : public cell {
-
-};
-
-
-
-
-/*Member class tetrahedron*/
-/*class tetrahedron : public cell {
-public:
-      void setTetrahedron(int p[4]); //store tetrahedron veteces
-      //double getvolume();
-      //double getcentre();
-};
-
-
-/*Member class pyramid*/
-/*class pyramid : public cell {
-public:
-      void setPyramid(int p[5]);
-      //double getvolume();
-      //double getcentre();
-};
-/*----------------------------------------------------------------------------*/
-/*
-      void setPyramid(int p[5]); //store pyramid veteces
-      //double getvolume();
-      //double getcentre();
-}
-
-/*Menber class hexahedron*/
-/*class hexahedron : public cell {
-public:
-      void setHexahedron(int p[8]); //store hexahedron veteces
-      //double getvolume();
-      //double getcentre();
-}*/
