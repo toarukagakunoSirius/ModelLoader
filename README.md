@@ -28,16 +28,21 @@ https://help.github.com/articles/syncing-a-fork/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .
-├── Include                 # Contains header files (.h)
-├── Resources               # Contains and extra files needed 
-├── Src                     # Contains source files (.cpp)
-├── Static_Library          # Static library files build (.a)
-├── Test_Programs           # Cmake files for different test applications
-│   ├── Cell_Test           # Tests volume and centre calculation functions for the cell class
-│   ├── Cell_Test           # Tests basic functionality for the cell class
-│   ├── LoadModel_Test      # Loads a file and outputs the number of cells/vertices
-│   ├── Material_Test       # Basic functionality for the material class
-│   ├── Vector_Test         # Tests basic functionality for vectors 
-│   └── Matrix_Test         # Tests the matrix functionality
+├── Include                 	# Contains header files (.h)
+├── Resources               	# Contains and extra files needed 
+├── Src                     	# Contains source files (.cpp)
+├── Static_Library          	# Static library files build (.a)
+├── Test_Programs           	# Cmake files for different test applications
+│	│
+│   	├── Individual Class Tests  
+│	│   ├── Cell_Test           		# Tests basic functionality for the cell class
+│	│   ├── Cell_Calculation_Test       # Tests cell volume calculations
+│	│   ├── Material_Test       		# Basic functionality for the material class
+│	│   ├── Vector_Test         		# Tests basic functionality for vectors 
+│	│   └── Matrix_Test         		# Tests the matrix functionality
+│	│
+│   	└── Combined Class Tests    		 
+│	    ├── LoadModel_Test      		 # Loads a file and outputs the number of cells/vertices
+│	    └── CentreModel-CellVolume_Test  # Tests calculating model centre and cell volume
 └── ...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -26,10 +26,10 @@ private:
 public:
 	Model(string FileName);
 	~Model();
-	void SaveModel(void);
+	int SaveModel(void);
 	void LoadModel(string FileName);
 	void SetCell(string data);
-	void SetVertices(string data); 
+	void SetVertices(string data);
 	void SetMaterial(string data);
 	int GetCell(int ID, string Type);
 	void GetVertices(int ID);

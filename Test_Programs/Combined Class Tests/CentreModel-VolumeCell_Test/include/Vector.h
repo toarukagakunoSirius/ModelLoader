@@ -39,7 +39,6 @@ public:
     float getx(); //{ return x; }
     float gety(); //{ return y; }
     float getz(); //{ return z; }
-	int getID(); //{ return z; }
 
 
 private:
