@@ -8,6 +8,7 @@ int main(void)
 	cout << "The number of vertices = " << M.NumberVertices() << endl;
 	M.NumberCells();
 	M.FindCentre();
+	//M.GetCellVolume(0);
 
 	return 0;
 }

@@ -3,14 +3,22 @@
 #include <iostream>
 #include <string>
 #include <vector>
+
+#include "Vector.h"
+#include "Material.h"
+
 #include <cmath>
 #include "Vector.h"
+
 
 using namespace std;
 
 /*Class cell*/
 class cell {
 protected:
+	  friend class Pyramid;
+	  friend class Tetrahedron;
+	  friend class Hexahedron;
       int CellID, material;
       string type;
       vector<int> p;
@@ -28,6 +36,10 @@ public:
       //double getweight(double volume);
       //virtual double getcentre();
 };
+
+
+
+
 
 
 /*Member class tetrahedron*/

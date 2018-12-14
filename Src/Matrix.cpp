@@ -113,3 +113,13 @@ void Matrix::identity(Matrix m) { //diagonals are 1
 		cout << this->m << endl;
 	}
 
+	/*---------------------------------------------------------*/
+//calculating the inverse
+	void Matrix::inverse(Matrix m) {
+		for (i = 0; i < 3; i++) {
+			for (j = 0; j < 3; j++) //how do i pass determinant result from other function to this function?
+				m = ((mat[(j + 1) % 3][(i + 1) % 3] * mat[(j + 2) % 3][(j + 2) % 3]) - (mat[(j + 1) % 3][(i + 2) % 3] * mat[(j + 2) % 3][(i + 1) % 3])) / m;
+			return m;
+
+		}
+	}

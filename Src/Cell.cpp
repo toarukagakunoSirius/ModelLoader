@@ -12,7 +12,8 @@ void cell :: setCell(int ID, int m, string type){
 }
 
 void cell :: setVertices(int v){
-      this->p.push_back(v);
+	
+      this->p.push_back(v); 
 	  
 }
 
@@ -32,6 +33,13 @@ int cell :: getVerticesID(int n) {
 	return this->p[n];
 }
 
+//vector<Material>& CellMaterials
+//CellMaterials[material].getDensity()
+
+//vector<Vector>& CellVertices
+//CellVertices[p[0]].getx()
+
+
 void cell :: setV(int id, double x, double y, double z) {
 	Vector *V = new Vector;
 	V->SetVector(id, x, y, z);
@@ -40,6 +48,7 @@ void cell :: setV(int id, double x, double y, double z) {
 
 std::vector<Vector> cell :: getV() {
 	return v;
+
 }
 
 

@@ -13,12 +13,12 @@ void det(float m);
 
 int main()
 {
-	Matrix test1, test2, test3;
+	Matrix test1, test2, test3, test4;
 	
-	// Test Case 1 
+	// Test Case 1, rotating matrix by 90 degrees
 	int mat[N][N] =
 	{
-		{1, 2, 3},
+		{6, 2, 3},
 		{5, 6, 7},
 		{9, 10, 11},
 	};
@@ -30,7 +30,7 @@ int main()
 	test2.displayMatrix(mat);
 
 	//test case 2, calculating determinant
-	static float m; //should get -20 with this but GETTING ZERO???!
+	static float m;
 	static float m11 = 6;
 	static float m12 = 2;
 	static float m13 = 3;
@@ -41,8 +41,19 @@ int main()
 	static float m32 = 10;
 	static float m33 = 11;
 	test3.SetMatrix(m11, m12, m13, m21, m22, m23, m31, m32, m33);
+	test4.SetMatrix(m11, m12, m13, m21, m22, m23, m31, m32, m33);
+
 
 	static float detanswer = test3.det(m);
-	//test3.print();
 	cout << "the determinant is:\n" << detanswer << endl;
+
+	//test 3, calculating inverse matrix
+	//Matrix inverseanswer = 
+	test4.inverse(mat);
+
+	test4.displayMatrix(mat);
+	//cout << "The inverse matrix is: \n" << inverseanswer << endl;
+
+
+
 }
