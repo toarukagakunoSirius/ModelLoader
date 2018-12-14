@@ -1,21 +1,29 @@
 **BUILD INSTRUCTIONS**
 
+Test program for cell class
+The input is specified with variables in the celltest.cpp 
+
 Run the following commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1)	>mkdir build
 2)	>cd build
 3)	>cmake -G "MinGW Makefiles" ..
-5)	>mingw32-make
+4)	>mingw32-make" amd64
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 EXPECTED OUTPUT
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-the sum of vector 1 and vector 2 is:
-5,7,9
-the difference of vector 1 and vector 2 is:
--3,-3,-3
-the scalar product of vector 1 and vector 2 is:
-32
-the vector product of vector 1 and vector 2 is:
--3,6,-3
+vetices: 0
+vetices: 1
+vetices: 2
+vetices: 3
+vetices: 4
+vetices: 5
+vetices: 6
+vetices: 7
+cellID: 1
+materialID: 0
+type: h
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

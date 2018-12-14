@@ -1,4 +1,6 @@
-BUILD INSTRUCTIONS
+**BUILD INSTRUCTIONS**
+
+A test which shows simple functionality of all classes linked together and it reading the model file and returning the number of vertices and cells with their specific type
 
 Run the following commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
