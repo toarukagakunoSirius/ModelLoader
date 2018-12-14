@@ -11,6 +11,7 @@
 
 
 #include <iostream>
+ 
 #include <math.h>
 using namespace std;
 
@@ -32,6 +33,8 @@ public:
     void subtract( Vector v);
     float scalarproduct (Vector v);
     Vector vectorproduct (Vector v);
+
+	Vector divide(int n);
 
     float getx(); //{ return x; }
     float gety(); //{ return y; }

@@ -13,34 +13,31 @@ int Model::SaveModel(void) {
 }
 void Model::LoadModel(string FileName) {
 	string line, data;
+	int LineNum = 0;
 	ifstream file;
-	
-	vector<Vector> Vertices;
-	vector<Material> Materials;
-	vector<Pyramid> Pyramids;
-	vector<Hexahedron> Hexahedrons;
-	vector<Tetrahedron> Tetrahedrons;
-
-	
 
 	file.open(FileName);
-	while (getline(file, data)) { //Read each line and send data to classes
-		line = data[0];
-		
-		if (line == "v") {
-			SetVertices(data); //
+	if (file.is_open()) {
+		while (getline(file, data)) { //Read each line and send data to classes
 			
-		
-		}
-		else if (line == "m") {
-			SetMaterial(data);
+			LineNum++;
+			line = data[0];
+	
+			if (data.empty() || line == "#") continue;
 			
+			if (line == "v")
+				SetVertices(data);
+			else if (line == "m")
+				SetMaterial(data);
+			else if (line == "c")
+				SetCell(data);
+			else
+				throw "Unknown type: " + line + ". Fix model file";
 		}
-		else if (line == "c") {
-			SetCell(data);
-		}
+		file.close();
 	}
-	file.close();
+	else
+		throw "Error opening file, use a compatible model file";
 }
 void Model::SetCell(string data) {
 	istringstream iss(data);
@@ -128,7 +125,9 @@ void Model::GetVertices(int ID) {
 	float y = Vertices[ID].gety();
 	float z = Vertices[ID].getz();
 
-	cout << x << y << z;
+	this->x = x;
+	this->y = y;
+	this->z = z;
 
 }
 void Model::GetMaterial(int ID) {
@@ -142,6 +141,16 @@ void Model::GetMaterial(int ID) {
 
 }
 void Model::FindCentre(void) {
+	Vector sum;
+	sum.SetVector(0,0.0, 0.0, 0.0);
+	for (int Vertex = 0; Vertex < Vertices.size(); Vertex++) {
+		sum = sum.operator+(Vertices[Vertex]);
+	}
+	
+	sum = sum.divide((float)Vertices.size());
+	cout << sum.getx() << " " << sum.gety() << " " << sum.getz();
+
+
 }
 int Model::NumberVertices(void) {
 	return Vertices.size();
