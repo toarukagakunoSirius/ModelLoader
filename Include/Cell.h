@@ -31,7 +31,7 @@ public:
 	  int getCellID();
 	  int getMaterialID();
 	  int getVerticesID(int n);
-	  void setV(int id, double x, double y, double z);
+	  void setV(vector<Vector>& CellVertices);
 	  std::vector<Vector> getV();
       //double getweight(double volume);
       //virtual double getcentre();

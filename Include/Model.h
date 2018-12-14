@@ -7,6 +7,9 @@
 #include "Cell.h"
 #include "Vector.h"
 #include "Material.h"
+#include "Pyramid.h"
+#include "Hexahedron.h"
+#include "Tetrahedron.h"
 
 using namespace std;
 
@@ -19,11 +22,7 @@ private:
 	vector<Pyramid> Pyramids;
 	vector<Hexahedron> Hexahedrons;
 	vector<Tetrahedron> Tetrahedrons;
-	
-
-
 	float x, y, z;
-
 public:
 	Model(string FileName);
 	~Model();
@@ -32,12 +31,12 @@ public:
 	void SetCell(string data);
 	void SetVertices(string data);
 	void SetMaterial(string data);
-	string GetCell(int ID, string Type);
+	int GetCell(int ID, string Type);
 	void GetVertices(int ID);
 	void GetMaterial(int ID);
-	void GetCellVolume(int ID);
-	void FindCentre(void);
-	void NumberCells(void);
+	double GetCellVolume(int ID);
+	vector<float> FindCentre(void);
+	vector<int> NumberCells(void);
 	int NumberVertices(void);
 };
 
