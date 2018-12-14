@@ -1,12 +1,17 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "Vector.h"
+#include "Material.h"
 
 using namespace std;
 
 /*Class cell*/
 class cell {
 protected:
+	  friend class Pyramid;
+	  friend class Tetrahedron;
+	  friend class Hexahedron;
       int CellID, material;
       string type;
       vector<int> p;
@@ -25,7 +30,9 @@ public:
 
 
 class Pyramid : public cell {
-	
+public:
+	virtual double getvolume(vector<Vector>& CellVertices);
+	virtual double getmaterial(vector<Material>& CellMaterials);
 };
 
 class Tetrahedron : public cell {

@@ -49,30 +49,35 @@ void Model::SetCell(string data) {
 	int MaterialID = stoi(results[3]);
 
 
+
 	if (Type == "h") {
 		Hexahedron *H = new Hexahedron;
 		H->setCell(ID, MaterialID, Type);
-		Hexahedrons.push_back(*H);
+		
 		for (int i = 0; i < 8; i++) {
 			H->setVertices(stoi(results[i + 4]));
 		}
+		Hexahedrons.push_back(*H);
 	} 
 	else if (Type == "p") {
 		Pyramid *P = new Pyramid;
 		P->setCell(ID, MaterialID, Type);
-		Pyramids.push_back(*P);
+		
 		for (int i = 0; i < 5; i++) {	
 			P->setVertices(stoi(results[i + 4]));
-		}	
+		}
+		Pyramids.push_back(*P);
 	}
 	else if (Type == "t") {
 		Tetrahedron *T = new Tetrahedron;
 		T->setCell(ID, MaterialID, Type);
-		Tetrahedrons.push_back(*T);
+		
 		for (int i = 0; i < 4; i++) {		
+			
 			T->setVertices(stoi(results[i + 4]));
 
 		}	
+		Tetrahedrons.push_back(*T);
 	}
 
 }
@@ -164,4 +169,7 @@ void Model::NumberCells(void) {
 	cout << "There are " << NumP << " Pyramid Cells" << endl;
 	cout << "There are " << NumT << " Tetrahedron Cells" << endl;
 	cout << "There are " << NumH << " Hexahedron Cells" << endl;
+}
+void Model::GetCellVolume(int ID) {
+	Pyramids[ID].getvolume(Vertices);
 }

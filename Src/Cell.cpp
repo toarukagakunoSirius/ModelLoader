@@ -12,7 +12,8 @@ void cell :: setCell(int ID, int m, string type){
 }
 
 void cell :: setVertices(int v){
-      this->p.push_back(v);
+	
+      this->p.push_back(v); 
 	  
 }
 
@@ -32,6 +33,18 @@ int cell :: getVerticesID(int n) {
 	return this->p[n];
 }
 
+
+double Pyramid::getvolume(vector<Vector>& CellVertices) {
+
+	cout << CellVertices[p[0]].getx()  << endl;
+	return 0;
+}
+
+double Pyramid::getmaterial(vector<Material>& CellMaterials) {
+
+	cout << CellMaterials[material].getDensity() << endl;
+	return 0;
+}
 /*double cell :: getvoulume() {
       return 0;
 }
