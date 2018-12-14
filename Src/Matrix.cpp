@@ -1,4 +1,8 @@
-//Matrix class by Hana Makhlouf as part of H62PEP 
+//Matrix source file by Hana Makhlouf as part of H62PEP
+//The matrix class is a work in progress. It can currently calculate the determinant
+//of a 3x3 matrix as well as rotate it 90 degrees anti clockwise
+
+//The code to find the inverse is not working right now. The class is not linked to the rest of the classes yet
 
 
 #include <math.h>
@@ -102,24 +106,23 @@ void Matrix::identity(Matrix m) { //diagonals are 1
 
 
 	/*---------------------------------------------------------*/
-//determinant calculation
+//determinant calculation (done using the maths formula)
 	float Matrix::det(float m) {
 		m = ((m11*((m22*m33) - (m23*m32))) - (m12* ((m21*m33) - (m23*m31))) + (m13* ((m21*m32) - (m22*m31))) );
 		return m;
 	}
 
-	//print function
-	void Matrix::print() {
-		cout << this->m << endl;
-	}
 
 	/*---------------------------------------------------------*/
-//calculating the inverse
-	void Matrix::inverse(Matrix m) {
-		for (i = 0; i < 3; i++) {
-			for (j = 0; j < 3; j++) //how do i pass determinant result from other function to this function?
-				m = ((mat[(j + 1) % 3][(i + 1) % 3] * mat[(j + 2) % 3][(j + 2) % 3]) - (mat[(j + 1) % 3][(i + 2) % 3] * mat[(j + 2) % 3][(i + 1) % 3])) / m;
-			return m;
+//calculating the inverse - currently outputting incorrect values
+	/*
+	void Matrix::inverse(int mat[N][N]) {
+		for (i = 0; i < N; i++) {
+			for (j = 0; j < N; j++) 
+				m = (((mat[(j + 1) % 3][(i + 1) % 3] * mat[(j + 2) % 3][(j + 2) % 3]) - (mat[(j + 1) % 3][(i + 2) % 3] * mat[(j + 2) % 3][(i + 1) % 3])) / m);
+					printf("%2d ", mat[i][j]);
 
+			printf("\n");
 		}
-	}
+		printf("\n");
+	} */
