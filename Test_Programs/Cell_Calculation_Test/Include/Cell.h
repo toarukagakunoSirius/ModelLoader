@@ -3,28 +3,19 @@
 #include <iostream>
 #include <string>
 #include <vector>
-
-#include "Vector.h"
-#include "Material.h"
-
 #include <cmath>
 #include "Vector.h"
-
 
 using namespace std;
 
 /*Class cell*/
 class cell {
 protected:
-	  friend class Pyramid;
-	  friend class Tetrahedron;
-	  friend class Hexahedron;
       int CellID, material;
       string type;
       vector<int> p;
 	  vector<Vector> v;
 public:
-	 
       void setCell(int ID, int m, string type); //store cellID, matID and cell type
       void setVertices(int v);
 	  string getType();
@@ -38,26 +29,6 @@ public:
 };
 
 
-<<<<<<< HEAD
-class Pyramid : public cell {
-public:
-	virtual double getvolume(vector<Vector>& CellVertices);
-	virtual double getmaterial(vector<Material>& CellMaterials);
-};
-
-class Tetrahedron : public cell {
-
-};
-
-class Hexahedron : public cell {
-
-};
-
-
-
-
-=======
->>>>>>> f23005f37ea4682357ba9cebbb2ce388bbd60a24
 /*Member class tetrahedron*/
 /*class tetrahedron : public cell {
 public:

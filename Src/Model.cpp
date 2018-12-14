@@ -111,18 +111,22 @@ void Model::SetMaterial(string data) {
 	Materials.push_back(*M);
 }
 string Model::GetCell(int ID, string Type) {
-	/*if (Type == "p") {
-		if (ID <= pyramids.size())
-			return pyramids[ID] <-ID;
+	if (Type == "p") {
+		if (ID <= Pyramids.size())
+			return Pyramids[ID].getCellID;
 	}
 	else if (Type == "t") {
+		if (ID <= Tetrahedrons.size())
+			return Tetrahedrons[ID].getCellID
 
 	}
 	else if (Type == "h") {
+		if (ID <= Pyramids.size())
+			return Pyramids[ID].getCellID;
 
 	}
 	else
-		cout << "Type not Found" << endl;*/
+		cout << "Type not Found" << endl;
 	return "";
 }
 void Model::GetVertices(int ID) {
