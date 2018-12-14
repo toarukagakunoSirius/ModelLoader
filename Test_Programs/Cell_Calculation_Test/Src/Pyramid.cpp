@@ -1,5 +1,8 @@
 #include "Pyramid.h"
 
+//calculate the volume of this cell
+//a pyramid can be spilted into two tetrahedrons
+//execute two times of vector calculation
 double Pyramid::getvolume() {
 	std::vector<Vector> v = getV();
 	double volume, volume1, volume2 = 0;
@@ -15,6 +18,8 @@ double Pyramid::getvolume() {
 	return volume;
 }
 
+//get the centre of the cell
+//divide the sum of all vertices coordinate by 5
 Vector Pyramid::getCentre() {
 	std::vector<Vector> v = getV();
 	Vector centre;

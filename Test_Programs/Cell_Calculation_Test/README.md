@@ -1,7 +1,7 @@
 BUILD INSTRUCTIONS
 
-Test program for cell class
-The input is specified with variables in the celltest.cpp 
+Test program for calculations of cell volume and centre
+The input is specified with variables in the celltest+.cpp 
 
 Run the following commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -14,16 +14,11 @@ Run the following commands
 
 EXPECTED OUTPUT
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-vetices: 0
-vetices: 1
-vetices: 2
-vetices: 3
-vetices: 4
-vetices: 5
-vetices: 6
-vetices: 7
-cellID: 1
-materialID: 0
-type: h
+volume t1: 10
+centre t1: 3.75, 2, 4.75
+volume p1: 0.904763
+centre p1: 2.35, 1.55, 0.957142
+volume h1: 1.80953
+centre h1: 2.45, 1.525, 0.142855
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

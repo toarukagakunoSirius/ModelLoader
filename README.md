@@ -1,4 +1,4 @@
-**H62PEP Computing Project - Group 2's group repository**
+﻿**H62PEP Computing Project - Group 2's group repository**
 
 **MEMBERS**
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -33,6 +33,7 @@ https://help.github.com/articles/syncing-a-fork/
 ├── Src                     # Contains source files (.cpp)
 ├── Static_Library          # Static library files build (.a)
 ├── Test_Programs           # Cmake files for different test applications
+│   ├── Cell_Test           # Tests volume and centre calculation functions for the cell class
 │   ├── Cell_Test           # Tests basic functionality for the cell class
 │   ├── LoadModel_Test      # Loads a file and outputs the number of cells/vertices
 │   ├── Material_Test       # Basic functionality for the material class

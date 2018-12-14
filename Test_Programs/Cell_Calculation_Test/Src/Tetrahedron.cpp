@@ -1,5 +1,7 @@
 #include "Tetrahedron.h"
 
+//calculate the volume of this cell
+//execute one time of vector calculation
 double Tetrahedron :: getvolume() {
 	std::vector<Vector> v = getV();
 	double volume = 0;
@@ -10,6 +12,8 @@ double Tetrahedron :: getvolume() {
 	return volume;
 }
 
+//get the centre of the cell
+//divide the sum of all vertices coordinate by 4
 Vector Tetrahedron::getCentre() {
 	std::vector<Vector> v = getV();
 	Vector centre;
