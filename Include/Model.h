@@ -15,9 +15,13 @@ class Model
 private:
 	vector<Vector> Vertices;
 	vector<Material> Materials;
+	vector<cell> Cells;
 	vector<Pyramid> Pyramids;
 	vector<Hexahedron> Hexahedrons;
 	vector<Tetrahedron> Tetrahedrons;
+	
+
+
 	float x, y, z;
 
 public:
@@ -31,6 +35,7 @@ public:
 	string GetCell(int ID, string Type);
 	void GetVertices(int ID);
 	void GetMaterial(int ID);
+	void GetCellVolume(int ID);
 	void FindCentre(void);
 	void NumberCells(void);
 	int NumberVertices(void);
