@@ -1,5 +1,5 @@
-//test file for matrix
-/* Driver program to test rotation function */
+//test file for matrix class by Hana Makhlouf
+
 #include "Matrix.h"
 #include <iostream>
 #include <stdlib.h>
@@ -13,8 +13,8 @@ void det(float m);
 
 int main()
 {
-
-	Matrix test1, test2, test3, test4;
+	Matrix test1, test2, test3;
+	
 	// Test Case 1 
 	int mat[N][N] =
 	{
@@ -29,10 +29,8 @@ int main()
 	cout << "Output matrix rotated 90 degrees anticlockwise:" << endl;
 	test2.displayMatrix(mat);
 
-	//return 0;
-
 	//test case 2, calculating determinant
-	static float m; //should get -20 with this
+	static float m; //should get -20 with this but GETTING ZERO???!
 	static float m11 = 6;
 	static float m12 = 2;
 	static float m13 = 3;
@@ -42,8 +40,8 @@ int main()
 	static float m31 = 9;
 	static float m32 = 10;
 	static float m33 = 11;
+	test3.SetMatrix(m11, m12, m13, m21, m22, m23, m31, m32, m33);
 
-	//Matrix::det(m);
 	static float detanswer = test3.det(m);
 	//test3.print();
 	cout << "the determinant is:\n" << detanswer << endl;
