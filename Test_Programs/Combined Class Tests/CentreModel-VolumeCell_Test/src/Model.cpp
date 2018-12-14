@@ -40,12 +40,8 @@ void Model::LoadModel(string FileName) { //Loads the model
 		}
 		file.close(); // Close the file when finished
 	}
-	else {
+	else
 		throw "Error opening file, use a compatible model file";
-		exit(EXIT_FAILURE);
-
-	}
-		
 
 }
 void Model::SetCell(string data) {
