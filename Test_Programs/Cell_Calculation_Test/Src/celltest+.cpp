@@ -5,7 +5,7 @@
 #include <iostream>
 
 int main(void) {
-	/*Tetrahedron t1;
+	Tetrahedron t1;
 	t1.setCell(0, 0, "t");
 	for (int i = 0; i < 4; i++) {
 		t1.setVertices(i);
@@ -14,7 +14,8 @@ int main(void) {
 	t1.setV(1, 9, 2, 4);
 	t1.setV(2, 6, 1, 7);
 	t1.setV(3, 0, 1, 5);
-	cout << t1.getvolume() << endl;*/
+	cout << "volume t1: " << t1.getvolume() << endl;
+	cout << "centre t1: " << t1.getCentre().getx() << ", " << t1.getCentre().gety() << ", " << t1.getCentre().getz() << endl;
 
 	Pyramid p1;
 	p1.setCell(0, 0, "p");
@@ -26,10 +27,10 @@ int main(void) {
 	p1.setV(2, 2.95, 2.15, 1.5);
 	p1.setV(3, 1.95, 2.15, 1.5);
 	p1.setV(4, 1.95, 1.15, -1.21429);
-	cout << "volume: " << p1.getvolume() << endl;
-	cout << "centre: " << p1.getCentre().getx() << ", " << p1.getCentre().gety() << ", " << p1.getCentre().getz() << endl;
+	cout << "volume p1: " << p1.getvolume() << endl;
+	cout << "centre p1: " << p1.getCentre().getx() << ", " << p1.getCentre().gety() << ", " << p1.getCentre().getz() << endl;
 
-	/*Hexahedron h1;
+	Hexahedron h1;
 	h1.setCell(0, 0, "h");
 	for (int i = 0; i < 8; i++) {
 		h1.setVertices(i);
@@ -42,7 +43,8 @@ int main(void) {
 	h1.setV(5, 2.95, 1.15, -1.21429);
 	h1.setV(6, 2.95, 1.15, -1.21429);
 	h1.setV(7, 1.95, 2.15, -1.21429);
-	cout << h1.getvolume() << endl;*/
+	cout << "volume h1: " << h1.getvolume() << endl;
+	cout << "centre h1: " << h1.getCentre().getx() << ", " << h1.getCentre().gety() << ", " << h1.getCentre().getz() << endl;
 
 	return 0;
 }
