@@ -1,4 +1,4 @@
-BUILD INSTRUCTIONS
+**BUILD INSTRUCTIONS**
 
 Run the following commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

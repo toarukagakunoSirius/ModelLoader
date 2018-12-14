@@ -1,4 +1,4 @@
-include "Main.h"
+#include "Main.h"
 
 int main(void)
 {
@@ -7,6 +7,7 @@ int main(void)
 
 	cout << "The number of vertices = " << M.NumberVertices() << endl;
 	M.NumberCells();
+	M.FindCentre();
 
 	return 0;
 }

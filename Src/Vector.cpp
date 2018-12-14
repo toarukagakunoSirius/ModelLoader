@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include "Vector.h"
+#include <vector> 
 using namespace std;
 
 /*-- -------------------------------------------------------*/
@@ -37,6 +38,17 @@ void Vector::add( Vector v ) {
     this->y += v.y;
     this->z += v.z;
 }
+
+
+Vector Vector::divide(int n) {
+	Vector vector1;
+	vector1.x = this->x / n;
+	vector1.y = this->y / n;
+	vector1.z = this->z / n;
+	
+	return vector1;
+}
+
 //add function using operator overloading
 Vector Vector::operator+(Vector v) { //this allows us to use + to add 2 vectors instead of using the add function above
 	Vector vector1;
