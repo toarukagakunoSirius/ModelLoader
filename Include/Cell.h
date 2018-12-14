@@ -38,26 +38,10 @@ public:
 };
 
 
-<<<<<<< HEAD
-class Pyramid : public cell {
-public:
-	virtual double getvolume(vector<Vector>& CellVertices);
-	virtual double getmaterial(vector<Material>& CellMaterials);
-};
-
-class Tetrahedron : public cell {
-
-};
-
-class Hexahedron : public cell {
-
-};
 
 
 
 
-=======
->>>>>>> f23005f37ea4682357ba9cebbb2ce388bbd60a24
 /*Member class tetrahedron*/
 /*class tetrahedron : public cell {
 public:
