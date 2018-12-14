@@ -104,6 +104,5 @@ void Vector::print() {
 float Vector::getx(){ return x; }
 float Vector::gety(){ return y; }
 float Vector::getz(){ return z; }
-int Vector::getID() { return ID; }
 
 /*---------------------------------------------------------*/

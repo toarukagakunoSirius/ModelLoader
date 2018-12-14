@@ -23,8 +23,6 @@ int main(void)
 	//Find Volume 
 	Volume = M.GetCellVolume(0); //Input cell ID here
 	cout << "\nVolume of cell 0 =" <<Volume<<endl;
-
-	M.SaveModel();
 	
 
 	return 0;

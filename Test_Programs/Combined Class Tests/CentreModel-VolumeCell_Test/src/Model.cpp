@@ -12,39 +12,8 @@ Model::~Model() {
 	Tetrahedrons.clear();
 	Hexahedrons.clear();
 }
-void Model::SaveModel(void) {
-	cout << "Saving..." << endl;
-	std::ofstream outfile("Model.mod");
-	
-	//Write materials
-	for (int m = 0; m < Materials.size(); m++) {
-		outfile << "m " << Materials[m].getMatID() << " " << Materials[m].getDensity() << " " << Materials[m].getColour() << " " << Materials[m].getName() << endl;
-	}
-
-	//Write Vectors
-	for (int v = 0; v < Vertices.size(); v++) {
-		outfile << "v " << Vertices[v].getID() << " " << Vertices[v].getx() << " " << Vertices[v].gety() << " " << Vertices[v].getz() << endl;
-	}
-
-	//Write Cells
-	int size = Pyramids.size() + Tetrahedrons.size() + Hexahedrons.size();
-	for (int c = 0; c < size; c++) {
-		for (int p = 0; p < Pyramids.size(); p++) {
-			if (Pyramids[p].getCellID() == c)
-				outfile << "c " << Pyramids[p].getCellID() << " p " << Pyramids[p].getMaterialID() << " " << Pyramids[p].getVerticesID(0) << " " << Pyramids[p].getVerticesID(1) << " " << Pyramids[p].getVerticesID(2) << " " << Pyramids[p].getVerticesID(3) << " " << Pyramids[p].getVerticesID(4) << endl;
-		}
-		for (int h = 0; h < Hexahedrons.size(); h++) {
-			if (Hexahedrons[h].getCellID() == c)
-				outfile << "c " << Hexahedrons[h].getCellID() << " h " << Hexahedrons[h].getMaterialID() << " " << Hexahedrons[h].getVerticesID(0) << " " << Hexahedrons[h].getVerticesID(1) << " " << Hexahedrons[h].getVerticesID(2) << " " << Hexahedrons[h].getVerticesID(3) << " " << Hexahedrons[h].getVerticesID(4) << " " << Hexahedrons[h].getVerticesID(5) << " " << Hexahedrons[h].getVerticesID(6) << " " << Hexahedrons[h].getVerticesID(7) << endl;
-		}
-		for (int t = 0; t < Tetrahedrons.size(); t++) {
-			if (Tetrahedrons[t].getCellID() == c)
-				outfile << "c " << Tetrahedrons[t].getCellID() << " t " << Tetrahedrons[t].getMaterialID() << " " << Tetrahedrons[t].getVerticesID(0) << " " << Tetrahedrons[t].getVerticesID(1) << " " << Tetrahedrons[t].getVerticesID(2) << " " << Tetrahedrons[t].getVerticesID(3) << endl;
-		}
-	}
-	
-	cout << "Finished Saving to Model.mod" << endl;
-
+int Model::SaveModel(void) {
+	return 0;
 }
 void Model::LoadModel(string FileName) { //Loads the model
 	string line, data;
@@ -71,12 +40,8 @@ void Model::LoadModel(string FileName) { //Loads the model
 		}
 		file.close(); // Close the file when finished
 	}
-	else {
+	else
 		throw "Error opening file, use a compatible model file";
-		exit(EXIT_FAILURE);
-
-	}
-		
 
 }
 void Model::SetCell(string data) {
