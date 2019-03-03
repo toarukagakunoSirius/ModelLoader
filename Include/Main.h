@@ -3,13 +3,10 @@
 
 using namespace std;
 
-vector<float> centre;
-double Volume;
-vector<int> NumCells;
-string FileName;
 
 
 
 
-int main(void);
+
+int main(int argc, char** argv );
 
