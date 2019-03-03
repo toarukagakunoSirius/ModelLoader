@@ -2,9 +2,24 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <vtkCubeSource.h>
 #include <vtkSmartPointer.h>
 #include <vtkActor.h>
 #include <vtkNamedColors.h>
+#include <vtkProperty.h>
+#include <vtkCamera.h>
+#include <vtkPolyData.h>
+#include <vtkDataSetMapper.h>
+#include <vtkRenderWindow.h>
+#include <vtkRenderWindowInteractor.h>
+#include <vtkUnstructuredGrid.h>
+#include <vtkRenderer.h>
+#include <vtkNew.h>
+#include <vtkTetra.h>
+#include <vtkPoints.h>
+#include <vtkCellArray.h>
+#include <vtkCellType.h>
+#include <vtkGenericOpenGLRenderWindow.h>
 
 namespace Ui {
 class MainWindow;
