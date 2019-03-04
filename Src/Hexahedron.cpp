@@ -1,5 +1,8 @@
 #include "Hexahedron.h"
 
+//calculate the volume of this cell
+//a pyramid can be spilted into six tetrahedrons
+//execute six times of vector calculation
 double Hexahedron :: getvolume() {
 	std::vector<Vector> v = getV();
 	double volume, volume1, volume2, volume3, volume4, volume5, volume6 = 0;
@@ -28,9 +31,19 @@ double Hexahedron :: getvolume() {
 	Vector R = v[6] - v[7];
 	volume6 = std::abs((P.vectorproduct(Q)).scalarproduct(R)) * (1.0 / 6.0);
 	volume = volume1 + volume2 + volume3 + volume4 + volume5 + volume6;
+	this->volume = volume;
 	return volume;
 }
 
+double Hexahedron::getWeight() {
+	double weight;
+	Material m = getM();
+	weight = this->volume * m.getDensity();
+	return weight;
+}
+
+//get the centre of the cell
+//divide the sum of all vertices coordinate by 6
 Vector Hexahedron::getCentre() {
 	std::vector<Vector> v = getV();
 	Vector centre;

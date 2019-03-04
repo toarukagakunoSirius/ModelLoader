@@ -5,5 +5,6 @@
 class Tetrahedron : public cell {
 public:
 	double getvolume();
+	double getWeight();
 	Vector getCentre();
 };
