@@ -2,24 +2,29 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <vtkCubeSource.h>
-#include <vtkSmartPointer.h>
+
 #include <vtkActor.h>
-#include <vtkNamedColors.h>
-#include <vtkProperty.h>
 #include <vtkCamera.h>
-#include <vtkPolyData.h>
-#include <vtkDataSetMapper.h>
-#include <vtkRenderWindow.h>
-#include <vtkRenderWindowInteractor.h>
-#include <vtkUnstructuredGrid.h>
-#include <vtkRenderer.h>
-#include <vtkNew.h>
-#include <vtkTetra.h>
-#include <vtkPoints.h>
 #include <vtkCellArray.h>
 #include <vtkCellType.h>
+#include <vtkDataSetMapper.h>
 #include <vtkGenericOpenGLRenderWindow.h>
+#include <vtkNamedColors.h>
+#include <vtkNew.h>
+#include <vtkPolyData.h>
+#include <vtkPoints.h>
+#include <vtkProperty.h>
+#include <vtkRenderer.h>
+#include <vtkSmartPointer.h>
+#include <vtkUnstructuredGrid.h>
+
+//Type of the object
+#include <vtkTetra.h>
+#include <vtkPyramid.h>
+#include <vtkCubeSource.h>
+
+//Feature
+#include <vtkShrinkFilter.h>
 
 namespace Ui {
 class MainWindow;
@@ -33,8 +38,11 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
      vtkSmartPointer<vtkRenderer> renderer;
+     vtkSmartPointer<vtkShrinkFilter> shrinkFilter;
 
 private slots:
+
+     void on_ShrinkFilter_sliderMoved(int position);
 
 private:
     Ui::MainWindow *ui;
