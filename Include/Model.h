@@ -32,6 +32,7 @@ public:
 	void SetVertices(string data); 
 	void SetMaterial(string data);
 	int GetCell(int ID, string Type);
+        vector<int> GetCellVertices(int ID, string Type);
 	void GetVertices(int ID);
 	void GetMaterial(int ID);
 	double GetCellVolume(int ID);

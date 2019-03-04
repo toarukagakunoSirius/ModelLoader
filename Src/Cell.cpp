@@ -16,6 +16,13 @@ void cell :: setVertices(int v){
 	  
 }
 
+vector<int> cell :: getVertices(){
+
+      return p;
+
+}
+
+
 //return cell type, cellID, materialID and verticesID
 string cell :: getType() {
 	  return this->type;
@@ -30,7 +37,9 @@ int cell :: getMaterialID() {
 }
 
 int cell :: getVerticesID(int n) {
-	return this->p[n];
+
+
+        return this->p[n];
 }
 
 //store vertices used in this cell

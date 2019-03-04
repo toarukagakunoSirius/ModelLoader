@@ -150,9 +150,9 @@ void Model::SetMaterial(string data) {
 	Materials.push_back(*M);
 }
 int Model::GetCell(int ID, string Type) { //Used to get a specific cell
-	if (Type == "p") { //Checks which type of shape it is 
+        if (Type == "p") { //Checks which type of shape it is
 		if (ID <= Pyramids.size())
-			return Pyramids[ID].getCellID();
+                        return Pyramids[ID].getCellID();
 	}
 	else if (Type == "t") {
 		if (ID <= Tetrahedrons.size())
@@ -160,13 +160,32 @@ int Model::GetCell(int ID, string Type) { //Used to get a specific cell
 
 	}
 	else if (Type == "h") {
-		if (ID <= Pyramids.size())
-			return Pyramids[ID].getCellID();
+                if (ID <= Hexahedrons.size())
+                        return Hexahedrons[ID].getCellID();
 
 	}
 	else
 		cout << "Type not Found" << endl;
 		
+}
+vector<int>  Model::GetCellVertices(int ID, string Type) { //Used to get a specific cell
+        if (Type == "p") { //Checks which type of shape it is
+                if (ID <= Pyramids.size())
+                        return Pyramids[ID].getVertices();
+        }
+        else if (Type == "t") {
+                if (ID <= Tetrahedrons.size())
+                        return Tetrahedrons[ID].getVertices();
+
+        }
+        else if (Type == "h") {
+                if (ID <= Hexahedrons.size())
+                        return Hexahedrons[ID].getVertices();
+
+        }
+        else
+                cout << "Type not Found" << endl;
+
 }
 void Model::GetVertices(int ID) {
 	float x = Vertices[ID].getx(); //Gets the x,y and z for a vertex with an id of ID

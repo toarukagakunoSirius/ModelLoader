@@ -20,6 +20,8 @@
 #include <vtkCellArray.h>
 #include <vtkCellType.h>
 #include <vtkGenericOpenGLRenderWindow.h>
+#include "Model.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -33,7 +35,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
      vtkSmartPointer<vtkRenderer> renderer;
-
+    void ModelLoader();
 private slots:
 
 private:
