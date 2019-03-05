@@ -89,8 +89,8 @@ void MainWindow::on_ClipFilterButton_clicked(){
 
 void MainWindow::on_ShrinkFilter_sliderMoved()
 {
-    shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
-    shrinkFilter->SetShrinkFactor( (float) (100 - ui->ShrinkFilter->value())/ 100);
+    //shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
+    shrinkFilter->SetShrinkFactor((100.00 - ui->ShrinkFilter->value())/ 100.00);
     shrinkFilter->Update();
 
     // P: Waiting to be edited
@@ -139,6 +139,7 @@ void MainWindow::on_sliderR_sliderMoved()
     ui->lineEditR->setText(QString::number(R*100));
 }
 
+//Model color change with color dialog
 void MainWindow::on_actionModel_triggered()
 {
     QColor color = QColorDialog::getColor(Qt::white,this,"Choose Color");
@@ -148,6 +149,17 @@ void MainWindow::on_actionModel_triggered()
             actors[x]->GetProperty()->SetColor(color.redF(), color.greenF(), color.blueF());
         }
         ui->qtvtkWidget->GetRenderWindow()->Render();
+    }
+}
+
+//Background color change with color dialog
+void MainWindow::on_actionBackground_triggered()
+{
+    QColor color = QColorDialog::getColor(Qt::white,this,"Choose Color");
+    if ( color.isValid() )
+    {
+        renderer->SetBackground(color.redF(), color.greenF(), color.blueF());
+
     }
 }
 
@@ -201,6 +213,7 @@ void MainWindow::on_loadmodelButton_pressed(){
             //mapper->SetInputData(uGrid);
 
             shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
+            shrinkFilter->SetShrinkFactor(1);
             shrinkFilter->SetInputDataObject(0,uGrid);
             mapper->SetInputConnection( shrinkFilter->GetOutputPort() );
 
