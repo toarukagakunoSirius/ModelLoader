@@ -95,6 +95,18 @@ void MainWindow::on_sliderR_sliderMoved()
     ui->lineEditR->setText(QString::number(R*100));
 }
 
+void MainWindow::on_actionModel_triggered()
+{
+    QColor color = QColorDialog::getColor(Qt::white,this,"Choose Color");
+    if ( color.isValid() )
+    {
+        for (int x=0; x < actors.size(); x++){
+            actors[x]->GetProperty()->SetColor(color.redF(), color.greenF(), color.blueF());
+        }
+        ui->qtvtkWidget->GetRenderWindow()->Render();
+    }
+}
+
 void MainWindow::on_loadmodelButton_pressed(){
     actors.clear();
     renderer->RemoveAllViewProps();
