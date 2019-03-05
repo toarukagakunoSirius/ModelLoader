@@ -1,5 +1,4 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -10,14 +9,57 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //Create the render window
     vtkNew<vtkGenericOpenGLRenderWindow> renderWindow; //New render window
     ui->qtvtkWidget->SetRenderWindow( renderWindow );	 //Assign window to Qtwidget in mainwindow.ui	
+
+   
     renderer = vtkSmartPointer<vtkRenderer>::New(); //Create a smartpointer pointing to the window renderer
-    ui->qtvtkWidget->GetRenderWindow()->AddRenderer( renderer );						
-    renderer->ResetCamera(); //Set the camera back to origin
+    ui->qtvtkWidget->GetRenderWindow()->AddRenderer( renderer );	
+
+
+	
+    renderer->SetBackground(2.55,2.55,2.55);
+
+
+
+    connect(ui->sliderR,SIGNAL(sliderPressed()),this,SLOT(on_sliderR_sliderMoved()));
+    connect(ui->sliderG,SIGNAL(sliderPressed()),this,SLOT(on_sliderG_sliderMoved()));
+    connect(ui->sliderB,SIGNAL(sliderPressed()),this,SLOT(on_sliderB_sliderMoved()));
+    connect(ui->sliderB,SIGNAL(sliderPressed()),this,SLOT(on_ShrinkFilter_sliderMoved()));
+
 
 
 
     // Create Shrink Filter variable
+   // shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
+
+    //**Hana: defining cube source for clip filter**
+
+    // Create a cube using a vtkCubeSource
+    cubeSource = vtkSmartPointer<vtkCubeSource>::New(); //cube is defined in the header file
+
+    // Create a mapper that will hold the cube's geometry in a format suitable for rendering
+    mapper = vtkSmartPointer<vtkDataSetMapper>::New(); //mapper is defined in the header file in private member variables
+    mapper->SetInputConnection( cubeSource->GetOutputPort() );
+
+    // Create an actor that is used to set the cube's properties for rendering and place it in the window
+    vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
+    actor->SetMapper(mapper);
+    actor->GetProperty()->EdgeVisibilityOn();
+
+    vtkSmartPointer<vtkNamedColors> colors = vtkSmartPointer<vtkNamedColors>::New();
+    actor->GetProperty()->SetColor( colors->GetColor3d("Red").GetData() );
+    //**End of Hanas part**
+
+    renderer = vtkSmartPointer<vtkRenderer>::New(); //Create a smartpointer pointing to the window renderer
+    ui->qtvtkWidget->GetRenderWindow()->AddRenderer( renderer );
+
+    // Add the actor to the scene
+    renderer->AddActor(actor);
+    renderer->SetBackground( colors->GetColor3d("Silver").GetData() );
+    renderer->ResetCamera(); //Set the camera back to origin
+
+    // P: Create Shrink Filter variable
     shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
+
 
     // P: Waiting to be edited
     //shrinkFilter->SetInputDataObject(0,Grid);
@@ -26,8 +68,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     //ModelLoader();
 
-
-
 }
 
 MainWindow::~MainWindow()
@@ -35,54 +75,252 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+//Clip Filter
+void MainWindow::on_ClipFilterButton_clicked(){
 
-void MainWindow::on_ShrinkFilter_sliderMoved(int position)
-{
-    shrinkFilter->SetShrinkFactor( (float) (100 - ui -> ShrinkFilter -> value())/ 100);
-    shrinkFilter->Update();
-    // P: Waiting to be edited
-    //ui->qvtkWidget->GetRenderWindow()->Render();
+    vtkSmartPointer<vtkPlane> planeLeft = vtkSmartPointer<vtkPlane>::New();
+    planeLeft->SetOrigin(0.0, 0.0, 0.0);
+    planeLeft->SetNormal(-1.0, 0.0, 0.0);
+    vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
+    clipFilter->SetInputConnection(cubeSource->GetOutputPort() ) ;
+    clipFilter->SetClipFunction( planeLeft.Get() );
+    mapper->SetInputConnection( clipFilter->GetOutputPort() );
 }
 
+void MainWindow::on_ShrinkFilter_sliderMoved()
+{
+    //shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
+    for(int x = 0;x < Shrinks.size();x++){
+        Shrinks[x]->SetShrinkFactor( (float) (100 - ui->ShrinkFilter->value())/ 100);
+        Shrinks[x]->Update();
+    }
 
-void MainWindow::ModelLoader(){
+
+    // P: Waiting to be edited
+    ui->qtvtkWidget->GetRenderWindow()->Render();
+}
+
+void MainWindow::on_sliderB_sliderMoved()
+{
+    double R = (ui->sliderR->value())/100.00;
+    double G = (ui->sliderG->value())/100.00;
+    double B = (ui->sliderB->value())/100.00;
+
+    for (int x=0; x < actors.size(); x++){
+        actors[x]->GetProperty()->SetColor(R,G,B);
+    }
+
+    ui->qtvtkWidget->GetRenderWindow()->Render();
+    ui->lineEditB->setText(QString::number(B*100));
+}
+
+void MainWindow::on_sliderG_sliderMoved()
+{
+    double R = (ui->sliderR->value())/100.00;
+    double G = (ui->sliderG->value())/100.00;
+    double B = (ui->sliderB->value())/100.00;
+
+    for (int x=0; x < actors.size(); x++){
+        actors[x]->GetProperty()->SetColor(R,G,B);
+    }
+
+    ui->qtvtkWidget->GetRenderWindow()->Render();
+     ui->lineEditG->setText(QString::number(G*100));
+}
+
+void MainWindow::on_sliderR_sliderMoved()
+{
+    double R = (ui->sliderR->value())/100.00;
+    double G = (ui->sliderG->value())/100.00;
+    double B = (ui->sliderB->value())/100.00;
+
+    for (int x=0; x < actors.size(); x++){
+        actors[x]->GetProperty()->SetColor(R,G,B);
+    }
+
+    ui->qtvtkWidget->GetRenderWindow()->Render();
+    ui->lineEditR->setText(QString::number(R*100));
+}
+
+void MainWindow::on_actionModel_triggered()
+{
+    QColor color = QColorDialog::getColor(Qt::white,this,"Choose Color");
+    if ( color.isValid() )
+    {
+        for (int x=0; x < actors.size(); x++){
+            actors[x]->GetProperty()->SetColor(color.redF(), color.greenF(), color.blueF());
+        }
+        ui->qtvtkWidget->GetRenderWindow()->Render();
+    }
+}
+
+void MainWindow::on_loadmodelButton_pressed(){
+    actors.clear();
+    renderer->RemoveAllViewProps();
     //Load the model
-    string FileName = "ExampleModel2.mod";
-    Model M(FileName);
-    vector<int> NumCells = M.NumberCells();
-    cout << NumCells[2] << endl;
+    QString File = QFileDialog::getOpenFileName(this, tr("Open MOD File"), "./", tr("MOD Files(*.mod)"));
+    std::string FileName = File.toUtf8().constData();
+
+    if (FileName != ""){
+
+        Model M(FileName);
+
+        //Retrieves the number of cells for each shape
+        NumCells = M.NumberCells();
+
+        //Loops through each Cell
+        for (int H = 0; H < NumCells[2]; H++ ){
+
+
+            //Gets the vertices and material colour for each cell
+            CellVertices = M.GetCellVertices(H,"h");
+            MatColour = M.GetMaterialColour(M.GetCellMaterial(H, "h"));
+
+            //Push the Vector data for each cell. (Loops through each vector for that cell)
+            for (int V = 0; V < 8; V++){
+                CellVertex = M.GetVertices(CellVertices[V]);
+                pointCoordinates.push_back({{CellVertex[0], CellVertex[1], CellVertex[2]}});
+            }
+
+            // Create a hexahedron from the points.
+            vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
+            vtkSmartPointer<vtkHexahedron> hex = vtkSmartPointer<vtkHexahedron>::New();
+
+            //Inserts the points into the smartpointers
+            for (auto i = 0; i < pointCoordinates.size(); ++i){
+                points->InsertNextPoint(pointCoordinates[i].data());
+                hex->GetPointIds()->SetId(i, i);
+            }
 
 
 
+            // Add the points and hexahedron to an unstructured grid.
+            vtkSmartPointer<vtkUnstructuredGrid> uGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
+            uGrid->SetPoints(points);
+            uGrid->InsertNextCell(hex->GetCellType(), hex->GetPointIds());
 
-    for (int H = 0; H < NumCells[2]; H++ ){
-        vector<int> CellVertices = M.GetCellVertices(H,"h");
-        for (int V = 0; V < 8; V++){
-            cout << CellVertices[V] << endl;
+
+
+            // Visualize.
+            vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
+            mapper->SetInputData(uGrid);
+
+
+            shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
+            shrinkFilter->SetShrinkFactor(1);
+            shrinkFilter->AddInputDataObject(0,uGrid);
+            Shrinks.push_back(shrinkFilter);
+            mapper->SetInputConnection( shrinkFilter->GetOutputPort() );
+
+            //Add as an actor
+            vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
+
+            actor->GetProperty()->SetColor(MatColour[0]/100,MatColour[1]/100,MatColour[2]/100 );
+            actor->SetMapper(mapper);
+            //actor->GetProperty()->EdgeVisibilityOn();
+            renderer->AddActor(actor);
+            //assembly->AddPart(actor);
+
+            actors.push_back(actor);
+
+            //Clear unused data storage
+            CellVertices.clear();
+            MatColour.clear();
+            CellVertex.clear();
+            pointCoordinates.clear();
+
+
         }
-    }
+
+        for (int T = 0; T < NumCells[1]; T++ ){
+            CellVertices = M.GetCellVertices(T,"t");
+            MatColour = M.GetMaterialColour(M.GetCellMaterial(T, "t"));
+
+            vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
+
+            for (int V = 0; V < 4; V++){
+                CellVertex = M.GetVertices(CellVertices[V]);
+                points->InsertNextPoint(CellVertex[0], CellVertex[1], CellVertex[2]);
+            }
+
+            vtkSmartPointer<vtkUnstructuredGrid> unstructuredGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
+            unstructuredGrid->SetPoints(points);
+
+            vtkIdType ptIds[] = {0, 1, 2, 3};
+            unstructuredGrid->InsertNextCell( VTK_TETRA, 4, ptIds );
+
+            vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
+            mapper->SetInputData(unstructuredGrid);
+
+            vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
+
+            actor->GetProperty()->SetColor(MatColour[0]/100,MatColour[1]/100,MatColour[2]/100 );
+            actor->SetMapper(mapper);
+            //actor->GetProperty()->EdgeVisibilityOn();
+            renderer->AddActor(actor);
+            //assembly->AddPart(actor);
+
+            actors.push_back(actor);
+
+            //Clear unused data storage
+            CellVertices.clear();
+            MatColour.clear();
+            CellVertex.clear();
+            pointCoordinates.clear();
 
 
-    for (int T = 0; T < NumCells[1]; T++ ){
-        vector<int> CellVertices = M.GetCellVertices(T,"t");
-        for (int T = 0; T < 4; T++){
-            cout << CellVertices[T] << endl;
         }
-    }
 
-    for (int P = 0; P < NumCells[0]; P++ ){
-        vector<int> CellVertices = M.GetCellVertices(P,"p");
-        for (int P = 0; P < 5; P++){
-            cout << CellVertices[P] << endl;
+        for (int P = 0; P < NumCells[0]; P++ ){
+            CellVertices = M.GetCellVertices(P,"p");
+            MatColour = M.GetMaterialColour(M.GetCellMaterial(P, "p"));
+
+            vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
+            for (int V = 0; V < 5; V++){
+                CellVertex = M.GetVertices(CellVertices[V]);
+                points->InsertNextPoint(CellVertex[0], CellVertex[1], CellVertex[2]);
+            }
+            vtkSmartPointer<vtkPyramid> pyramid = vtkSmartPointer<vtkPyramid>::New();
+              pyramid->GetPointIds()->SetId(0,0);
+              pyramid->GetPointIds()->SetId(1,1);
+              pyramid->GetPointIds()->SetId(2,2);
+              pyramid->GetPointIds()->SetId(3,3);
+              pyramid->GetPointIds()->SetId(4,4);
+
+            vtkSmartPointer<vtkCellArray> cells = vtkSmartPointer<vtkCellArray>::New();
+            cells->InsertNextCell (pyramid);
+
+            vtkSmartPointer<vtkUnstructuredGrid> ug = vtkSmartPointer<vtkUnstructuredGrid>::New();
+            ug->SetPoints(points);
+            ug->InsertNextCell(pyramid->GetCellType(),pyramid->GetPointIds());
+
+            vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
+            mapper->SetInputData(ug);
+
+            vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
+
+            actor->GetProperty()->SetColor(MatColour[0]/100,MatColour[1]/100,MatColour[2]/100 );
+            actor->SetMapper(mapper);
+            //actor->GetProperty()->EdgeVisibilityOn();
+            renderer->AddActor(actor);
+            //assembly->AddPart(actor);
+
+            actors.push_back(actor);
+
+            //Clear unused data storage
+            CellVertices.clear();
+            MatColour.clear();
+            CellVertex.clear();
+            pointCoordinates.clear();
         }
+
+
+
+        renderer->ResetCamera(); //Set the camera back to origin
+        renderer->GetActiveCamera()->Azimuth(30);
+        renderer->GetActiveCamera()->Elevation(30);
+        ui->qtvtkWidget->GetRenderWindow()->Render();
     }
-
-
-    //M.NumberVertices();				Return vertices
-    //M.SaveModel(); 					Save model
-    //NumCells = M.NumberCells(); 	No. Cells
-    //M.FindCentre();					Return Centre of model
-
 
 }
 
