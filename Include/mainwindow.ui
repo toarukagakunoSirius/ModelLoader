@@ -27,7 +27,7 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QSlider" name="SliderR">
+   <widget class="QSlider" name="sliderR">
     <property name="geometry">
      <rect>
       <x>260</x>
@@ -158,7 +158,7 @@
      <string>Statistics</string>
     </property>
    </widget>
-   <widget class="QVTKOpenGLWidget" name="qtvtkWidget" native="true">
+   <widget class="QVTKOpenGLWidget" name="qtvtkWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -226,7 +226,7 @@
      <string>Function</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="LoadModelButton">
+   <widget class="QPushButton" name="loadmodelButton">
     <property name="geometry">
      <rect>
       <x>760</x>
@@ -362,6 +362,36 @@
     </property>
    </widget>
   </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>866</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <widget class="QMenu" name="menuColor">
+     <property name="title">
+      <string>Color</string>
+     </property>
+     <addaction name="actionModel"/>
+     <addaction name="actionBackground"/>
+    </widget>
+    <addaction name="menuColor"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+  </widget>
   <action name="actionFileOpen">
    <property name="icon">
     <iconset>
@@ -398,16 +428,24 @@
     <string>Print</string>
    </property>
   </action>
+  <action name="actionModel">
+   <property name="text">
+    <string>Model</string>
+   </property>
+  </action>
+  <action name="actionBackground">
+   <property name="text">
+    <string>Background</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
    <class>QVTKOpenGLWidget</class>
-   <extends>QWidget</extends>
-   <header>QVTKOpenGLWidget.h</header>
+   <extends>QOpenGLWidget</extends>
+   <header location="global">qvtkopenglwidget.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="Icons/icons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

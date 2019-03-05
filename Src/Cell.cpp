@@ -22,7 +22,6 @@ vector<int> cell :: getVertices(){
 
 }
 
-
 //return cell type, cellID, materialID and verticesID
 string cell :: getType() {
 	  return this->type;
