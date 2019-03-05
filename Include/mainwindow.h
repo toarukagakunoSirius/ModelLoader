@@ -83,6 +83,7 @@ public:
     vector<int> NumCells;
     vtkSmartPointer<vtkRenderer> renderer;
     vector<vtkSmartPointer<vtkActor>> actors;
+    vector<vtkSmartPointer<vtkShrinkFilter>> Shrinks;
     vtkSmartPointer<vtkDataSetMapper> mapper;
      vtkSmartPointer<vtkShrinkFilter> shrinkFilter;
 
