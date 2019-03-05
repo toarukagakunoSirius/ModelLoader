@@ -90,8 +90,11 @@ void MainWindow::on_ClipFilterButton_clicked(){
 void MainWindow::on_ShrinkFilter_sliderMoved()
 {
     //shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
-    shrinkFilter->SetShrinkFactor((100.00 - ui->ShrinkFilter->value())/ 100.00);
-    shrinkFilter->Update();
+    for(int x = 0;x < Shrinks.size();x++){
+        Shrinks[x]->SetShrinkFactor( (float) (100 - ui->ShrinkFilter->value())/ 100);
+        Shrinks[x]->Update();
+    }
+
 
     // P: Waiting to be edited
     ui->qtvtkWidget->GetRenderWindow()->Render();
@@ -201,6 +204,8 @@ void MainWindow::on_loadmodelButton_pressed(){
                 hex->GetPointIds()->SetId(i, i);
             }
 
+
+
             // Add the points and hexahedron to an unstructured grid.
             vtkSmartPointer<vtkUnstructuredGrid> uGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
             uGrid->SetPoints(points);
@@ -210,11 +215,13 @@ void MainWindow::on_loadmodelButton_pressed(){
 
             // Visualize.
             vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
-            //mapper->SetInputData(uGrid);
+            mapper->SetInputData(uGrid);
+
 
             shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
             shrinkFilter->SetShrinkFactor(1);
-            shrinkFilter->SetInputDataObject(0,uGrid);
+            shrinkFilter->AddInputDataObject(0,uGrid);
+            Shrinks.push_back(shrinkFilter);
             mapper->SetInputConnection( shrinkFilter->GetOutputPort() );
 
             //Add as an actor

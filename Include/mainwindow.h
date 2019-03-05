@@ -86,16 +86,22 @@ public:
     vector<int> NumCells;
     vtkSmartPointer<vtkRenderer> renderer;
     vector<vtkSmartPointer<vtkActor>> actors;
+<<<<<<< HEAD
     //vtkSmartPointer<vtkDataSetMapper> mapper;
     //vtkSmartPointer<vtkShrinkFilter> shrinkFilter;
+=======
+    vector<vtkSmartPointer<vtkShrinkFilter>> Shrinks;
+    vtkSmartPointer<vtkDataSetMapper> mapper;
+     vtkSmartPointer<vtkShrinkFilter> shrinkFilter;
+>>>>>>> 3ea910334582fafd248c47ba08f1b32bac047ebf
 
 
 
 
      //P: Shrink Filter
-     vtkSmartPointer<vtkShrinkFilter> shrinkFilter;
+
      //Hana: clip filter
-     vtkSmartPointer<vtkDataSetMapper> mapper;
+
      vtkSmartPointer<vtkCubeSource> cubeSource;
 
 
