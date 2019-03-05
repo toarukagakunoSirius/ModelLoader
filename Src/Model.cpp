@@ -187,25 +187,51 @@ vector<int>  Model::GetCellVertices(int ID, string Type) { //Used to get a speci
                 cout << "Type not Found" << endl;
 
 }
-void Model::GetVertices(int ID) {
-	float x = Vertices[ID].getx(); //Gets the x,y and z for a vertex with an id of ID
-	float y = Vertices[ID].gety();
-	float z = Vertices[ID].getz();
+vector<float> Model::GetVertices(int ID) {
+        V.clear();
+        float x = Vertices[ID].getx(); //Gets the x,y and z for a vertex with an id of ID
+        float y = Vertices[ID].gety();
+        float z = Vertices[ID].getz();
 
 	this->x = x; //Sets the variables to be used
 	this->y = y;
 	this->z = z;
+        this->V.push_back(x);
+        this->V.push_back(y);
+        this->V.push_back(z);
+
+
+        return V;
 
 }
-void Model::GetMaterial(int ID) { //Gets the material data from the material class with id ID
-	int ID2 = Materials[ID].getMatID();
-	string Colour = Materials[ID].getColour();
-	string Name = Materials[ID].getName();
-	int Density = Materials[ID].getDensity();
+int Model::GetCellMaterial(int ID, string Type){
+    if (Type == "p") { //Checks which type of shape it is
+            return Pyramids[ID].getMaterialID();
+    }
+    else if (Type == "t") {
+            return Tetrahedrons[ID].getMaterialID();
 
-	cout << "ID: "<<ID2 << "Colour: "<< Colour << "Name: "<<Name <<"Density"<< Density;
-	//Prints it to the screen 
+    }
+    else if (Type == "h") {
 
+        return Hexahedrons[ID].getMaterialID();
+    }
+
+}
+vector<float> Model::GetMaterialColour(int ID) { //Gets the material data from the material class with id ID
+        RGB.clear();
+        string hex = Materials[ID].getColour();
+        char *cstr = new char[hex.length() + 1];
+        strcpy(cstr, hex.c_str());
+
+        int r, g, b;
+        sscanf(cstr, "%02x%02x%02x", &r, &g, &b);
+        delete [] cstr;
+        RGB.push_back(r);
+        RGB.push_back(g);
+        RGB.push_back(b);
+
+        return RGB;
 }
 vector<float> Model::FindCentre(void) { //Finds the centre of the model 
 	Vector sum;
