@@ -27,6 +27,7 @@ protected:
 public:	 
       void setCell(int ID, int m, string type); //store cellID, matID and cell type
       void setVertices(int v);                  //store verticesID
+       vector<int> getVertices();
 	  string getType();                         //return cell type, cellID, materialID and verticesID
 	  int getCellID();
 	  int getMaterialID();
