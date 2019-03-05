@@ -9,6 +9,7 @@
 #include <vtkCellType.h>
 #include <vtkDataSetMapper.h>
 #include <vtkGenericOpenGLRenderWindow.h>
+
 #include <vtkNamedColors.h>
 #include <vtkNew.h>
 #include <vtkPolyData.h>
@@ -26,6 +27,10 @@
 //Feature
 #include <vtkShrinkFilter.h>
 
+#include "Model.h"
+
+
+
 namespace Ui {
 class MainWindow;
 }
@@ -38,7 +43,11 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
      vtkSmartPointer<vtkRenderer> renderer;
+
      vtkSmartPointer<vtkShrinkFilter> shrinkFilter;
+
+
+    void ModelLoader();
 
 private slots:
 
