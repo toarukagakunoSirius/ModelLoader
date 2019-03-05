@@ -23,6 +23,9 @@ private:
 	vector<Hexahedron> Hexahedrons;
 	vector<Tetrahedron> Tetrahedrons;
 	float x, y, z;
+        vector<float> V;
+        vector<float> RGB;
+
 public:
 	Model(string FileName);
 	~Model();
@@ -31,10 +34,11 @@ public:
 	void SetCell(string data);
 	void SetVertices(string data); 
 	void SetMaterial(string data);
+        int GetCellMaterial(int ID, string Type);
 	int GetCell(int ID, string Type);
         vector<int> GetCellVertices(int ID, string Type);
-	void GetVertices(int ID);
-	void GetMaterial(int ID);
+        vector<float> GetVertices(int ID);
+        vector<float> GetMaterialColour(int ID);
 	double GetCellVolume(int ID);
 	vector<float> FindCentre(void);
 	vector<int> NumberCells(void);
