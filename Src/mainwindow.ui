@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>732</width>
-    <height>614</height>
+    <height>656</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -44,7 +44,7 @@
          </widget>
         </item>
         <item row="3" column="0" colspan="2">
-         <widget class="QSlider" name="sliderR">
+         <widget class="QSlider" name="ShrinkFilter">
           <property name="maximumSize">
            <size>
             <width>16777215</width>
@@ -52,10 +52,10 @@
            </size>
           </property>
           <property name="minimum">
-           <number>0</number>
+           <number>1</number>
           </property>
           <property name="maximum">
-           <number>255</number>
+           <number>100</number>
           </property>
           <property name="pageStep">
            <number>1</number>
@@ -114,7 +114,7 @@
   </widget>
   <action name="actionFileOpen">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../Exercises/Worksheet 6/pyramid/Icons/icons.qrc">
      <normaloff>:/Icons/fileopen.png</normaloff>:/Icons/fileopen.png</iconset>
    </property>
    <property name="text">
@@ -123,7 +123,7 @@
   </action>
   <action name="actionFileSave">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../Exercises/Worksheet 6/pyramid/Icons/icons.qrc">
      <normaloff>:/Icons/filesave.png</normaloff>:/Icons/filesave.png</iconset>
    </property>
    <property name="text">
@@ -132,7 +132,7 @@
   </action>
   <action name="actionHelp">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../Exercises/Worksheet 6/pyramid/Icons/icons.qrc">
      <normaloff>:/Icons/help.png</normaloff>:/Icons/help.png</iconset>
    </property>
    <property name="text">
@@ -141,7 +141,7 @@
   </action>
   <action name="actionPrint">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../Exercises/Worksheet 6/pyramid/Icons/icons.qrc">
      <normaloff>:/Icons/print.png</normaloff>:/Icons/print.png</iconset>
    </property>
    <property name="text">
