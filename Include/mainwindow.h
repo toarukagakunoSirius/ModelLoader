@@ -73,9 +73,9 @@ public:
     vtkSmartPointer<vtkRenderer> renderer;
     vector<vtkSmartPointer<vtkActor>> actors;
     vtkSmartPointer<vtkDataSetMapper> mapper;
-
-
      vtkSmartPointer<vtkShrinkFilter> shrinkFilter;
+
+
 
 
 private slots:
@@ -84,7 +84,7 @@ private slots:
     void on_sliderR_sliderMoved();
     void on_loadmodelButton_pressed();
 
-     void on_ShrinkFilter_sliderMoved(int position);
+     void on_ShrinkFilter_sliderMoved();
 
 private:
     Ui::MainWindow *ui;

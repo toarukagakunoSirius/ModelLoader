@@ -23,11 +23,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->sliderR,SIGNAL(sliderPressed()),this,SLOT(on_sliderR_sliderMoved()));
     connect(ui->sliderG,SIGNAL(sliderPressed()),this,SLOT(on_sliderG_sliderMoved()));
     connect(ui->sliderB,SIGNAL(sliderPressed()),this,SLOT(on_sliderB_sliderMoved()));
+    connect(ui->sliderB,SIGNAL(sliderPressed()),this,SLOT(on_ShrinkFilter_sliderMoved()));
 
 
 
     // Create Shrink Filter variable
-    shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
+   // shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
 
     // P: Waiting to be edited
     //shrinkFilter->SetInputDataObject(0,Grid);
@@ -45,12 +46,14 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::on_ShrinkFilter_sliderMoved(int position)
+void MainWindow::on_ShrinkFilter_sliderMoved()
 {
-    shrinkFilter->SetShrinkFactor( (float) (100 - ui -> ShrinkFilter -> value())/ 100);
+    shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
+    shrinkFilter->SetShrinkFactor( (float) (100 - ui->ShrinkFilter->value())/ 100);
     shrinkFilter->Update();
+
     // P: Waiting to be edited
-    //ui->qvtkWidget->GetRenderWindow()->Render();
+    ui->qtvtkWidget->GetRenderWindow()->Render();
 }
 
 void MainWindow::on_sliderB_sliderMoved()
@@ -142,7 +145,11 @@ void MainWindow::on_loadmodelButton_pressed(){
 
             // Visualize.
             vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
-            mapper->SetInputData(uGrid);
+            //mapper->SetInputData(uGrid);
+
+            shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
+            shrinkFilter->SetInputDataObject(0,uGrid);
+            mapper->SetInputConnection( shrinkFilter->GetOutputPort() );
 
             //Add as an actor
             vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
@@ -245,6 +252,8 @@ void MainWindow::on_loadmodelButton_pressed(){
             CellVertex.clear();
             pointCoordinates.clear();
         }
+
+
 
         renderer->ResetCamera(); //Set the camera back to origin
         renderer->GetActiveCamera()->Azimuth(30);
