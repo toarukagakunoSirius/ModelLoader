@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QFileDialog>
 
 #include <vtkActor.h>
 #include <vtkCellArray.h>
@@ -32,11 +33,15 @@
 
 #include <vtkNamedColors.h>
 #include <vtkNew.h>
+#include <vtkPlane.h>
 #include <vtkPolyData.h>
+#include <vtkPolyDataMapper.h>
 #include <vtkPoints.h>
 #include <vtkProperty.h>
 #include <vtkRenderer.h>
+#include <vtkRenderWindowInteractor.h>
 #include <vtkSmartPointer.h>
+#include <vtkSTLReader.h>
 #include <vtkUnstructuredGrid.h>
 
 //Type of the object
@@ -46,14 +51,19 @@
 
 //Feature
 #include <vtkShrinkFilter.h>
+#include <vtkClipDataSet.h>
 
 #include "Model.h"
+
 #include <array>
 #include <vector>
 #include <vtkPolyDataMapper.h>
 #include <vtkGlyph3DMapper.h>
 #include <vtkPropAssembly.h>
 #include <vtkAssembly.h>
+
+
+#include "ui_mainwindow.h"
 
 
 
@@ -69,13 +79,24 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+
     vector<int> NumCells;
     vtkSmartPointer<vtkRenderer> renderer;
     vector<vtkSmartPointer<vtkActor>> actors;
     vtkSmartPointer<vtkDataSetMapper> mapper;
-
-
      vtkSmartPointer<vtkShrinkFilter> shrinkFilter;
+
+
+
+
+     //P: Shrink Filter
+     vtkSmartPointer<vtkShrinkFilter> shrinkFilter;
+     //Hana: clip filter
+     vtkSmartPointer<vtkDataSetMapper> mapper;
+     vtkSmartPointer<vtkCubeSource> cubeSource;
+
+
+
 
 
 private slots:
@@ -84,7 +105,9 @@ private slots:
     void on_sliderR_sliderMoved();
     void on_loadmodelButton_pressed();
 
-     void on_ShrinkFilter_sliderMoved(int position);
+     void on_ShrinkFilter_sliderMoved();
+
+     void on_ClipFilterButton_clicked(); //clip filter
 
 private:
     Ui::MainWindow *ui;

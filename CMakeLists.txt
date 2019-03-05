@@ -12,13 +12,15 @@ project( Model )
 
 set( CMAKE_INCLUDE_CURRENT_DIR ON )
 
+include_directories( include )
+
 
 set( CMAKE_AUTOMOC ON )
 set( CMAKE_AUTOUIC ON )
 
 find_package( Qt5Widgets )
 
-set( UIS src/mainwindow.ui )
+set( UIS include/mainwindow.ui )
 qt5_wrap_ui( UI_Srcs ${UIS} )
 
 find_package( VTK REQUIRED )
@@ -28,7 +30,6 @@ include( ${VTK_USE_FILE} )
 # 2 requirements
 
 # output library name and File input for library
-include_directories(include)
 add_library( vector STATIC src/Vector.cpp)
 add_library( material STATIC src/Material.cpp )
 add_library( cell STATIC src/Cell.cpp )
@@ -47,7 +48,6 @@ add_executable(Model_Test
   include/Vector.h
   include/Hexahedron.h
   include/mainwindow.h 
-  src/mainwindow.ui
   src/mainwindow.cpp
   src/Main.cpp
   ${UI_Srcs}
