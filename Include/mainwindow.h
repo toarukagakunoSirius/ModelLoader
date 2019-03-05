@@ -90,9 +90,9 @@ public:
 
 
      //P: Shrink Filter
-     vtkSmartPointer<vtkShrinkFilter> shrinkFilter;
+
      //Hana: clip filter
-     vtkSmartPointer<vtkDataSetMapper> mapper;
+
      vtkSmartPointer<vtkCubeSource> cubeSource;
 
 
