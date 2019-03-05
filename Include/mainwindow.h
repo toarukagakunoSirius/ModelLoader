@@ -2,8 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <vtkCubeSource.h>
-#include <vtkSmartPointer.h>
+
 #include <vtkActor.h>
 #include <vtkCellArray.h>
 #include <vtkPyramid.h>
@@ -22,12 +21,32 @@
 #include <vtkNew.h>
 #include <vtkTetra.h>
 #include <vtkPoints.h>
+#include <vtkCamera.h>
 #include <vtkCellArray.h>
 #include <vtkCellType.h>
+#include <vtkDataSetMapper.h>
 #include <vtkGenericOpenGLRenderWindow.h>
 #include <vtkHexahedron.h>
 #include <vtkSmartPointer.h>
 #include <vtkActor.h>
+
+#include <vtkNamedColors.h>
+#include <vtkNew.h>
+#include <vtkPolyData.h>
+#include <vtkPoints.h>
+#include <vtkProperty.h>
+#include <vtkRenderer.h>
+#include <vtkSmartPointer.h>
+#include <vtkUnstructuredGrid.h>
+
+//Type of the object
+#include <vtkTetra.h>
+#include <vtkPyramid.h>
+#include <vtkCubeSource.h>
+
+//Feature
+#include <vtkShrinkFilter.h>
+
 #include "Model.h"
 #include <array>
 #include <vector>
@@ -35,6 +54,7 @@
 #include <vtkGlyph3DMapper.h>
 #include <vtkPropAssembly.h>
 #include <vtkAssembly.h>
+
 
 
 namespace Ui {
@@ -48,11 +68,14 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
     vector<int> NumCells;
     vtkSmartPointer<vtkRenderer> renderer;
     vector<vtkSmartPointer<vtkActor>> actors;
     vtkSmartPointer<vtkDataSetMapper> mapper;
 
+
+     vtkSmartPointer<vtkShrinkFilter> shrinkFilter;
 
 
 private slots:
@@ -60,6 +83,8 @@ private slots:
     void on_sliderG_sliderMoved();
     void on_sliderR_sliderMoved();
     void on_loadmodelButton_pressed();
+
+     void on_ShrinkFilter_sliderMoved(int position);
 
 private:
     Ui::MainWindow *ui;

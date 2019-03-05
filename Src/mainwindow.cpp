@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     renderer = vtkSmartPointer<vtkRenderer>::New(); //Create a smartpointer pointing to the window renderer
     ui->qtvtkWidget->GetRenderWindow()->AddRenderer( renderer );	
 
+
 	
     renderer->SetBackground(2.55,2.55,2.55);
 
@@ -22,11 +23,34 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->sliderR,SIGNAL(sliderPressed()),this,SLOT(on_sliderR_sliderMoved()));
     connect(ui->sliderG,SIGNAL(sliderPressed()),this,SLOT(on_sliderG_sliderMoved()));
     connect(ui->sliderB,SIGNAL(sliderPressed()),this,SLOT(on_sliderB_sliderMoved()));
+
+
+
+    // Create Shrink Filter variable
+    shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
+
+    // P: Waiting to be edited
+    //shrinkFilter->SetInputDataObject(0,Grid);
+    //mapper = vtkSmartPointer<vtkDataSetMapper>::New();
+    //mapper->SetInputConnection( shrinkFilter->GetOutputPort() );
+
+    //ModelLoader();
+
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+
+void MainWindow::on_ShrinkFilter_sliderMoved(int position)
+{
+    shrinkFilter->SetShrinkFactor( (float) (100 - ui -> ShrinkFilter -> value())/ 100);
+    shrinkFilter->Update();
+    // P: Waiting to be edited
+    //ui->qvtkWidget->GetRenderWindow()->Render();
 }
 
 void MainWindow::on_sliderB_sliderMoved()
@@ -229,5 +253,4 @@ void MainWindow::on_loadmodelButton_pressed(){
     }
 
 }
-
 
