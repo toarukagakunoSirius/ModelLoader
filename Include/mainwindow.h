@@ -1,45 +1,34 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+//Include Utility parameters
+#include <array>
+#include <vector>
+
+//Include Qt Header files
 #include <QMainWindow>
 #include <QFileDialog>
+#include <QColorDialog>
+#include <QColor>
 
+//Include Vtk Header files
 #include <vtkActor.h>
-#include <vtkCellArray.h>
-#include <vtkPyramid.h>
 #include <vtkAssembly.h>
-#include <vtkTetra.h>
-#include <vtkNamedColors.h>
-#include <vtkProperty.h>
-#include <vtkCamera.h>
-#include <QFileDialog>
-#include <vtkPolyData.h>
-#include <vtkDataSetMapper.h>
-#include <vtkRenderWindow.h>
-#include <vtkRenderWindowInteractor.h>
-#include <vtkUnstructuredGrid.h>
-#include <vtkRenderer.h>
-#include <vtkNew.h>
-#include <vtkTetra.h>
-#include <vtkPoints.h>
 #include <vtkCamera.h>
 #include <vtkCellArray.h>
 #include <vtkCellType.h>
 #include <vtkDataSetMapper.h>
 #include <vtkGenericOpenGLRenderWindow.h>
-#include <vtkHexahedron.h>
-#include <vtkSmartPointer.h>
-#include <vtkActor.h>
-
+#include <vtkGlyph3DMapper.h>
 #include <vtkNamedColors.h>
 #include <vtkNew.h>
 #include <vtkPlane.h>
 #include <vtkPolyData.h>
 #include <vtkPolyDataMapper.h>
 #include <vtkPoints.h>
+#include <vtkPropAssembly.h>
 #include <vtkProperty.h>
 #include <vtkRenderer.h>
-#include <vtkRenderWindowInteractor.h>
 #include <vtkSmartPointer.h>
 #include <vtkSTLReader.h>
 #include <vtkUnstructuredGrid.h>
@@ -48,27 +37,18 @@
 #include <vtkTetra.h>
 #include <vtkPyramid.h>
 #include <vtkCubeSource.h>
+#include <vtkHexahedron.h>
 
 //Feature
 #include <vtkShrinkFilter.h>
 #include <vtkClipDataSet.h>
 
-#include "Model.h"
-
-#include <array>
-#include <vector>
-#include <vtkPolyDataMapper.h>
-#include <vtkGlyph3DMapper.h>
-#include <vtkPropAssembly.h>
-#include <vtkAssembly.h>
-
-#include <QColorDialog>
-#include <QColor>
-
-
+//Other Header files
+#include "Model.h"//ModelLoader
 #include "ui_mainwindow.h"
 
-
+//Second Window header files
+//#include "shrinkdialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -82,26 +62,20 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-
+    //Create global variables
     vector<int> NumCells;
     vtkSmartPointer<vtkRenderer> renderer;
     vector<vtkSmartPointer<vtkActor>> actors;
     vector<vtkSmartPointer<vtkShrinkFilter>> Shrinks;
     vtkSmartPointer<vtkDataSetMapper> mapper;
-     vtkSmartPointer<vtkShrinkFilter> shrinkFilter;
+    vtkSmartPointer<vtkShrinkFilter> shrinkFilter;
+    vtkSmartPointer<vtkCubeSource> cubeSource;
 
+    //Create Indicator
+    int Shrink_Indicator;
 
-
-
-     //P: Shrink Filter
-
-     //Hana: clip filter
-
-     vtkSmartPointer<vtkCubeSource> cubeSource;
-
-
-
-
+public slots:
+    void on_ShrinkButton_clicked();
 
 private slots:
     void on_sliderB_sliderMoved();
@@ -109,10 +83,11 @@ private slots:
     void on_sliderR_sliderMoved();
     void on_actionModel_triggered();
     void on_loadmodelButton_pressed();
+    void on_ShrinkFilter_sliderMoved();//ShrinkFilter
+    void on_ClipFilterButton_clicked(); //clip filter
+    void on_ListView_activated(const QString &View);//Camera combo box
 
-     void on_ShrinkFilter_sliderMoved();
 
-     void on_ClipFilterButton_clicked(); //clip filter
 
 private:
     Ui::MainWindow *ui;
@@ -120,6 +95,7 @@ private:
     vector<int> CellVertices;
     vector<float> MatColour;
     vector<array<double, 3>> pointCoordinates;
+    //ShrinkDialog *shrinkButton;
 
 };
 
