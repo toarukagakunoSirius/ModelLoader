@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 
+//Hana: window not opening (trying to get axis filter to work)
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -9,34 +10,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //Create the render window
     vtkNew<vtkGenericOpenGLRenderWindow> renderWindow; //New render window
     ui->qtvtkWidget->SetRenderWindow( renderWindow );	 //Assign window to Qtwidget in mainwindow.ui	
-
-   
     renderer = vtkSmartPointer<vtkRenderer>::New(); //Create a smartpointer pointing to the window renderer
-    ui->qtvtkWidget->GetRenderWindow()->AddRenderer( renderer );	
-
-
-	
+    ui->qtvtkWidget->GetRenderWindow()->AddRenderer( renderer );
     renderer->SetBackground(2.55,2.55,2.55);
 
-
-
-    connect(ui->sliderR,SIGNAL(sliderPressed()),this,SLOT(on_sliderR_sliderMoved()));
-    connect(ui->sliderG,SIGNAL(sliderPressed()),this,SLOT(on_sliderG_sliderMoved()));
-    connect(ui->sliderB,SIGNAL(sliderPressed()),this,SLOT(on_sliderB_sliderMoved()));
-    connect(ui->sliderB,SIGNAL(sliderPressed()),this,SLOT(on_ShrinkFilter_sliderMoved()));
-
-
+    //Hana: LINE BELOW NEEDS CHECKING (SLIDER B DOESNT EXIST ANYMORE)
+    //connect(ui->sliderB,SIGNAL(sliderPressed()),this,SLOT(on_ShrinkFilter_sliderMoved()));
 
 
     // Create Shrink Filter variable
    // shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
 
-    //**Hana: defining cube source for clip filter**
-
-    // Create a cube using a vtkCubeSource
-    cubeSource = vtkSmartPointer<vtkCubeSource>::New(); //cube is defined in the header file
+    //**Hana: defining cube source for clip filter
+    cubeSource = vtkSmartPointer<vtkCubeSource>::New();
 
     // Create a mapper that will hold the cube's geometry in a format suitable for rendering
+
     mapper = vtkSmartPointer<vtkDataSetMapper>::New(); //mapper is defined in the header file in private member variables
     mapper->SetInputConnection( cubeSource->GetOutputPort() );
 
@@ -45,16 +34,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     actor->SetMapper(mapper);
     actor->GetProperty()->EdgeVisibilityOn();
 
-    vtkSmartPointer<vtkNamedColors> colors = vtkSmartPointer<vtkNamedColors>::New();
-    actor->GetProperty()->SetColor( colors->GetColor3d("Red").GetData() );
-    //**End of Hanas part**
-
-    renderer = vtkSmartPointer<vtkRenderer>::New(); //Create a smartpointer pointing to the window renderer
-    ui->qtvtkWidget->GetRenderWindow()->AddRenderer( renderer );
-
     // Add the actor to the scene
     renderer->AddActor(actor);
-    renderer->SetBackground( colors->GetColor3d("Silver").GetData() );
+    //renderer->SetBackground( colors->GetColor3d("Silver").GetData() );
     renderer->ResetCamera(); //Set the camera back to origin
 
     // P: Create Shrink Filter variable
@@ -82,10 +64,14 @@ void MainWindow::on_ClipFilterButton_clicked(){
     planeLeft->SetOrigin(0.0, 0.0, 0.0);
     planeLeft->SetNormal(-1.0, 0.0, 0.0);
     vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
-    clipFilter->SetInputConnection(cubeSource->GetOutputPort() ) ;
+    clipFilter->SetInputConnection(cubeSource->GetOutputPort() ) ; //trying clip for different shapes
     clipFilter->SetClipFunction( planeLeft.Get() );
     mapper->SetInputConnection( clipFilter->GetOutputPort() );
 }
+
+/*void MainWindow:: on_AxisButton_clicked(){
+
+}*/
 
 void MainWindow::on_ShrinkFilter_sliderMoved()
 {
@@ -95,48 +81,6 @@ void MainWindow::on_ShrinkFilter_sliderMoved()
 
     // P: Waiting to be edited
     ui->qtvtkWidget->GetRenderWindow()->Render();
-}
-
-void MainWindow::on_sliderB_sliderMoved()
-{
-    double R = (ui->sliderR->value())/100.00;
-    double G = (ui->sliderG->value())/100.00;
-    double B = (ui->sliderB->value())/100.00;
-
-    for (int x=0; x < actors.size(); x++){
-        actors[x]->GetProperty()->SetColor(R,G,B);
-    }
-
-    ui->qtvtkWidget->GetRenderWindow()->Render();
-    ui->lineEditB->setText(QString::number(B*100));
-}
-
-void MainWindow::on_sliderG_sliderMoved()
-{
-    double R = (ui->sliderR->value())/100.00;
-    double G = (ui->sliderG->value())/100.00;
-    double B = (ui->sliderB->value())/100.00;
-
-    for (int x=0; x < actors.size(); x++){
-        actors[x]->GetProperty()->SetColor(R,G,B);
-    }
-
-    ui->qtvtkWidget->GetRenderWindow()->Render();
-     ui->lineEditG->setText(QString::number(G*100));
-}
-
-void MainWindow::on_sliderR_sliderMoved()
-{
-    double R = (ui->sliderR->value())/100.00;
-    double G = (ui->sliderG->value())/100.00;
-    double B = (ui->sliderB->value())/100.00;
-
-    for (int x=0; x < actors.size(); x++){
-        actors[x]->GetProperty()->SetColor(R,G,B);
-    }
-
-    ui->qtvtkWidget->GetRenderWindow()->Render();
-    ui->lineEditR->setText(QString::number(R*100));
 }
 
 void MainWindow::on_actionModel_triggered()
@@ -156,6 +100,7 @@ void MainWindow::on_loadmodelButton_pressed(){
     renderer->RemoveAllViewProps();
     //Load the model
     QString File = QFileDialog::getOpenFileName(this, tr("Open MOD File"), "./", tr("MOD Files(*.mod)"));
+
     std::string FileName = File.toUtf8().constData();
 
     if (FileName != ""){
