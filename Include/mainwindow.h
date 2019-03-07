@@ -5,6 +5,7 @@
 #include <QFileDialog>
 
 #include <vtkActor.h>
+#include <vtkAxisActor.h>
 #include <vtkCellArray.h>
 #include <vtkPyramid.h>
 #include <vtkAssembly.h>
@@ -15,12 +16,6 @@
 #include <QFileDialog>
 #include <vtkPolyData.h>
 #include <vtkDataSetMapper.h>
-#include <vtkRenderWindow.h>
-#include <vtkRenderWindowInteractor.h>
-#include <vtkUnstructuredGrid.h>
-#include <vtkRenderer.h>
-#include <vtkNew.h>
-#include <vtkTetra.h>
 #include <vtkPoints.h>
 #include <vtkCamera.h>
 #include <vtkCellArray.h>
@@ -38,16 +33,21 @@
 #include <vtkPolyDataMapper.h>
 #include <vtkPoints.h>
 #include <vtkProperty.h>
+#include <vtkTextProperty.h>
 #include <vtkRenderer.h>
+#include <vtkRenderWindow.h>
+
 #include <vtkRenderWindowInteractor.h>
 #include <vtkSmartPointer.h>
 #include <vtkSTLReader.h>
+#include <vtkStringArray.h>
 #include <vtkUnstructuredGrid.h>
 
 //Type of the object
 #include <vtkTetra.h>
 #include <vtkPyramid.h>
 #include <vtkCubeSource.h>
+#include <vtkSphereSource.h>
 
 //Feature
 #include <vtkShrinkFilter.h>
@@ -82,12 +82,12 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-
     vector<int> NumCells;
     vtkSmartPointer<vtkRenderer> renderer;
     vector<vtkSmartPointer<vtkActor>> actors;
     vector<vtkSmartPointer<vtkShrinkFilter>> Shrinks;
     vtkSmartPointer<vtkDataSetMapper> mapper;
+
      vtkSmartPointer<vtkShrinkFilter> shrinkFilter;
 
 
@@ -101,11 +101,22 @@ public:
 
 
 
+    //Hana: clip filter
+    vtkSmartPointer<vtkCubeSource> cubeSource;
+    //Hana: axis filter
+    /*vtkSmartPointer<vtkSphereSource> sphereSource;
+    vtkSmartPointer<vtkAxisActor> axis;
+    vtkSmartPointer<vtkNamedColors> colors;
+    vtkSmartPointer<vtkActor> actor; //Hana: note for the future - try to change this to actors and have one variable only (Ed's variable)
+    vtkSmartPointer<vtkRenderWindowInteractor> interactor;*/
+
 
 private slots:
+
     void on_sliderB_sliderMoved();
     void on_sliderG_sliderMoved();
     void on_sliderR_sliderMoved();
+
 
     void on_actionModel_triggered();
     void on_actionBackground_triggered();
@@ -113,8 +124,14 @@ private slots:
     void on_loadmodelButton_pressed();
 
     void on_ShrinkFilter_sliderMoved();
+    void on_ClipFilterButton_clicked(); //clip filter
+    //void on_AxisButton_clicked();
+
+
+    void on_ShrinkFilter_sliderMoved();
 
     void on_ClipFilterButton_clicked(); //clip filter
+
 
 
 
