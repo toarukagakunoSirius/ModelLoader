@@ -85,9 +85,21 @@ public:
     vector<int> NumCells;
     vtkSmartPointer<vtkRenderer> renderer;
     vector<vtkSmartPointer<vtkActor>> actors;
+    vector<vtkSmartPointer<vtkShrinkFilter>> Shrinks;
     vtkSmartPointer<vtkDataSetMapper> mapper;
-    vtkSmartPointer<vtkShrinkFilter> shrinkFilter;
-    //P: Shrink Filter
+
+     vtkSmartPointer<vtkShrinkFilter> shrinkFilter;
+
+
+
+     //P: Shrink Filter
+
+     //Hana: clip filter
+
+     vtkSmartPointer<vtkCubeSource> cubeSource;
+
+
+
 
     //Hana: clip filter
     vtkSmartPointer<vtkCubeSource> cubeSource;
@@ -100,11 +112,28 @@ public:
 
 
 private slots:
+
+    void on_sliderB_sliderMoved();
+    void on_sliderG_sliderMoved();
+    void on_sliderR_sliderMoved();
+
+
     void on_actionModel_triggered();
+    void on_actionBackground_triggered();
+
     void on_loadmodelButton_pressed();
+
     void on_ShrinkFilter_sliderMoved();
     void on_ClipFilterButton_clicked(); //clip filter
     //void on_AxisButton_clicked();
+
+
+    void on_ShrinkFilter_sliderMoved();
+
+    void on_ClipFilterButton_clicked(); //clip filter
+
+
+
 
 private:
     Ui::MainWindow *ui;
