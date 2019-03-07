@@ -7,8 +7,27 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // standard call to setup Qt UI (same as previously)
     ui->setupUi( this );
 
+    //Indicator Value at the beginning
+    Shrink_Indicator = 0;
+
     //Create the render window
     vtkNew<vtkGenericOpenGLRenderWindow> renderWindow; //New render window
+
+    ui->qtvtkWidget->SetRenderWindow( renderWindow );	 //Assign window to Qtwidget in mainwindow.ui
+
+    renderer = vtkSmartPointer<vtkRenderer>::New(); //Create a smartpointer pointing to the window renderer
+    ui->qtvtkWidget->GetRenderWindow()->AddRenderer( renderer );
+
+    renderer->SetBackground(2.55,2.55,2.55);
+
+    //Set Ui Connection
+    connect(ui->sliderR,SIGNAL(sliderPressed()),this,SLOT(on_sliderR_sliderMoved()));
+    connect(ui->sliderG,SIGNAL(sliderPressed()),this,SLOT(on_sliderG_sliderMoved()));
+    connect(ui->sliderB,SIGNAL(sliderPressed()),this,SLOT(on_sliderB_sliderMoved()));
+    connect(ui->ShrinkFilter,SIGNAL(sliderPressed()),this,SLOT(on_ShrinkFilter_sliderMoved())); //Connect Slider to ShrinkFilter
+    connect( ui->ListView, &QComboBox::currentTextChanged, this, &MainWindow::on_ListView_activated);// Connect Combo box to all camera position
+    //connect( ui->ShrinkButton, &QPushButton::released, this, &MainWindow::on_ShrinkButton_clicked );
+
     ui->qtvtkWidget->SetRenderWindow( renderWindow );	 //Assign window to Qtwidget in mainwindow.ui	
     renderer = vtkSmartPointer<vtkRenderer>::New(); //Create a smartpointer pointing to the window renderer
     ui->qtvtkWidget->GetRenderWindow()->AddRenderer( renderer );
@@ -24,10 +43,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //**Hana: defining cube source for clip filter
     cubeSource = vtkSmartPointer<vtkCubeSource>::New();
 
+    shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
+    shrinkFilter->SetShrinkFactor(1);
+    shrinkFilter->SetInputConnection(0, cubeSource->GetOutputPort());
     // Create a mapper that will hold the cube's geometry in a format suitable for rendering
 
     mapper = vtkSmartPointer<vtkDataSetMapper>::New(); //mapper is defined in the header file in private member variables
-    mapper->SetInputConnection( cubeSource->GetOutputPort() );
+    mapper->SetInputConnection( 0, shrinkFilter->GetOutputPort() );
 
     // Create an actor that is used to set the cube's properties for rendering and place it in the window
     vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
@@ -38,15 +60,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     renderer->AddActor(actor);
     //renderer->SetBackground( colors->GetColor3d("Silver").GetData() );
     renderer->ResetCamera(); //Set the camera back to origin
-
-    // P: Create Shrink Filter variable
-    shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
-
-
-    // P: Waiting to be edited
-    //shrinkFilter->SetInputDataObject(0,Grid);
-    //mapper = vtkSmartPointer<vtkDataSetMapper>::New();
-    //mapper->SetInputConnection( shrinkFilter->GetOutputPort() );
 
     //ModelLoader();
 
@@ -66,7 +79,9 @@ void MainWindow::on_ClipFilterButton_clicked(){
     vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
     clipFilter->SetInputConnection(cubeSource->GetOutputPort() ) ; //trying clip for different shapes
     clipFilter->SetClipFunction( planeLeft.Get() );
-    mapper->SetInputConnection( clipFilter->GetOutputPort() );
+    mapper->SetInputConnection( 0, clipFilter->GetOutputPort() );
+    mapper->Update();
+    ui->qtvtkWidget->GetRenderWindow()->Render();
 }
 
 /*void MainWindow:: on_AxisButton_clicked(){
@@ -75,14 +90,17 @@ void MainWindow::on_ClipFilterButton_clicked(){
 
 void MainWindow::on_ShrinkFilter_sliderMoved()
 {
-    //shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
-    for(int x = 0;x < Shrinks.size();x++){
-        Shrinks[x]->SetShrinkFactor( (float) (100 - ui->ShrinkFilter->value())/ 100);
-        Shrinks[x]->Update();
+    //ModelLoader Condition
+    if (Shrink_Indicator == 1) {
+      for(int x = 0;x < Shrinks.size();x++){
+            Shrinks[x]->SetShrinkFactor( (float) (100 - ui->ShrinkFilter->value())/ 100);
+            Shrinks[x]->Update();
+          }
     }
-
-
-    // P: Waiting to be edited
+    else if (Shrink_Indicator == 0){
+      shrinkFilter->SetShrinkFactor( (float) (100 - ui -> ShrinkFilter -> value())/ 100);
+      shrinkFilter->Update();
+      }
     ui->qtvtkWidget->GetRenderWindow()->Render();
 }
 
@@ -157,6 +175,10 @@ void MainWindow::on_actionBackground_triggered()
 void MainWindow::on_loadmodelButton_pressed(){
     actors.clear();
     renderer->RemoveAllViewProps();
+
+    //Indicator for ModelLoader scenario
+    Shrink_Indicator = 1;
+
     //Load the model
     QString File = QFileDialog::getOpenFileName(this, tr("Open MOD File"), "./", tr("MOD Files(*.mod)"));
 
@@ -171,7 +193,6 @@ void MainWindow::on_loadmodelButton_pressed(){
 
         //Loops through each Cell
         for (int H = 0; H < NumCells[2]; H++ ){
-
 
             //Gets the vertices and material colour for each cell
             CellVertices = M.GetCellVertices(H,"h");
@@ -193,19 +214,14 @@ void MainWindow::on_loadmodelButton_pressed(){
                 hex->GetPointIds()->SetId(i, i);
             }
 
-
-
             // Add the points and hexahedron to an unstructured grid.
             vtkSmartPointer<vtkUnstructuredGrid> uGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
             uGrid->SetPoints(points);
             uGrid->InsertNextCell(hex->GetCellType(), hex->GetPointIds());
 
-
-
             // Visualize.
             vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
             mapper->SetInputData(uGrid);
-
 
             shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
             shrinkFilter->SetShrinkFactor(1);
@@ -229,7 +245,6 @@ void MainWindow::on_loadmodelButton_pressed(){
             MatColour.clear();
             CellVertex.clear();
             pointCoordinates.clear();
-
 
         }
 
@@ -268,7 +283,6 @@ void MainWindow::on_loadmodelButton_pressed(){
             MatColour.clear();
             CellVertex.clear();
             pointCoordinates.clear();
-
 
         }
 
@@ -315,13 +329,49 @@ void MainWindow::on_loadmodelButton_pressed(){
             pointCoordinates.clear();
         }
 
-
-
         renderer->ResetCamera(); //Set the camera back to origin
         renderer->GetActiveCamera()->Azimuth(30);
         renderer->GetActiveCamera()->Elevation(30);
         ui->qtvtkWidget->GetRenderWindow()->Render();
     }
-
+}
+void MainWindow::on_ListView_activated(const QString &View)
+{
+    if (View == "X-Axis"){
+      renderer->GetActiveCamera ()->SetPosition(1.0,0.0,0.0);
+    }
+    else if (View == "Y-Axis") {
+      renderer->GetActiveCamera ()->SetPosition(0.0,1.0,0.0);
+    }
+    else if (View == "Z-Axis") {
+      renderer->GetActiveCamera ()->SetPosition(0.0,0.0,1.0);
+    }
+    else if (View == "90º Azimuth") {
+      renderer->GetActiveCamera ()->Azimuth(90);
+    }
+    else if (View == "90º Elevation") {
+      renderer->GetActiveCamera ()->Elevation(90);
+    }
+    renderer->ResetCamera();
+    ui->qtvtkWidget->GetRenderWindow()->Render();
 }
 
+void MainWindow::on_ShrinkButton_clicked()
+{
+    /*shrinkButton = new ShrinkDialog(this);
+    shrinkButton->show();
+
+    //ModelLoader Condition
+    if (Shrink_Indicator == 1) {
+      for(int x = 0;x < Shrinks.size();x++){
+            Shrinks[x]->SetShrinkFactor( shrinkButton->getShrinkValue());
+            Shrinks[x]->Update();
+          }
+    }
+    //Stl Condition
+    else if (Shrink_Indicator == 0){
+      shrinkFilter->SetShrinkFactor( shrinkButton->getShrinkValue());
+      shrinkFilter->Update();
+      }
+    ui->qtvtkWidget->GetRenderWindow()->Render();*/
+}
