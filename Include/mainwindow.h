@@ -130,31 +130,16 @@ public slots:
 
 private slots:
 
-    void on_sliderB_sliderMoved();
-    void on_sliderG_sliderMoved();
-    void on_sliderR_sliderMoved();
+    void on_sliderB_sliderMoved(); //Colour Blue Slider
+    void on_sliderG_sliderMoved(); //Colour Green Slider
+    void on_sliderR_sliderMoved(); //Colour Red Slider
 
-
-    void on_actionModel_triggered();
-    void on_actionBackground_triggered();
-
-    void on_loadmodelButton_pressed();
+    void on_actionModel_triggered(); //Colour model function
+    void on_actionBackground_triggered(); //Colour of background function
+    void on_loadmodelButton_pressed(); //Loading of model
     void on_ShrinkFilter_sliderMoved();//ShrinkFilter
     void on_ClipFilterButton_clicked(); //clip filter
-    void on_ListView_activated(const QString &View);//Camera combo box
-
-
-    void on_ShrinkFilter_sliderMoved();
-    void on_ClipFilterButton_clicked(); //clip filter
-    //void on_AxisButton_clicked();
-
-
-    void on_ShrinkFilter_sliderMoved();
-
-    void on_ClipFilterButton_clicked(); //clip filter
-
-
-
+    void on_ListView_activated(const QString &View); //Camera combo box
 
 private:
     Ui::MainWindow *ui;
