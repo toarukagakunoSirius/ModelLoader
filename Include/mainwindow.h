@@ -117,7 +117,8 @@ public slots:
     void on_ShrinkButton_clicked();
 
     //Hana: clip filter
-    vtkSmartPointer<vtkCubeSource> cubeSource;
+   
+   
     //Hana: axis filter
     /*vtkSmartPointer<vtkSphereSource> sphereSource;
     vtkSmartPointer<vtkAxisActor> axis;
