@@ -13,12 +13,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //Create the render window
     vtkNew<vtkGenericOpenGLRenderWindow> renderWindow; //New render window
 
-    ui->qtvtkWidget->SetRenderWindow( renderWindow );	 //Assign window to Qtwidget in mainwindow.ui
+   // ui->qtvtkWidget->SetRenderWindow( renderWindow );	 //Assign window to Qtwidget in mainwindow.ui
 
-    renderer = vtkSmartPointer<vtkRenderer>::New(); //Create a smartpointer pointing to the window renderer
-    ui->qtvtkWidget->GetRenderWindow()->AddRenderer( renderer );
+   // renderer = vtkSmartPointer<vtkRenderer>::New(); //Create a smartpointer pointing to the window renderer
+   // ui->qtvtkWidget->GetRenderWindow()->AddRenderer( renderer );
 
-    renderer->SetBackground(2.55,2.55,2.55);
+   // renderer->SetBackground(2.55,2.55,2.55);
 
     //Set Ui Connection
     connect(ui->sliderR,SIGNAL(sliderPressed()),this,SLOT(on_sliderR_sliderMoved()));
@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect( ui->ListView, &QComboBox::currentTextChanged, this, &MainWindow::on_ListView_activated);// Connect Combo box to all camera position
     //connect( ui->ShrinkButton, &QPushButton::released, this, &MainWindow::on_ShrinkButton_clicked );
 
-    ui->qtvtkWidget->SetRenderWindow( renderWindow );	 //Assign window to Qtwidget in mainwindow.ui	
+    ui->qtvtkWidget->SetRenderWindow( renderWindow );	 //Assign window to Qtwidget in mainwindow.ui
     renderer = vtkSmartPointer<vtkRenderer>::New(); //Create a smartpointer pointing to the window renderer
     ui->qtvtkWidget->GetRenderWindow()->AddRenderer( renderer );
     renderer->SetBackground(2.55,2.55,2.55);
@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     shrinkFilter->SetInputConnection(0, cubeSource->GetOutputPort());
     // Create a mapper that will hold the cube's geometry in a format suitable for rendering
 
-    mapper = vtkSmartPointer<vtkDataSetMapper>::New(); //mapper is defined in the header file in private member variables
+    vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New(); //mapper is defined in the header file in private member variables
     mapper->SetInputConnection( 0, shrinkFilter->GetOutputPort() );
 
     // Create an actor that is used to set the cube's properties for rendering and place it in the window
@@ -117,6 +117,7 @@ void MainWindow::on_sliderB_sliderMoved()
 
     ui->qtvtkWidget->GetRenderWindow()->Render();
     ui->lineEditB->setText(QString::number(B*100));
+    cout << actors.size() << endl;
 }
 
 void MainWindow::on_sliderG_sliderMoved()
@@ -173,80 +174,51 @@ void MainWindow::on_actionBackground_triggered()
 }
 
 void MainWindow::on_loadmodelButton_pressed(){
-    actors.clear();
-    renderer->RemoveAllViewProps();
-
-    //Indicator for ModelLoader scenario
-    Shrink_Indicator = 1;
-
     //Load the model
     QString File = QFileDialog::getOpenFileName(this, tr("Open MOD File"), "./", tr("MOD Files(*.mod)"));
-
     std::string FileName = File.toUtf8().constData();
 
     if (FileName != ""){
+        CellColours.clear();
+        actors.clear();
+        Shrink_Indicator = 1; //Indicator for ModelLoader scenario
+        renderer->RemoveAllViewProps();
+        Cell_Iterations = 0;
 
         Model M(FileName);
+        NumCells = M.NumberCells(); //Retrieves the number of cells for each shape
 
-        //Retrieves the number of cells for each shape
-        NumCells = M.NumberCells();
-
-        //Loops through each Cell
-        for (int H = 0; H < NumCells[2]; H++ ){
-
-            //Gets the vertices and material colour for each cell
-            CellVertices = M.GetCellVertices(H,"h");
+        vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
+        vtkSmartPointer<vtkUnstructuredGrid> uGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
+        for (int H = 0; H < NumCells[2]; H++ ){ //Loops through each Cell
+            CellVertices = M.GetCellVertices(H,"h"); //Gets the vertices and material colour for each cell
             MatColour = M.GetMaterialColour(M.GetCellMaterial(H, "h"));
 
-            //Push the Vector data for each cell. (Loops through each vector for that cell)
-            for (int V = 0; V < 8; V++){
+            if ((Last_Colour[0] != MatColour[0] || Last_Colour[1] != MatColour[1] || Last_Colour[2] != MatColour[2]) && H != 0){
+                Cell_Iterations = H;
+                CellColours.push_back({Last_Colour[0],Last_Colour[1],Last_Colour[2]});
+                uGrid->SetPoints(points);
+                uGrids.push_back(uGrid);
+                points = vtkSmartPointer<vtkPoints>::New();
+                uGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
+            }
+            for (int V = 0; V < 8; V++){ //Push the Vector data for each cell. (Loops through each vector for that cell)
                 CellVertex = M.GetVertices(CellVertices[V]);
-                pointCoordinates.push_back({{CellVertex[0], CellVertex[1], CellVertex[2]}});
+                points->InsertNextPoint(CellVertex[0], CellVertex[1], CellVertex[2]);
             }
 
-            // Create a hexahedron from the points.
-            vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
             vtkSmartPointer<vtkHexahedron> hex = vtkSmartPointer<vtkHexahedron>::New();
+            for (auto i = 0; i < 8; ++i) //Inserts the points into the smartpointers
+                hex->GetPointIds()->SetId(i, ((8*(H-Cell_Iterations))+i));        // Create a hexahedron from the points.
 
-            //Inserts the points into the smartpointers
-            for (auto i = 0; i < pointCoordinates.size(); ++i){
-                points->InsertNextPoint(pointCoordinates[i].data());
-                hex->GetPointIds()->SetId(i, i);
-            }
-
-            // Add the points and hexahedron to an unstructured grid.
-            vtkSmartPointer<vtkUnstructuredGrid> uGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
-            uGrid->SetPoints(points);
             uGrid->InsertNextCell(hex->GetCellType(), hex->GetPointIds());
-
-            // Visualize.
-            vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
-            mapper->SetInputData(uGrid);
-
-            shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
-            shrinkFilter->SetShrinkFactor(1);
-            shrinkFilter->AddInputDataObject(0,uGrid);
-            Shrinks.push_back(shrinkFilter);
-            mapper->SetInputConnection( shrinkFilter->GetOutputPort() );
-
-            //Add as an actor
-            vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
-
-            actor->GetProperty()->SetColor(MatColour[0]/100,MatColour[1]/100,MatColour[2]/100 );
-            actor->SetMapper(mapper);
-            //actor->GetProperty()->EdgeVisibilityOn();
-            renderer->AddActor(actor);
-            //assembly->AddPart(actor);
-
-            actors.push_back(actor);
-
-            //Clear unused data storage
-            CellVertices.clear();
-            MatColour.clear();
-            CellVertex.clear();
-            pointCoordinates.clear();
-
+            Last_Colour = MatColour;
         }
+        CellColours.push_back({Last_Colour[0],Last_Colour[1],Last_Colour[2]});
+        uGrid->SetPoints(points);
+        uGrids.push_back(uGrid);
+
+        /*
 
         for (int T = 0; T < NumCells[1]; T++ ){
             CellVertices = M.GetCellVertices(T,"t");
@@ -296,11 +268,11 @@ void MainWindow::on_loadmodelButton_pressed(){
                 points->InsertNextPoint(CellVertex[0], CellVertex[1], CellVertex[2]);
             }
             vtkSmartPointer<vtkPyramid> pyramid = vtkSmartPointer<vtkPyramid>::New();
-              pyramid->GetPointIds()->SetId(0,0);
-              pyramid->GetPointIds()->SetId(1,1);
-              pyramid->GetPointIds()->SetId(2,2);
-              pyramid->GetPointIds()->SetId(3,3);
-              pyramid->GetPointIds()->SetId(4,4);
+            pyramid->GetPointIds()->SetId(0,0);
+            pyramid->GetPointIds()->SetId(1,1);
+            pyramid->GetPointIds()->SetId(2,2);
+            pyramid->GetPointIds()->SetId(3,3);
+            pyramid->GetPointIds()->SetId(4,4);
 
             vtkSmartPointer<vtkCellArray> cells = vtkSmartPointer<vtkCellArray>::New();
             cells->InsertNextCell (pyramid);
@@ -328,29 +300,56 @@ void MainWindow::on_loadmodelButton_pressed(){
             CellVertex.clear();
             pointCoordinates.clear();
         }
+        */
+
+        for (int G=0;G<uGrids.size();G++){
+            vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
+            mapper->SetInputData(uGrids[G]);
+
+            shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
+            shrinkFilter->SetShrinkFactor(1);
+            shrinkFilter->AddInputDataObject(0,uGrids[G]);
+            Shrinks.push_back(shrinkFilter);
+            mapper->SetInputConnection( shrinkFilter->GetOutputPort() );
+
+            //Add as an actor
+            vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
+            actor->GetProperty()->SetColor( CellColours[G][0]/100,CellColours[G][1]/100,CellColours[G][2]/100 );
+            actor->SetMapper(mapper);
+            renderer->AddActor(actor);
+            actors.push_back(actor);
+        }
 
         renderer->ResetCamera(); //Set the camera back to origin
         renderer->GetActiveCamera()->Azimuth(30);
         renderer->GetActiveCamera()->Elevation(30);
         ui->qtvtkWidget->GetRenderWindow()->Render();
+
+        CellVertex.clear();
+        CellVertices.clear();
+        MatColour.clear();
+        pointCoordinates.clear();
+        uGrids.clear();
+
     }
 }
+
 void MainWindow::on_ListView_activated(const QString &View)
 {
     if (View == "X-Axis"){
-      renderer->GetActiveCamera ()->SetPosition(1.0,0.0,0.0);
+        renderer->GetActiveCamera ()->SetPosition(1.0,0.0,0.0);
     }
     else if (View == "Y-Axis") {
-      renderer->GetActiveCamera ()->SetPosition(0.0,1.0,0.0);
+        renderer->GetActiveCamera ()->SetPosition(0.0,1.0,0.0);
     }
     else if (View == "Z-Axis") {
-      renderer->GetActiveCamera ()->SetPosition(0.0,0.0,1.0);
+        renderer->GetActiveCamera ()->SetPosition(0.0,0.0,1.0);
     }
     else if (View == "90º Azimuth") {
-      renderer->GetActiveCamera ()->Azimuth(90);
+        renderer->GetActiveCamera ()->Azimuth(90);
     }
     else if (View == "90º Elevation") {
-      renderer->GetActiveCamera ()->Elevation(90);
+        renderer->GetActiveCamera ()->Elevation(90);
     }
     renderer->ResetCamera();
     ui->qtvtkWidget->GetRenderWindow()->Render();

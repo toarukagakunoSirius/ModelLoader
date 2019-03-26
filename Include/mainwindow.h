@@ -90,14 +90,18 @@ public:
     //Create global variables
 
     vector<int> NumCells;
+
     vtkSmartPointer<vtkRenderer> renderer;
     vector<vtkSmartPointer<vtkActor>> actors;
     vector<vtkSmartPointer<vtkShrinkFilter>> Shrinks;
     vtkSmartPointer<vtkDataSetMapper> mapper;
-
-
+    vtkSmartPointer<vtkHexahedron> hex ;
+     vtkSmartPointer<vtkActor> actor;
      vtkSmartPointer<vtkShrinkFilter> shrinkFilter;
+    vtkSmartPointer<vtkUnstructuredGrid> uGrid;
 
+
+ vector<vtkSmartPointer<vtkUnstructuredGrid>> uGrids;
 
 
      //P: Shrink Filter
@@ -111,7 +115,8 @@ public:
 
     //Create Indicator
     int Shrink_Indicator;
-
+    int Cell_Iterations = 0;
+    vector<float> Last_Colour = {0,0,0};
 
 public slots:
     void on_ShrinkButton_clicked();
@@ -147,6 +152,7 @@ private:
     vector<int> CellVertices;
     vector<float> MatColour;
     vector<array<double, 3>> pointCoordinates;
+    vector<array<double, 3>> CellColours;
     //ShrinkDialog *shrinkButton;
 
 };
