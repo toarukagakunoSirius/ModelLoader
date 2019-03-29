@@ -1,6 +1,6 @@
-﻿**H62PEP Computing Project - Group 2's group repository**
+# ﻿**H62PEP Computing Project - Group 2's group repository**
 
-**MEMBERS**
+## **MEMBERS**
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Group 2 members: 
 	> Hana 
@@ -10,7 +10,7 @@ Group 2 members:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 For this project we will be designing and creating software to view 3D CAD models and simulate. It will be created using the QT and VTK libraries and written using C++. The program will be available for both Windows and Mac OS
 
-**ROLES**
+## **ROLES**
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 - Vector class: Hana
 - Model class: Ed

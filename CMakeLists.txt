@@ -20,12 +20,12 @@ set( CMAKE_AUTOUIC ON )
 
 find_package( Qt5Widgets )
 
-set( UIS include/mainwindow.ui )
+set( UIS include/mainwindow.ui)
 qt5_wrap_ui( UI_Srcs ${UIS} )
 
 find_package( VTK REQUIRED )
 include( ${VTK_USE_FILE} )
-# Create library 
+# Create library
 
 # 2 requirements
 
@@ -47,7 +47,7 @@ add_executable(Model_Test
   include/Material.h
   include/Vector.h
   include/Hexahedron.h
-  include/mainwindow.h 
+  include/mainwindow.h
   src/mainwindow.cpp
   src/Main.cpp
   ${UI_Srcs}
@@ -70,18 +70,11 @@ target_link_libraries( Model_Test  Qt5::Widgets )
 
 # Tell CMake that the executable depends on the VTK libraries
 target_link_libraries( Model_Test  ${VTK_LIBRARIES} )
-target_link_libraries( Model_Test 
-								model 
+target_link_libraries( Model_Test
+								model
 								vector
 								material
 								cell
 								hexahedron
 								)
 # Tell CMake that the executable depends on the Qt::Widget libraries.
-
-
-
-
-
-
-
