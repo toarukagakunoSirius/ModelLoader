@@ -10,27 +10,29 @@
 #include <QFileDialog>
 #include <QColorDialog>
 #include <QColor>
+#include <QString>
+
 
 //Include Vtk Header files
 #include <vtkActor.h>
 
 #include <vtkAxisActor.h>
-#include <vtkCellArray.h>
-#include <vtkPyramid.h>
+
+
 #include <vtkAssembly.h>
-#include <vtkTetra.h>
-#include <vtkNamedColors.h>
-#include <vtkProperty.h>
-#include <vtkCamera.h>
-#include <QFileDialog>
-#include <vtkPolyData.h>
-#include <vtkDataSetMapper.h>
-#include <vtkPoints.h>
+
+#include <vtkSTLReader.h>
+
 
 #include <vtkCamera.h>
+#include <vtkPolyData.h>
+#include <vtkDataSetMapper.h>
+//#include <QFileInfo.h>
+#include <vtkPoints.h>
+
+
 #include <vtkCellArray.h>
 #include <vtkCellType.h>
-#include <vtkDataSetMapper.h>
 #include <vtkGenericOpenGLRenderWindow.h>
 #include <vtkGlyph3DMapper.h>
 #include <vtkNamedColors.h>
@@ -38,7 +40,6 @@
 #include <vtkPlane.h>
 #include <vtkPolyData.h>
 #include <vtkPolyDataMapper.h>
-#include <vtkPoints.h>
 #include <vtkPropAssembly.h>
 #include <vtkProperty.h>
 #include <vtkTextProperty.h>
@@ -145,6 +146,8 @@ private slots:
     void on_ShrinkFilter_sliderMoved();//ShrinkFilter
     void on_ClipFilterButton_clicked(); //clip filter
     void on_ListView_activated(const QString &View); //Camera combo box
+    void Load_STL_File(QString File);
+    void Load_Mod_File(std::string FileName);
 
 private:
     Ui::MainWindow *ui;
