@@ -112,7 +112,7 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>40</y>
+       <y>0</y>
        <width>161</width>
        <height>31</height>
       </rect>
@@ -132,6 +132,19 @@
      </property>
      <property name="text">
       <string>Axis</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ClipButton">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>40</y>
+       <width>161</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Clip</string>
      </property>
     </widget>
    </widget>
@@ -350,7 +363,7 @@
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="Shadow_Label">
+    <widget class="QLabel" name="ClipFilter_Label">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -365,10 +378,10 @@
       </font>
      </property>
      <property name="text">
-      <string>Shadow</string>
+      <string>Clip</string>
      </property>
     </widget>
-    <widget class="QSlider" name="SliderShadow">
+    <widget class="QSlider" name="ClipFilterSlider">
      <property name="geometry">
       <rect>
        <x>240</x>
@@ -376,6 +389,12 @@
        <width>301</width>
        <height>16</height>
       </rect>
+     </property>
+     <property name="minimum">
+      <number>-100</number>
+     </property>
+     <property name="maximum">
+      <number>100</number>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

@@ -40,6 +40,7 @@
 #include <vtkPlane.h>
 #include <vtkPolyData.h>
 #include <vtkPolyDataMapper.h>
+#include <vtkGenericClip.h>
 #include <vtkPropAssembly.h>
 #include <vtkProperty.h>
 #include <vtkTextProperty.h>
@@ -102,36 +103,28 @@ public:
     vtkSmartPointer<vtkUnstructuredGrid> uGrid;
 
 
- vector<vtkSmartPointer<vtkUnstructuredGrid>> uGrids;
-
+    vector<vtkSmartPointer<vtkUnstructuredGrid>> uGrids;
+    vtkSmartPointer<vtkPlane> planeLeft;
+    vtkSmartPointer<vtkClipDataSet> clipFilter;
+    vector<vtkSmartPointer<vtkClipDataSet>> ClipFilters;
 
      //P: Shrink Filter
 
      //Hana: clip filter
 
      vtkSmartPointer<vtkCubeSource> cubeSource;
+     vtkSmartPointer<vtkPlane> plane;
 
 
 
 
     //Create Indicator
-    int Shrink_Indicator;
+    int Indicator;
     int Cell_Iterations = 0;
     vector<float> Last_Colour = {0,0,0};
 
 public slots:
     void on_ShrinkButton_clicked();
-
-    //Hana: clip filter
-   
-   
-    //Hana: axis filter
-    /*vtkSmartPointer<vtkSphereSource> sphereSource;
-    vtkSmartPointer<vtkAxisActor> axis;
-    vtkSmartPointer<vtkNamedColors> colors;
-    vtkSmartPointer<vtkActor> actor; //Hana: note for the future - try to change this to actors and have one variable only (Ed's variable)
-    vtkSmartPointer<vtkRenderWindowInteractor> interactor;*/
-
 
 
 private slots:
@@ -144,10 +137,14 @@ private slots:
     void on_actionBackground_triggered(); //Colour of background function
     void on_loadmodelButton_pressed(); //Loading of model
     void on_ShrinkFilter_sliderMoved();//ShrinkFilter
-    void on_ClipFilterButton_clicked(); //clip filter
+    //void on_ClipFilterButton_clicked(); //clip filter
     void on_ListView_activated(const QString &View); //Camera combo box
     void Load_STL_File(QString File);
     void Load_Mod_File(std::string FileName);
+
+
+
+    void on_ClipFilterSlider_sliderMoved();
 
 private:
     Ui::MainWindow *ui;
