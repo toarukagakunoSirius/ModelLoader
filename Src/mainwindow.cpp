@@ -21,14 +21,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
    // renderer->SetBackground(2.55,2.55,2.55);
 
     //Set Ui Connection
-    connect(ui->sliderR,SIGNAL(sliderPressed()),this,SLOT(on_sliderR_sliderMoved()));
-    connect(ui->sliderG,SIGNAL(sliderPressed()),this,SLOT(on_sliderG_sliderMoved()));
-    connect(ui->sliderB,SIGNAL(sliderPressed()),this,SLOT(on_sliderB_sliderMoved()));
-    connect(ui->ShrinkFilter,SIGNAL(sliderPressed()),this,SLOT(on_ShrinkFilter_sliderMoved())); //Connect Slider to ShrinkFilter
+    //connect(ui->sliderR,SIGNAL(sliderPressed()),this,SLOT(on_sliderR_sliderMoved()));
+    //connect(ui->sliderG,SIGNAL(sliderPressed()),this,SLOT(on_sliderG_sliderMoved()));
+    //connect(ui->sliderB,SIGNAL(sliderPressed()),this,SLOT(on_sliderB_sliderMoved()));
+    //connect(ui->ShrinkFilter,SIGNAL(sliderPressed()),this,SLOT(on_ShrinkFilter_sliderMoved())); //Connect Slider to ShrinkFilter
 
-    connect(ui->ClipFilterSlider,SIGNAL(sliderPressed()),this,SLOT(on_ClipFilterSlider_sliderMoved())); //Connect Slider to ShrinkFilter
+    //connect(ui->ClipFilterSlider,SIGNAL(sliderPressed()),this,SLOT(on_ClipFilterSlider_sliderMoved())); //Connect Slider to ShrinkFilter
 
-    connect( ui->ListView, &QComboBox::currentTextChanged, this, &MainWindow::on_ListView_activated);// Connect Combo box to all camera position
+    //connect( ui->ListView, &QComboBox::currentTextChanged, this, &MainWindow::on_ListView_activated);// Connect Combo box to all camera position
     //connect( ui->ShrinkButton, &QPushButton::released, this, &MainWindow::on_ShrinkButton_clicked );
 
     ui->qtvtkWidget->SetRenderWindow( renderWindow );	 //Assign window to Qtwidget in mainwindow.ui
@@ -134,7 +134,7 @@ void MainWindow::on_sliderB_sliderMoved()
     for (int x=0; x < actors.size(); x++){
         actors[x]->GetProperty()->SetColor(R,G,B);
     }
-
+	
     ui->qtvtkWidget->GetRenderWindow()->Render();
     ui->lineEditB->setText(QString::number(B*100));
 }
@@ -292,11 +292,13 @@ void MainWindow::Load_Mod_File(std::string FileName){
         uGrid->InsertNextCell(hex->GetCellType(), hex->GetPointIds()); //Insert the created cell into the grid
         Last_Colour = MatColour; //Set the last_colour reference to the current colour so it can be checked on the next loop
     }
+	if (NumCells[2] > 0){
     //Send the final group of cells into an unstructured grid
     CellColours.push_back({Last_Colour[0],Last_Colour[1],Last_Colour[2]}); //Send the colour of the actor to a vector for later use
     uGrid->SetPoints(points); //Sets the points for the grouop of cells into an unstructured grid
     uGrids.push_back(uGrid); //Adds the unstructuredgrid to vector of grids for later rendering
     Cell_Iterations = 0;
+	}
     //-------------------------------------------
 
 
@@ -332,11 +334,13 @@ void MainWindow::Load_Mod_File(std::string FileName){
         uGrid->InsertNextCell(pyramid->GetCellType(),pyramid->GetPointIds()); //Insert the created cell into the grid
         Last_Colour = MatColour; //Set the last_colour reference to the current colour so it can be checked on the next loop
     }
+	if (NumCells[0] > 0){
     //Send the final group of cells into an unstructured grid
     CellColours.push_back({Last_Colour[0],Last_Colour[1],Last_Colour[2]}); //Send the colour of the actor to a vector for later use
     uGrid->SetPoints(points); //Sets the points for the grouop of cells into an unstructured grid
     uGrids.push_back(uGrid); //Adds the unstructuredgrid to vector of grids for later rendering
     Cell_Iterations = 0;
+	}
     //-------------------------------------------
 
 
@@ -372,16 +376,19 @@ void MainWindow::Load_Mod_File(std::string FileName){
         uGrid->InsertNextCell(tetra->GetCellType(),tetra->GetPointIds()); //Insert the created cell into the grid
         Last_Colour = MatColour; //Set the last_colour reference to the current colour so it can be checked on the next loop
     }
+	if (NumCells[1] > 0){
     //Send the final group of cells into an unstructured grid
     CellColours.push_back({Last_Colour[0],Last_Colour[1],Last_Colour[2]}); //Send the colour of the actor to a vector for later use
     uGrid->SetPoints(points); //Sets the points for the grouop of cells into an unstructured grid
     uGrids.push_back(uGrid); //Adds the unstructuredgrid to vector of grids for later rendering
     Cell_Iterations = 0;
+	}
     //-------------------------------------------
 
 
     //-------------MAPPER -> FILTERS -> RENDER-----------------
     //Loop through the vector of unstructured grids to render them and link a mapper plus add filters
+	
     for (int G=0;G<uGrids.size();G++){
         vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
         mapper->SetInputData(uGrids[G]); //Create a mapper and send the grid as the inputted data
@@ -406,6 +413,7 @@ void MainWindow::Load_Mod_File(std::string FileName){
         renderer->AddActor(actor); //Add the actor to the render window
         actors.push_back(actor); //Put the actors into a vector of actors so they can be accessed later
     }
+	
 
     //Reset the render window
     renderer->ResetCamera(); //Set the camera back to origin
