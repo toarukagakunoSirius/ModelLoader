@@ -46,7 +46,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //**Hana: defining cube source for clip filter
     cubeSource = vtkSmartPointer<vtkCubeSource>::New();
 
-
+    //Create light on the screen
+    light = vtkSmartPointer<vtkLight>::New();
+    light->SetLightTypeToSceneLight();
+    light->SetPosition( 1, 0, 0 );
+    light->SetPositional( true );
+    light->SetConeAngle( 180 );// Set to 180 for position light
+    light->SetFocalPoint( 0, 0, 0 );
+    light->SetDiffuseColor( 1, 1, 1 );
+    light->SetAmbientColor( 1, 1, 1 );
+    light->SetSpecularColor( 1, 1, 1 );
+    light->SetIntensity( 1 );
+    light->SwitchOff();
 
     planeLeft = vtkSmartPointer<vtkPlane>::New();
     planeLeft->SetOrigin(1000, 0.0, 0.0);
@@ -74,6 +85,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // Add the actor to the scene
     renderer->AddActor(actor);
+    renderer->AddLight( light );
     //renderer->SetBackground( colors->GetColor3d("Silver").GetData() );
     renderer->ResetCamera(); //Set the camera back to origin
 
@@ -125,47 +137,47 @@ void MainWindow::on_ShrinkFilter_sliderMoved()
 }
 
 
-void MainWindow::on_sliderB_sliderMoved()
-{
-    double R = (ui->sliderR->value())/100.00;
-    double G = (ui->sliderG->value())/100.00;
-    double B = (ui->sliderB->value())/100.00;
+//void MainWindow::on_sliderB_sliderMoved()
+//{
+//    double R = (ui->sliderR->value())/100.00;
+//    double G = (ui->sliderG->value())/100.00;
+//    double B = (ui->sliderB->value())/100.00;
 
-    for (int x=0; x < actors.size(); x++){
-        actors[x]->GetProperty()->SetColor(R,G,B);
-    }
+//    for (int x=0; x < actors.size(); x++){
+//        actors[x]->GetProperty()->SetColor(R,G,B);
+//    }
 	
-    ui->qtvtkWidget->GetRenderWindow()->Render();
-    ui->lineEditB->setText(QString::number(B*100));
-}
+//    ui->qtvtkWidget->GetRenderWindow()->Render();
+//    ui->lineEditB->setText(QString::number(B*100));
+//}
 
-void MainWindow::on_sliderG_sliderMoved()
-{
-    double R = (ui->sliderR->value())/100.00;
-    double G = (ui->sliderG->value())/100.00;
-    double B = (ui->sliderB->value())/100.00;
+//void MainWindow::on_sliderG_sliderMoved()
+//{
+//    double R = (ui->sliderR->value())/100.00;
+//    double G = (ui->sliderG->value())/100.00;
+//    double B = (ui->sliderB->value())/100.00;
 
-    for (int x=0; x < actors.size(); x++){
-        actors[x]->GetProperty()->SetColor(R,G,B);
-    }
+//    for (int x=0; x < actors.size(); x++){
+//        actors[x]->GetProperty()->SetColor(R,G,B);
+//    }
 
-    ui->qtvtkWidget->GetRenderWindow()->Render();
-     ui->lineEditG->setText(QString::number(G*100));
-}
+//    ui->qtvtkWidget->GetRenderWindow()->Render();
+//     ui->lineEditG->setText(QString::number(G*100));
+//}
 
-void MainWindow::on_sliderR_sliderMoved()
-{
-    double R = (ui->sliderR->value())/100.00;
-    double G = (ui->sliderG->value())/100.00;
-    double B = (ui->sliderB->value())/100.00;
+//void MainWindow::on_sliderR_sliderMoved()
+//{
+//    double R = (ui->sliderR->value())/100.00;
+//    double G = (ui->sliderG->value())/100.00;
+//    double B = (ui->sliderB->value())/100.00;
 
-    for (int x=0; x < actors.size(); x++){
-        actors[x]->GetProperty()->SetColor(R,G,B);
-    }
+//    for (int x=0; x < actors.size(); x++){
+//        actors[x]->GetProperty()->SetColor(R,G,B);
+//    }
 
-    ui->qtvtkWidget->GetRenderWindow()->Render();
-    ui->lineEditR->setText(QString::number(R*100));
-}
+//    ui->qtvtkWidget->GetRenderWindow()->Render();
+//    ui->lineEditR->setText(QString::number(R*100));
+//}
 
 //Model color change with color dialog
 
@@ -451,22 +463,51 @@ void MainWindow::on_ListView_activated(const QString &View)
     ui->qtvtkWidget->GetRenderWindow()->Render();
 }
 
-void MainWindow::on_ShrinkButton_clicked()
+void MainWindow::on_ClipButton_clicked()
 {
-    /*shrinkButton = new ShrinkDialog(this);
-    shrinkButton->show();
 
-    //ModelLoader Condition
-    if (Shrink_Indicator == 1) {
-      for(int x = 0;x < Shrinks.size();x++){
-            Shrinks[x]->SetShrinkFactor( shrinkButton->getShrinkValue());
-            Shrinks[x]->Update();
-          }
-    }
-    //Stl Condition
-    else if (Shrink_Indicator == 0){
-      shrinkFilter->SetShrinkFactor( shrinkButton->getShrinkValue());
-      shrinkFilter->Update();
-      }
-    ui->qtvtkWidget->GetRenderWindow()->Render();*/
 }
+
+void MainWindow::on_Light_sliderMoved(int position){
+    light->SetIntensity((double)position/100);
+    ui->LightValue->setText(QString::number(position));
+    ui->qtvtkWidget->GetRenderWindow()->Render();
+
+}
+
+void MainWindow::on_LightRadio_clicked(bool checked){
+    if (checked){
+        light->SwitchOn();
+    }
+    else {
+        light->SwitchOff();
+    }
+    ui->qtvtkWidget->GetRenderWindow()->Render();
+}
+
+void MainWindow::on_comboBox_currentTextChanged(const QString &arg1){
+    if (arg1 == "X-Axis"){
+        light->SetPosition( 1, 0, 0 );
+    }
+    else if (arg1 == "Y-Axis") {
+        light->SetPosition( 0, 1, 0 );
+    }
+    else if (arg1 == "Z-Axis"){
+        light->SetPosition( 0, 0, 1 );
+    }
+    ui->qtvtkWidget->GetRenderWindow()->Render();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
