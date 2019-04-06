@@ -146,10 +146,6 @@ private slots:
 
     void on_Light_sliderMoved(int position);
 
-    void on_LightRadio_clicked(bool checked);
-
-    void on_comboBox_currentTextChanged(const QString &arg1);
-
     void on_ClipButton_clicked();
 
     void ClipOperation();

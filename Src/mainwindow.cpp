@@ -52,16 +52,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     //Create light on the screen
     light = vtkSmartPointer<vtkLight>::New();
-    light->SetLightTypeToSceneLight();
-    light->SetPosition( 1, 0, 0 );
-    light->SetPositional( true );
-    light->SetConeAngle( 180 );// Set to 180 for position light
-    light->SetFocalPoint( 0, 0, 0 );
-    light->SetDiffuseColor( 1, 1, 1 );
-    light->SetAmbientColor( 1, 1, 1 );
-    light->SetSpecularColor( 1, 1, 1 );
-    light->SetIntensity( 1 );
-    light->SwitchOff();
+    light->SetLightTypeToHeadlight();
 
     planeLeft = vtkSmartPointer<vtkPlane>::New();
     planeLeft->SetOrigin(1000, 0.0, 0.0);
@@ -444,8 +435,6 @@ void MainWindow::Load_Mod_File(std::string FileName){
     uGrids.clear();
 }
 
-
-
 void MainWindow::on_ListView_activated(const QString &View)
 {
     if (View == "X-Axis"){
@@ -475,33 +464,11 @@ void MainWindow::on_ClipButton_clicked()
 
 void MainWindow::on_Light_sliderMoved(int position){
     light->SetIntensity((double)position/100);
-    ui->LightValue->setText(QString::number(position));
     ui->qtvtkWidget->GetRenderWindow()->Render();
 
 }
 
-void MainWindow::on_LightRadio_clicked(bool checked){
-    if (checked){
-        light->SwitchOn();
-    }
-    else {
-        light->SwitchOff();
-    }
-    ui->qtvtkWidget->GetRenderWindow()->Render();
-}
 
-void MainWindow::on_comboBox_currentTextChanged(const QString &arg1){
-    if (arg1 == "X-Axis"){
-        light->SetPosition( 1, 0, 0 );
-    }
-    else if (arg1 == "Y-Axis") {
-        light->SetPosition( 0, 1, 0 );
-    }
-    else if (arg1 == "Z-Axis"){
-        light->SetPosition( 0, 0, 1 );
-    }
-    ui->qtvtkWidget->GetRenderWindow()->Render();
-}
 
 void MainWindow::ClipOperation(){
     if (ClipWindow->getClipcheck() == 1){
