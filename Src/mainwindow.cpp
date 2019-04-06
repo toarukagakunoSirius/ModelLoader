@@ -463,12 +463,15 @@ void MainWindow::on_ClipButton_clicked()
 }
 
 void MainWindow::on_Light_sliderMoved(int position){
-    light->SetIntensity((double)position/100);
-    ui->qtvtkWidget->GetRenderWindow()->Render();
 
+    if (ui->LightradioButton->isChecked()){
+      light->SetIntensity( (float) (100-position)/100);}
+
+    else{
+            light->SetIntensity( 1 );
+    }
+      ui->qtvtkWidget->GetRenderWindow()->Render();
 }
-
-
 
 void MainWindow::ClipOperation(){
     if (ClipWindow->getClipcheck() == 1){
@@ -484,4 +487,14 @@ void MainWindow::ClipOperation(){
     clipFilter->Update();
     //cout<<ClipWindow->getClipcheck();
     ui->qtvtkWidget->GetRenderWindow()->Render();
+}
+
+void MainWindow::on_LightradioButton_clicked(bool checked)
+{
+    if (checked){
+        light->SetIntensity( (float) (100-ui->Light->value())/100);}
+    else{
+            light->SetIntensity( 1 );
+    }
+      ui->qtvtkWidget->GetRenderWindow()->Render();
 }

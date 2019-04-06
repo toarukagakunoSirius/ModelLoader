@@ -150,6 +150,8 @@ private slots:
 
     void ClipOperation();
 
+    void on_LightradioButton_clicked(bool checked);
+
 private:
     Ui::MainWindow *ui;
     vector<float> CellVertex;
