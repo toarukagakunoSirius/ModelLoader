@@ -75,7 +75,7 @@
 #include "ui_mainwindow.h"
 
 //Second Window header files
-//#include "shrinkdialog.h"
+#include "clipdialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -152,6 +152,8 @@ private slots:
 
     void on_ClipButton_clicked();
 
+    void ClipOperation();
+
 private:
     Ui::MainWindow *ui;
     vector<float> CellVertex;
@@ -159,7 +161,7 @@ private:
     vector<float> MatColour;
     vector<array<double, 3>> pointCoordinates;
     vector<array<double, 3>> CellColours;
-    //ShrinkDialog *shrinkButton;
+    ClipDialog *ClipWindow;
 
 };
 

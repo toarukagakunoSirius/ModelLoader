@@ -7,6 +7,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // standard call to setup Qt UI (same as previously)
     ui->setupUi( this );
 
+    //Clip Second Window
+    ClipWindow = new ClipDialog(this);
+
     //Indicator Value at the beginning
     Indicator = 0;
 
@@ -21,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
    // renderer->SetBackground(2.55,2.55,2.55);
 
     //Set Ui Connection
+    connect(ClipWindow, SIGNAL(accepted()), this, SLOT(ClipOperation()));
     //connect(ui->sliderR,SIGNAL(sliderPressed()),this,SLOT(on_sliderR_sliderMoved()));
     //connect(ui->sliderG,SIGNAL(sliderPressed()),this,SLOT(on_sliderG_sliderMoved()));
     //connect(ui->sliderB,SIGNAL(sliderPressed()),this,SLOT(on_sliderB_sliderMoved()));
@@ -146,7 +150,7 @@ void MainWindow::on_ShrinkFilter_sliderMoved()
 //    for (int x=0; x < actors.size(); x++){
 //        actors[x]->GetProperty()->SetColor(R,G,B);
 //    }
-	
+
 //    ui->qtvtkWidget->GetRenderWindow()->Render();
 //    ui->lineEditB->setText(QString::number(B*100));
 //}
@@ -400,7 +404,7 @@ void MainWindow::Load_Mod_File(std::string FileName){
 
     //-------------MAPPER -> FILTERS -> RENDER-----------------
     //Loop through the vector of unstructured grids to render them and link a mapper plus add filters
-	
+
     for (int G=0;G<uGrids.size();G++){
         vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
         mapper->SetInputData(uGrids[G]); //Create a mapper and send the grid as the inputted data
@@ -425,7 +429,7 @@ void MainWindow::Load_Mod_File(std::string FileName){
         renderer->AddActor(actor); //Add the actor to the render window
         actors.push_back(actor); //Put the actors into a vector of actors so they can be accessed later
     }
-	
+
 
     //Reset the render window
     renderer->ResetCamera(); //Set the camera back to origin
@@ -465,7 +469,8 @@ void MainWindow::on_ListView_activated(const QString &View)
 
 void MainWindow::on_ClipButton_clicked()
 {
-
+    ClipWindow->setWindowTitle("Clip Fliter");
+    ClipWindow->show();
 }
 
 void MainWindow::on_Light_sliderMoved(int position){
@@ -498,16 +503,18 @@ void MainWindow::on_comboBox_currentTextChanged(const QString &arg1){
     ui->qtvtkWidget->GetRenderWindow()->Render();
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+void MainWindow::ClipOperation(){
+    if (ClipWindow->getClipcheck() == 1){
+        planeLeft->SetOrigin(ClipWindow->getClipfactor(), 0.0, 0.0);
+    }
+    else if (ClipWindow->getClipcheck() == 2){
+        planeLeft->SetOrigin(0.0,ClipWindow->getClipfactor(), 0.0);
+    }
+    else if (ClipWindow->getClipcheck() == 3){
+        planeLeft->SetOrigin(0.0, 0.0,ClipWindow->getClipfactor());
+    }
+    clipFilter->SetClipFunction( planeLeft.Get() );
+    clipFilter->Update();
+    //cout<<ClipWindow->getClipcheck();
+    ui->qtvtkWidget->GetRenderWindow()->Render();
+}
