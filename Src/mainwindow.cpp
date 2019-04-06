@@ -7,6 +7,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // standard call to setup Qt UI (same as previously)
     ui->setupUi( this );
 
+    //Clip Second Window
+    ClipWindow = new ClipDialog(this);
+
     //Indicator Value at the beginning
     Indicator = 0;
 
@@ -21,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
    // renderer->SetBackground(2.55,2.55,2.55);
 
     //Set Ui Connection
+    connect(ClipWindow, SIGNAL(accepted()), this, SLOT(ClipOperation()));
     //connect(ui->sliderR,SIGNAL(sliderPressed()),this,SLOT(on_sliderR_sliderMoved()));
     //connect(ui->sliderG,SIGNAL(sliderPressed()),this,SLOT(on_sliderG_sliderMoved()));
     //connect(ui->sliderB,SIGNAL(sliderPressed()),this,SLOT(on_sliderB_sliderMoved()));
@@ -46,7 +50,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //**Hana: defining cube source for clip filter
     cubeSource = vtkSmartPointer<vtkCubeSource>::New();
 
-
+    //Create light on the screen
+    light = vtkSmartPointer<vtkLight>::New();
+    light->SetLightTypeToHeadlight();
 
     planeLeft = vtkSmartPointer<vtkPlane>::New();
     planeLeft->SetOrigin(1000, 0.0, 0.0);
@@ -74,6 +80,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // Add the actor to the scene
     renderer->AddActor(actor);
+    renderer->AddLight( light );
     //renderer->SetBackground( colors->GetColor3d("Silver").GetData() );
     renderer->ResetCamera(); //Set the camera back to origin
 
@@ -125,47 +132,47 @@ void MainWindow::on_ShrinkFilter_sliderMoved()
 }
 
 
-void MainWindow::on_sliderB_sliderMoved()
-{
-    double R = (ui->sliderR->value())/100.00;
-    double G = (ui->sliderG->value())/100.00;
-    double B = (ui->sliderB->value())/100.00;
+//void MainWindow::on_sliderB_sliderMoved()
+//{
+//    double R = (ui->sliderR->value())/100.00;
+//    double G = (ui->sliderG->value())/100.00;
+//    double B = (ui->sliderB->value())/100.00;
 
-    for (int x=0; x < actors.size(); x++){
-        actors[x]->GetProperty()->SetColor(R,G,B);
-    }
-	
-    ui->qtvtkWidget->GetRenderWindow()->Render();
-    ui->lineEditB->setText(QString::number(B*100));
-}
+//    for (int x=0; x < actors.size(); x++){
+//        actors[x]->GetProperty()->SetColor(R,G,B);
+//    }
 
-void MainWindow::on_sliderG_sliderMoved()
-{
-    double R = (ui->sliderR->value())/100.00;
-    double G = (ui->sliderG->value())/100.00;
-    double B = (ui->sliderB->value())/100.00;
+//    ui->qtvtkWidget->GetRenderWindow()->Render();
+//    ui->lineEditB->setText(QString::number(B*100));
+//}
 
-    for (int x=0; x < actors.size(); x++){
-        actors[x]->GetProperty()->SetColor(R,G,B);
-    }
+//void MainWindow::on_sliderG_sliderMoved()
+//{
+//    double R = (ui->sliderR->value())/100.00;
+//    double G = (ui->sliderG->value())/100.00;
+//    double B = (ui->sliderB->value())/100.00;
 
-    ui->qtvtkWidget->GetRenderWindow()->Render();
-     ui->lineEditG->setText(QString::number(G*100));
-}
+//    for (int x=0; x < actors.size(); x++){
+//        actors[x]->GetProperty()->SetColor(R,G,B);
+//    }
 
-void MainWindow::on_sliderR_sliderMoved()
-{
-    double R = (ui->sliderR->value())/100.00;
-    double G = (ui->sliderG->value())/100.00;
-    double B = (ui->sliderB->value())/100.00;
+//    ui->qtvtkWidget->GetRenderWindow()->Render();
+//     ui->lineEditG->setText(QString::number(G*100));
+//}
 
-    for (int x=0; x < actors.size(); x++){
-        actors[x]->GetProperty()->SetColor(R,G,B);
-    }
+//void MainWindow::on_sliderR_sliderMoved()
+//{
+//    double R = (ui->sliderR->value())/100.00;
+//    double G = (ui->sliderG->value())/100.00;
+//    double B = (ui->sliderB->value())/100.00;
 
-    ui->qtvtkWidget->GetRenderWindow()->Render();
-    ui->lineEditR->setText(QString::number(R*100));
-}
+//    for (int x=0; x < actors.size(); x++){
+//        actors[x]->GetProperty()->SetColor(R,G,B);
+//    }
+
+//    ui->qtvtkWidget->GetRenderWindow()->Render();
+//    ui->lineEditR->setText(QString::number(R*100));
+//}
 
 //Model color change with color dialog
 
@@ -388,7 +395,7 @@ void MainWindow::Load_Mod_File(std::string FileName){
 
     //-------------MAPPER -> FILTERS -> RENDER-----------------
     //Loop through the vector of unstructured grids to render them and link a mapper plus add filters
-	
+
     for (int G=0;G<uGrids.size();G++){
         vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
         mapper->SetInputData(uGrids[G]); //Create a mapper and send the grid as the inputted data
@@ -413,7 +420,7 @@ void MainWindow::Load_Mod_File(std::string FileName){
         renderer->AddActor(actor); //Add the actor to the render window
         actors.push_back(actor); //Put the actors into a vector of actors so they can be accessed later
     }
-	
+
 
     //Reset the render window
     renderer->ResetCamera(); //Set the camera back to origin
@@ -427,8 +434,6 @@ void MainWindow::Load_Mod_File(std::string FileName){
     pointCoordinates.clear();
     uGrids.clear();
 }
-
-
 
 void MainWindow::on_ListView_activated(const QString &View)
 {
@@ -451,22 +456,45 @@ void MainWindow::on_ListView_activated(const QString &View)
     ui->qtvtkWidget->GetRenderWindow()->Render();
 }
 
-void MainWindow::on_ShrinkButton_clicked()
+void MainWindow::on_ClipButton_clicked()
 {
-    /*shrinkButton = new ShrinkDialog(this);
-    shrinkButton->show();
+    ClipWindow->setWindowTitle("Clip Fliter");
+    ClipWindow->show();
+}
 
-    //ModelLoader Condition
-    if (Shrink_Indicator == 1) {
-      for(int x = 0;x < Shrinks.size();x++){
-            Shrinks[x]->SetShrinkFactor( shrinkButton->getShrinkValue());
-            Shrinks[x]->Update();
-          }
+void MainWindow::on_Light_sliderMoved(int position){
+
+    if (ui->LightradioButton->isChecked()){
+      light->SetIntensity( (float) (100-position)/100);}
+
+    else{
+            light->SetIntensity( 1 );
     }
-    //Stl Condition
-    else if (Shrink_Indicator == 0){
-      shrinkFilter->SetShrinkFactor( shrinkButton->getShrinkValue());
-      shrinkFilter->Update();
-      }
-    ui->qtvtkWidget->GetRenderWindow()->Render();*/
+      ui->qtvtkWidget->GetRenderWindow()->Render();
+}
+
+void MainWindow::ClipOperation(){
+    if (ClipWindow->getClipcheck() == 1){
+        planeLeft->SetOrigin(ClipWindow->getClipfactor(), 0.0, 0.0);
+    }
+    else if (ClipWindow->getClipcheck() == 2){
+        planeLeft->SetOrigin(0.0,ClipWindow->getClipfactor(), 0.0);
+    }
+    else if (ClipWindow->getClipcheck() == 3){
+        planeLeft->SetOrigin(0.0, 0.0,ClipWindow->getClipfactor());
+    }
+    clipFilter->SetClipFunction( planeLeft.Get() );
+    clipFilter->Update();
+    //cout<<ClipWindow->getClipcheck();
+    ui->qtvtkWidget->GetRenderWindow()->Render();
+}
+
+void MainWindow::on_LightradioButton_clicked(bool checked)
+{
+    if (checked){
+        light->SetIntensity( (float) (100-ui->Light->value())/100);}
+    else{
+            light->SetIntensity( 1 );
+    }
+      ui->qtvtkWidget->GetRenderWindow()->Render();
 }

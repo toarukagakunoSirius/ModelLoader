@@ -35,6 +35,7 @@
 #include <vtkCellType.h>
 #include <vtkGenericOpenGLRenderWindow.h>
 #include <vtkGlyph3DMapper.h>
+#include <vtkLight.h>
 #include <vtkNamedColors.h>
 #include <vtkNew.h>
 #include <vtkPlane.h>
@@ -74,7 +75,7 @@
 #include "ui_mainwindow.h"
 
 //Second Window header files
-//#include "shrinkdialog.h"
+#include "clipdialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -108,8 +109,7 @@ public:
     vtkSmartPointer<vtkClipDataSet> clipFilter;
     vector<vtkSmartPointer<vtkClipDataSet>> ClipFilters;
 
-     //P: Shrink Filter
-
+    vtkSmartPointer<vtkLight> light;
      //Hana: clip filter
 
      vtkSmartPointer<vtkCubeSource> cubeSource;
@@ -123,15 +123,15 @@ public:
     int Cell_Iterations = 0;
     vector<float> Last_Colour = {0,0,0};
 
-public slots:
-    void on_ShrinkButton_clicked();
+
+
 
 
 private slots:
 
-    void on_sliderB_sliderMoved(); //Colour Blue Slider
-    void on_sliderG_sliderMoved(); //Colour Green Slider
-    void on_sliderR_sliderMoved(); //Colour Red Slider
+//  void on_sliderB_sliderMoved(); //Colour Blue Slider
+//  void on_sliderG_sliderMoved(); //Colour Green Slider
+//  void on_sliderR_sliderMoved(); //Colour Red Slider
 
     void on_actionModel_triggered(); //Colour model function
     void on_actionBackground_triggered(); //Colour of background function
@@ -142,9 +142,15 @@ private slots:
     void Load_STL_File(QString File);
     void Load_Mod_File(std::string FileName);
 
-
-
     void on_ClipFilterSlider_sliderMoved();
+
+    void on_Light_sliderMoved(int position);
+
+    void on_ClipButton_clicked();
+
+    void ClipOperation();
+
+    void on_LightradioButton_clicked(bool checked);
 
 private:
     Ui::MainWindow *ui;
@@ -153,7 +159,7 @@ private:
     vector<float> MatColour;
     vector<array<double, 3>> pointCoordinates;
     vector<array<double, 3>> CellColours;
-    //ShrinkDialog *shrinkButton;
+    ClipDialog *ClipWindow;
 
 };
 
