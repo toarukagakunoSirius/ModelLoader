@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 
 //Hana: window not opening (trying to get axis filter to work)
 

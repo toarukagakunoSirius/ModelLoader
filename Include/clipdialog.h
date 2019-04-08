@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+#include "ui_clipdialog.h"
+
 namespace Ui {
 class ClipDialog;
 }
