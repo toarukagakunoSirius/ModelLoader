@@ -20,10 +20,7 @@ set( CMAKE_AUTOUIC ON )
 
 find_package( Qt5Widgets )
 
-set( UIS 
-	include/mainwindow.ui
-	include/clipdialog.ui
-)
+set( UIS include/mainwindow.ui include/clipdialog.ui )
 
 qt5_wrap_ui( UI_Srcs ${UIS} )
 
@@ -54,6 +51,8 @@ add_executable(Model_Test MACOSX_BUNDLE
   include/mainwindow.h
   include/clipdialog.h
 
+  src/clipdialog.cpp
+
   src/mainwindow.cpp
   src/clipdialog.cpp
   src/Main.cpp
@@ -82,6 +81,6 @@ target_link_libraries( Model_Test
 								material
 								cell
 								hexahedron
-								clip
+								
 								)
 # Tell CMake that the executable depends on the Qt::Widget libraries.
