@@ -1,8 +1,6 @@
 #include "clipdialog.h"
 
 
-
-
 ClipDialog::ClipDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ClipDialog)

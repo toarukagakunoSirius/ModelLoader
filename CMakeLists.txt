@@ -21,11 +21,7 @@ set( CMAKE_AUTOUIC ON )
 find_package( Qt5Widgets )
 
 set( UIS include/mainwindow.ui include/clipdialog.ui )
-
 qt5_wrap_ui( UI_Srcs ${UIS} )
-
-
-
 
 find_package( VTK REQUIRED )
 include( ${VTK_USE_FILE} )
@@ -40,7 +36,6 @@ add_library( cell STATIC src/Cell.cpp )
 add_library( model STATIC src/Model.cpp )
 add_library( hexahedron STATIC src/Hexahedron.cpp )
 
-
 add_executable(Model_Test MACOSX_BUNDLE
   include/main.h
   include/Cell.h
@@ -50,11 +45,8 @@ add_executable(Model_Test MACOSX_BUNDLE
   include/Hexahedron.h
   include/mainwindow.h
   include/clipdialog.h
-
   src/clipdialog.cpp
-
   src/mainwindow.cpp
-  src/clipdialog.cpp
   src/Main.cpp
   ${UI_Srcs}
 )
@@ -81,6 +73,5 @@ target_link_libraries( Model_Test
 								material
 								cell
 								hexahedron
-								
 								)
 # Tell CMake that the executable depends on the Qt::Widget libraries.
