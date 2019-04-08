@@ -1,5 +1,6 @@
 #ifndef CLIPDIALOG_H
 #define CLIPDIALOG_H
+#include "ui_clipdialog.h"
 
 #include <QDialog>
 
