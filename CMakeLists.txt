@@ -20,7 +20,7 @@ set( CMAKE_AUTOUIC ON )
 
 find_package( Qt5Widgets )
 
-set( UIS include/mainwindow.ui)
+set( UIS include/mainwindow.ui include/clipdialog.ui )
 qt5_wrap_ui( UI_Srcs ${UIS} )
 
 find_package( VTK REQUIRED )
@@ -36,11 +36,7 @@ add_library( cell STATIC src/Cell.cpp )
 add_library( model STATIC src/Model.cpp )
 add_library( hexahedron STATIC src/Hexahedron.cpp )
 
-
-
-
-
-add_executable(Model_Test
+add_executable(Model_Test MACOSX_BUNDLE
   include/main.h
   include/Cell.h
   include/Model.h
@@ -48,10 +44,11 @@ add_executable(Model_Test
   include/Vector.h
   include/Hexahedron.h
   include/mainwindow.h
+  include/clipdialog.h
+  src/clipdialog.cpp
   src/mainwindow.cpp
   src/Main.cpp
   ${UI_Srcs}
-  ${QRC_Srcs}
 )
 
 # Create executable
