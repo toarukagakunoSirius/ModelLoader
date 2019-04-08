@@ -1,6 +1,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+	/** @file
+	* This file is the mainwindoiw for Qt and contains most of the main functions   
+	*/
+	/** Brief description
+	* Allows slots and other functions 
+	*/
+
 //Include Utility parameters
 #include <array>
 #include <vector>

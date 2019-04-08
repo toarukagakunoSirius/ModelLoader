@@ -2,11 +2,12 @@
 
 #include "Main.h"
 /** @file
-	* This file contains the declarations of all exported functions.
+	* This file starts the program  
 	*/
 	/** Brief description
-	* This description will hopefully be picked up on by doxygen
+	* main function to initiate the program 
 	*/
+	
 int main( int argc, char** argv )
 {
 		
