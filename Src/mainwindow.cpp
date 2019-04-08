@@ -114,7 +114,7 @@ void MainWindow::on_ShrinkFilter_sliderMoved()
     if (Indicator == 1) {
       for(int x = 0;x < Shrinks.size();x++){
             Shrinks[x]->SetShrinkFactor( (float) (100 - ui->ShrinkFilter->value())/ 100);
-            Shrinks[x]->Update();
+            //Shrinks[x]->Update();
           }
     }
     else if (Indicator == 0){
