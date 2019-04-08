@@ -27,7 +27,7 @@ private:
         vector<float> RGB;
 
 public:
-	Model(string FileName);
+	Model();
 	~Model();
 	void SaveModel(void);
 	void LoadModel(string FileName);

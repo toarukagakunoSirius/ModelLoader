@@ -132,6 +132,8 @@ void MainWindow::on_ShrinkFilter_sliderMoved()
 }
 
 
+
+
 //void MainWindow::on_sliderB_sliderMoved()
 //{
 //    double R = (ui->sliderR->value())/100.00;
@@ -201,6 +203,13 @@ void MainWindow::on_actionBackground_triggered()
 
 
 //Loading Models below
+void MainWindow::on_Save_Button_clicked(){
+    if( Indicator == 1){
+        M.SaveModel();
+
+    }
+
+}
 
 void MainWindow::on_loadmodelButton_pressed(){
     planeLeft->SetOrigin(1000, 0.0, 0.0);
@@ -264,7 +273,10 @@ void MainWindow::Load_Mod_File(std::string FileName){
     Indicator = 1; //Indicator for ModelLoader scenario
     renderer->RemoveAllViewProps();
     Cell_Iterations = 0;
-    Model M(FileName);
+    //Model M(FileName);
+    M = Model();
+    M.LoadModel(FileName);
+
     NumCells = M.NumberCells(); //Retrieves the number of cells for each shape
 
 

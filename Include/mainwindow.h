@@ -148,6 +148,7 @@ private slots:
     void on_ListView_activated(const QString &View); //Camera combo box
     void Load_STL_File(QString File);
     void Load_Mod_File(std::string FileName);
+    void on_Save_Button_clicked();
 
     void on_ClipFilterSlider_sliderMoved();
 
@@ -167,6 +168,7 @@ private:
     vector<array<double, 3>> pointCoordinates;
     vector<array<double, 3>> CellColours;
     ClipDialog *ClipWindow;
+    Model M;
 
 };
 
