@@ -13,9 +13,7 @@ branches:
     
 # Build your code
 script:
-  - cmake .
-  - make
-  - make test
+  - doxygen Doxyfile
   
 env:
   global:
