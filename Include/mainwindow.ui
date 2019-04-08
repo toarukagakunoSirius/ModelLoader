@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QVTKOpenGLWidget" name="qtvtkWidget">
+   <widget class="QVTKOpenGLWidget" name="qtvtkWidget" native="true">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -42,7 +42,7 @@
     <property name="text" stdset="0">
      <string>Clip</string>
     </property>
-    <widget class="QPushButton" name="ShrinkButton">
+    <widget class="QPushButton" name="Blank">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -52,7 +52,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Shrink</string>
+      <string>Blank</string>
      </property>
     </widget>
     <widget class="QPushButton" name="FunctionButton">
@@ -198,28 +198,6 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QSlider" name="sliderG">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>570</y>
-      <width>301</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>0</number>
-    </property>
-    <property name="maximum">
-     <number>255</number>
-    </property>
-    <property name="pageStep">
-     <number>1</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="lineEditG">
     <property name="geometry">
      <rect>
@@ -231,16 +209,6 @@
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEditR">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>570</y>
-      <width>91</width>
-      <height>21</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEditB">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -401,6 +369,54 @@
      </property>
     </widget>
    </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>560</y>
+      <width>401</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Light</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="LightradioButton">
+       <property name="text">
+        <string>ON/OFF</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSlider" name="Light">
+       <property name="minimum">
+        <number>0</number>
+       </property>
+       <property name="maximum">
+        <number>100</number>
+       </property>
+       <property name="pageStep">
+        <number>1</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="invertedControls">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -482,8 +498,8 @@
  <customwidgets>
   <customwidget>
    <class>QVTKOpenGLWidget</class>
-   <extends>QOpenGLWidget</extends>
-   <header location="global">qvtkopenglwidget.h</header>
+   <extends>QWidget</extends>
+   <header>QVTKOpenGLWidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
