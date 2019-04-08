@@ -4,13 +4,11 @@
 
 int main( int argc, char** argv )
 {
-	/** @file
-	* This file starts the program and runs the QT main window
-	*/
-	/** Description
-	* Initiates Qt 
-	*/
-
+	/*! \brief Brief description.
+	 *         Brief description continued.
+	 *
+	 *  Detailed description starts here.
+	 */
     //Initiate QT stuff
 
     // needed to ensure appropriate OpenGL context is created for VTK rendering.
