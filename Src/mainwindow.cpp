@@ -195,17 +195,17 @@ void MainWindow::on_actionBackground_triggered()
     if ( color.isValid() )
     {
         renderer->SetBackground(color.redF(), color.greenF(), color.blueF());
-
     }
+    ui->qtvtkWidget->GetRenderWindow()->Render();
 }
 
 
 //Loading Models below
 
-void MainWindow::on_loadmodelButton_pressed(){
+void MainWindow::on_actionOpen_triggered(){
     planeLeft->SetOrigin(1000, 0.0, 0.0);
     //Load the model
-    QString File = QFileDialog::getOpenFileName(this, tr("Open MOD File"), "./", tr("MODEL Files(*.mod *.stl)"));
+    QString File = QFileDialog::getOpenFileName(this, tr("Open MOD File"), "./../../Resource", tr("MODEL Files(*.mod *.stl)"));
     std::string FileName = File.toUtf8().constData();
     if (FileName != ""){
         QStringList partsList = File.split('.');
@@ -219,7 +219,9 @@ void MainWindow::on_loadmodelButton_pressed(){
         else
             Load_STL_File(File); //Load the .stl file
     }
+    ui->qtvtkWidget->GetRenderWindow()->Render();
 }
+
 
 void MainWindow::Load_STL_File(QString File){
 
@@ -446,10 +448,10 @@ void MainWindow::on_ListView_activated(const QString &View)
     else if (View == "Z-Axis") {
         renderer->GetActiveCamera ()->SetPosition(0.0,0.0,1.0);
     }
-    else if (View == "90º Azimuth") {
+    else if (View == "90 Azimuth") {
         renderer->GetActiveCamera ()->Azimuth(90);
     }
-    else if (View == "90º Elevation") {
+    else if (View == "90 Elevation") {
         renderer->GetActiveCamera ()->Elevation(90);
     }
     renderer->ResetCamera();
