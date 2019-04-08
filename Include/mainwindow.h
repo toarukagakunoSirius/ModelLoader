@@ -142,7 +142,6 @@ private slots:
 
     void on_actionModel_triggered(); //Colour model function
     void on_actionBackground_triggered(); //Colour of background function
-    void on_loadmodelButton_pressed(); //Loading of model
     void on_ShrinkFilter_sliderMoved();//ShrinkFilter
     //void on_ClipFilterButton_clicked(); //clip filter
     void on_ListView_activated(const QString &View); //Camera combo box
@@ -158,6 +157,8 @@ private slots:
     void ClipOperation();
 
     void on_LightradioButton_clicked(bool checked);
+
+    void on_actionOpen_triggered();//Loading of model
 
 private:
     Ui::MainWindow *ui;

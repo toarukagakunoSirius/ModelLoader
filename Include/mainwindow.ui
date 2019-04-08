@@ -108,19 +108,6 @@
       </property>
      </item>
     </widget>
-    <widget class="QPushButton" name="loadmodelButton">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>161</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Load Model</string>
-     </property>
-    </widget>
     <widget class="QPushButton" name="AxisButton">
      <property name="geometry">
       <rect>
@@ -424,13 +411,16 @@
      <x>0</x>
      <y>0</y>
      <width>994</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionOpen"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionSave_as"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -492,6 +482,21 @@
   <action name="actionBackground">
    <property name="text">
     <string>Background</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open...</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionSave_as">
+   <property name="text">
+    <string>Save as</string>
    </property>
   </action>
  </widget>
