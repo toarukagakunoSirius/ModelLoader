@@ -4,7 +4,12 @@
 
 int main( int argc, char** argv )
 {
-
+	/** @file
+	* This file starts the program and runs the QT main window
+	*/
+	/** Description
+	* Initiates Qt 
+	*/
 
     //Initiate QT stuff
 
