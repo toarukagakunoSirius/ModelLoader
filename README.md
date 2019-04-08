@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/edwardpercy/ModelLoader.svg?branch=master)](https://travis-ci.com/edwardpercy/ModelLoader)
 
-## Documentation: https://edwardpercy.github.io/ModelLoader/html/index.html
+## Documentation: [GitHub Pages](https://edwardpercy.github.io/ModelLoader/html/index.html)
 
 ## **MEMBERS**
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
