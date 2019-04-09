@@ -1,6 +1,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+	/** @file
+	* This file is the mainwindoiw for Qt and contains most of the main functions   
+	*/
+	/** Brief description
+	* Allows slots and other functions 
+	*/
+
 //Include Utility parameters
 #include <array>
 #include <vector>
@@ -11,6 +18,7 @@
 #include <QColorDialog>
 #include <QColor>
 #include <QString>
+#include <iostream>
 
 
 //Include Vtk Header files
@@ -135,12 +143,12 @@ private slots:
 
     void on_actionModel_triggered(); //Colour model function
     void on_actionBackground_triggered(); //Colour of background function
-    void on_loadmodelButton_pressed(); //Loading of model
     void on_ShrinkFilter_sliderMoved();//ShrinkFilter
     //void on_ClipFilterButton_clicked(); //clip filter
     void on_ListView_activated(const QString &View); //Camera combo box
     void Load_STL_File(QString File);
     void Load_Mod_File(std::string FileName);
+
 
     void on_ClipFilterSlider_sliderMoved();
 
@@ -152,6 +160,11 @@ private slots:
 
     void on_LightradioButton_clicked(bool checked);
 
+    void on_actionOpen_triggered();//Loading of model
+    void on_actionSave_as_triggered();
+    void on_actionSave_triggered();
+
+
 private:
     Ui::MainWindow *ui;
     vector<float> CellVertex;
@@ -159,7 +172,11 @@ private:
     vector<float> MatColour;
     vector<array<double, 3>> pointCoordinates;
     vector<array<double, 3>> CellColours;
+    array<double, 3> SaveColour;
     ClipDialog *ClipWindow;
+    Model M;
+    string Opened_FileName;
+    std::string Hexstring = "";
 
 };
 

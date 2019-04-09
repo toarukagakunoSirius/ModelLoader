@@ -1,5 +1,9 @@
 # ﻿**H62PEP Computing Project - Group 2's group repository**
 
+[![Build Status](https://travis-ci.com/edwardpercy/ModelLoader.svg?branch=master)](https://travis-ci.com/edwardpercy/ModelLoader)
+
+## Documentation: [GitHub Pages](https://edwardpercy.github.io/ModelLoader/html/index.html)
+
 ## **MEMBERS**
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Group 2 members: 

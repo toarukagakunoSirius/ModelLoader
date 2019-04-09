@@ -16,36 +16,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //Create the render window
     vtkNew<vtkGenericOpenGLRenderWindow> renderWindow; //New render window
 
-   // ui->qtvtkWidget->SetRenderWindow( renderWindow );	 //Assign window to Qtwidget in mainwindow.ui
-
-   // renderer = vtkSmartPointer<vtkRenderer>::New(); //Create a smartpointer pointing to the window renderer
-   // ui->qtvtkWidget->GetRenderWindow()->AddRenderer( renderer );
-
-   // renderer->SetBackground(2.55,2.55,2.55);
-
     //Set Ui Connection
     connect(ClipWindow, SIGNAL(accepted()), this, SLOT(ClipOperation()));
-    //connect(ui->sliderR,SIGNAL(sliderPressed()),this,SLOT(on_sliderR_sliderMoved()));
-    //connect(ui->sliderG,SIGNAL(sliderPressed()),this,SLOT(on_sliderG_sliderMoved()));
-    //connect(ui->sliderB,SIGNAL(sliderPressed()),this,SLOT(on_sliderB_sliderMoved()));
-    //connect(ui->ShrinkFilter,SIGNAL(sliderPressed()),this,SLOT(on_ShrinkFilter_sliderMoved())); //Connect Slider to ShrinkFilter
-
-    //connect(ui->ClipFilterSlider,SIGNAL(sliderPressed()),this,SLOT(on_ClipFilterSlider_sliderMoved())); //Connect Slider to ShrinkFilter
-
-    //connect( ui->ListView, &QComboBox::currentTextChanged, this, &MainWindow::on_ListView_activated);// Connect Combo box to all camera position
-    //connect( ui->ShrinkButton, &QPushButton::released, this, &MainWindow::on_ShrinkButton_clicked );
 
     ui->qtvtkWidget->SetRenderWindow( renderWindow );	 //Assign window to Qtwidget in mainwindow.ui
     renderer = vtkSmartPointer<vtkRenderer>::New(); //Create a smartpointer pointing to the window renderer
     ui->qtvtkWidget->GetRenderWindow()->AddRenderer( renderer );
     renderer->SetBackground(2.55,2.55,2.55);
-
-    //Hana: LINE BELOW NEEDS CHECKING (SLIDER B DOESNT EXIST ANYMORE)
-    //connect(ui->sliderB,SIGNAL(sliderPressed()),this,SLOT(on_ShrinkFilter_sliderMoved()));
-
-
-    // Create Shrink Filter variable
-   // shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
 
     //**Hana: defining cube source for clip filter
     cubeSource = vtkSmartPointer<vtkCubeSource>::New();
@@ -70,7 +47,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // Create a mapper that will hold the cube's geometry in a format suitable for rendering
 
-    vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New(); //mapper is defined in the header file in private member variables
+    //vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New(); //mapper is defined in the header file in private member variables
+    mapper = vtkSmartPointer<vtkDataSetMapper>::New();
     mapper->SetInputConnection( 0, shrinkFilter->GetOutputPort() );
 
     // Create an actor that is used to set the cube's properties for rendering and place it in the window
@@ -80,11 +58,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // Add the actor to the scene
     renderer->AddActor(actor);
-    renderer->AddLight( light );
-    //renderer->SetBackground( colors->GetColor3d("Silver").GetData() );
+    renderer->AddLight(light);
     renderer->ResetCamera(); //Set the camera back to origin
-
-    //ModelLoader();
 
 }
 
@@ -132,58 +107,24 @@ void MainWindow::on_ShrinkFilter_sliderMoved()
 }
 
 
-//void MainWindow::on_sliderB_sliderMoved()
-//{
-//    double R = (ui->sliderR->value())/100.00;
-//    double G = (ui->sliderG->value())/100.00;
-//    double B = (ui->sliderB->value())/100.00;
-
-//    for (int x=0; x < actors.size(); x++){
-//        actors[x]->GetProperty()->SetColor(R,G,B);
-//    }
-
-//    ui->qtvtkWidget->GetRenderWindow()->Render();
-//    ui->lineEditB->setText(QString::number(B*100));
-//}
-
-//void MainWindow::on_sliderG_sliderMoved()
-//{
-//    double R = (ui->sliderR->value())/100.00;
-//    double G = (ui->sliderG->value())/100.00;
-//    double B = (ui->sliderB->value())/100.00;
-
-//    for (int x=0; x < actors.size(); x++){
-//        actors[x]->GetProperty()->SetColor(R,G,B);
-//    }
-
-//    ui->qtvtkWidget->GetRenderWindow()->Render();
-//     ui->lineEditG->setText(QString::number(G*100));
-//}
-
-//void MainWindow::on_sliderR_sliderMoved()
-//{
-//    double R = (ui->sliderR->value())/100.00;
-//    double G = (ui->sliderG->value())/100.00;
-//    double B = (ui->sliderB->value())/100.00;
-
-//    for (int x=0; x < actors.size(); x++){
-//        actors[x]->GetProperty()->SetColor(R,G,B);
-//    }
-
-//    ui->qtvtkWidget->GetRenderWindow()->Render();
-//    ui->lineEditR->setText(QString::number(R*100));
-//}
 
 //Model color change with color dialog
-
 void MainWindow::on_actionModel_triggered()
 {
     QColor color = QColorDialog::getColor(Qt::white,this,"Choose Color");
     if ( color.isValid() )
     {
+
+        QString Hex = color.name();
+        Hexstring = Hex.toUtf8().constData();
+        Hexstring.substr(1);
+        Hexstring.replace(0,1,"");
+
+
         for (int x=0; x < actors.size(); x++){
             actors[x]->GetProperty()->SetColor(color.redF(), color.greenF(), color.blueF());
         }
+
         ui->qtvtkWidget->GetRenderWindow()->Render();
     }
 }
@@ -195,17 +136,17 @@ void MainWindow::on_actionBackground_triggered()
     if ( color.isValid() )
     {
         renderer->SetBackground(color.redF(), color.greenF(), color.blueF());
-
     }
+    ui->qtvtkWidget->GetRenderWindow()->Render();
 }
 
 
-//Loading Models below
 
-void MainWindow::on_loadmodelButton_pressed(){
+
+void MainWindow::on_actionOpen_triggered(){
     planeLeft->SetOrigin(1000, 0.0, 0.0);
     //Load the model
-    QString File = QFileDialog::getOpenFileName(this, tr("Open MOD File"), "./", tr("MODEL Files(*.mod *.stl)"));
+    QString File = QFileDialog::getOpenFileName(this, tr("Open MOD File"), "./../../Resource", tr("MODEL Files(*.mod *.stl)"));
     std::string FileName = File.toUtf8().constData();
     if (FileName != ""){
         QStringList partsList = File.split('.');
@@ -219,7 +160,35 @@ void MainWindow::on_loadmodelButton_pressed(){
         else
             Load_STL_File(File); //Load the .stl file
     }
+    ui->qtvtkWidget->GetRenderWindow()->Render();
 }
+
+void MainWindow::on_actionSave_triggered(){
+
+    if( Indicator == 1){
+        M.SaveModel(Opened_FileName,Hexstring);
+        cout << "saving" << endl;
+    }
+
+}
+
+void MainWindow::on_actionSave_as_triggered(){
+
+    QString File = QFileDialog::getSaveFileName(this,tr("Save Model"), "",tr("Mod Files (*.mod);;All Files (*)"));
+
+    std::string FileName = File.toUtf8().constData();
+    if (FileName != ""){
+
+        if( Indicator == 1){
+            Opened_FileName = FileName;
+            M.SaveModel(Opened_FileName,Hexstring);
+            cout << "saving" << endl;
+        }
+    }
+
+}
+
+
 
 void MainWindow::Load_STL_File(QString File){
 
@@ -260,11 +229,15 @@ void MainWindow::Load_STL_File(QString File){
 void MainWindow::Load_Mod_File(std::string FileName){
 
     //INITIALISATIONS
+    Hexstring = "";
     CellColours.clear();
     Indicator = 1; //Indicator for ModelLoader scenario
     renderer->RemoveAllViewProps();
     Cell_Iterations = 0;
-    Model M(FileName);
+    //Model M(FileName);
+    M = Model();
+    M.LoadModel(FileName);
+    Opened_FileName = FileName;
     NumCells = M.NumberCells(); //Retrieves the number of cells for each shape
 
 
@@ -437,23 +410,36 @@ void MainWindow::Load_Mod_File(std::string FileName){
 
 void MainWindow::on_ListView_activated(const QString &View)
 {
-    if (View == "X-Axis"){
+    if (View == "Left"){
         renderer->GetActiveCamera ()->SetPosition(1.0,0.0,0.0);
+        renderer->ResetCamera();
+        ui->qtvtkWidget->GetRenderWindow()->Render();
     }
-    else if (View == "Y-Axis") {
+    else if (View == "Right"){
+        renderer->GetActiveCamera ()->SetPosition(-1.0,0.0,0.0);
+        renderer->ResetCamera();
+        ui->qtvtkWidget->GetRenderWindow()->Render();
+    }
+    else if (View == "Top") {
         renderer->GetActiveCamera ()->SetPosition(0.0,1.0,0.0);
+        renderer->ResetCamera();
+        ui->qtvtkWidget->GetRenderWindow()->Render();
     }
-    else if (View == "Z-Axis") {
+    else if (View == "Bottom") {
+        renderer->GetActiveCamera ()->SetPosition(0.0,-1.0,0.0);
+        renderer->ResetCamera();
+        ui->qtvtkWidget->GetRenderWindow()->Render();
+    }
+    else if (View == "Front") {
+        renderer->GetActiveCamera ()->SetPosition(0.0,0.0,-1.0);
+        renderer->ResetCamera();
+        ui->qtvtkWidget->GetRenderWindow()->Render();
+    }
+    else if (View == "Back") {
         renderer->GetActiveCamera ()->SetPosition(0.0,0.0,1.0);
+        renderer->ResetCamera();
+        ui->qtvtkWidget->GetRenderWindow()->Render();
     }
-    else if (View == "90º Azimuth") {
-        renderer->GetActiveCamera ()->Azimuth(90);
-    }
-    else if (View == "90º Elevation") {
-        renderer->GetActiveCamera ()->Elevation(90);
-    }
-    renderer->ResetCamera();
-    ui->qtvtkWidget->GetRenderWindow()->Render();
 }
 
 void MainWindow::on_ClipButton_clicked()
@@ -465,7 +451,7 @@ void MainWindow::on_ClipButton_clicked()
 void MainWindow::on_Light_sliderMoved(int position){
 
     if (ui->LightradioButton->isChecked()){
-      light->SetIntensity( (float) (100-position)/100);}
+      light->SetIntensity( (float) (position)/100);}
 
     else{
             light->SetIntensity( 1 );
@@ -492,9 +478,9 @@ void MainWindow::ClipOperation(){
 void MainWindow::on_LightradioButton_clicked(bool checked)
 {
     if (checked){
-        light->SetIntensity( (float) (100-ui->Light->value())/100);}
+        light->SetIntensity( (float) (ui->Light->value())/100);}
     else{
             light->SetIntensity( 1 );
     }
-      ui->qtvtkWidget->GetRenderWindow()->Render();
+    ui->qtvtkWidget->GetRenderWindow()->Render();
 }
