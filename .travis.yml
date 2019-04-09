@@ -15,7 +15,7 @@ branches:
 
 # Build your code
 script:
-  #- doxygen Doxyfile
+  - doxygen Doxyfile
   - cd Automated_testing
   - mkdir build
   - cd build
