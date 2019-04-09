@@ -13,7 +13,7 @@ include(CTest)
 
 set( CMAKE_INCLUDE_CURRENT_DIR ON )
 
-include_directories( ../include )
+include_directories( $(TRAVIS_BUILD_DIR)/include )
 
 
 set( CMAKE_AUTOMOC ON )
@@ -27,18 +27,18 @@ set( CMAKE_AUTOUIC ON )
 # 2 requirements
 
 # output library name and File input for library
-add_library( vector STATIC ../src/Vector.cpp)
-add_library( material STATIC ../src/Material.cpp )
-add_library( cell STATIC ../src/Cell.cpp )
-add_library( model STATIC ../src/Model.cpp )
-add_library( hexahedron STATIC ../src/Hexahedron.cpp )
+add_library( vector STATIC $(TRAVIS_BUILD_DIR)/src/Vector.cpp)
+add_library( material STATIC $(TRAVIS_BUILD_DIR)/src/Material.cpp )
+add_library( cell STATIC $(TRAVIS_BUILD_DIR)/src/Cell.cpp )
+add_library( model STATIC $(TRAVIS_BUILD_DIR)/src/Model.cpp )
+add_library( hexahedron STATIC $(TRAVIS_BUILD_DIR)/src/Hexahedron.cpp )
 
 add_executable(Model_Test MACOSX_BUNDLE
-  ../include/Cell.h
-  ../include/Model.h
-  ../include/Material.h
-  ../include/Vector.h
-  ../include/Hexahedron.h
+  $(TRAVIS_BUILD_DIR)/include/Cell.h
+  $(TRAVIS_BUILD_DIR)/include/Model.h
+  $(TRAVIS_BUILD_DIR)/include/Material.h
+  $(TRAVIS_BUILD_DIR)/include/Vector.h
+  $(TRAVIS_BUILD_DIR)/include/Hexahedron.h
 
   catch.hpp
   Model_Test.cpp
