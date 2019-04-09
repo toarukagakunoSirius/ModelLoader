@@ -7,7 +7,7 @@ include(CTest)
 
 set( CMAKE_INCLUDE_CURRENT_DIR ON )
 
-include_directories(../include )
+include_directories(../Include )
 
 
 
@@ -29,13 +29,13 @@ add_library( tetrahedron STATIC ../Src/Tetrahedron.cpp )
 add_library( pyramid STATIC ../Src/Pyramid.cpp )
 
 add_executable(Model_Test MACOSX_BUNDLE
-  ../include/Cell.h
-  ../include/Model.h
-  ../include/Material.h
- ../include/Vector.h
-  ../include/Hexahedron.h
-  ../include/Tetrahedron.h
-  ../include/pyramid.h
+  ../Include/Cell.h
+  ../Include/Model.h
+  ../Include/Material.h
+ ../Include/Vector.h
+  ../Include/Hexahedron.h
+  ../Include/Tetrahedron.h
+  ../Include/pyramid.h
   catch.hpp
   Model_Test.cpp
   test.cpp
