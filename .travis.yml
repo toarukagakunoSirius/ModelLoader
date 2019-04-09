@@ -16,7 +16,7 @@ branches:
 # Build your code
 script:
   - doxygen Doxyfile
-  - cd C:\Users\edwar\Desktop\ModelLoader\Automated testing
+  - cd Automated testing
   - mkdir build
   - cd build
   - cmake ..
