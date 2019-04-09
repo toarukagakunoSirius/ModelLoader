@@ -16,7 +16,7 @@ branches:
 # Build your code
 script:
   - doxygen Doxyfile
-  - cd Automated testing
+  - cd Automated_testing
   - mkdir build
   - cd build
   - cmake ..
