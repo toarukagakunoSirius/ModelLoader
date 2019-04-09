@@ -13,9 +13,9 @@ Model::~Model() {
 	Hexahedrons.clear();
 }
 
-void Model::SaveModel(void) {
-	cout << "Saving..." << endl;
-	std::ofstream outfile("Model.mod");
+void Model::SaveModel(string FileName) {
+        cout << "Saving to "<< FileName << endl;
+        std::ofstream outfile(FileName);
 	
 	//Write materials
 	for (int m = 0; m < Materials.size(); m++) {

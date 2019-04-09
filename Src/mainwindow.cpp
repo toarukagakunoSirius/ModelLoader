@@ -134,50 +134,6 @@ void MainWindow::on_ShrinkFilter_sliderMoved()
 
 
 
-//void MainWindow::on_sliderB_sliderMoved()
-//{
-//    double R = (ui->sliderR->value())/100.00;
-//    double G = (ui->sliderG->value())/100.00;
-//    double B = (ui->sliderB->value())/100.00;
-
-//    for (int x=0; x < actors.size(); x++){
-//        actors[x]->GetProperty()->SetColor(R,G,B);
-//    }
-
-//    ui->qtvtkWidget->GetRenderWindow()->Render();
-//    ui->lineEditB->setText(QString::number(B*100));
-//}
-
-//void MainWindow::on_sliderG_sliderMoved()
-//{
-//    double R = (ui->sliderR->value())/100.00;
-//    double G = (ui->sliderG->value())/100.00;
-//    double B = (ui->sliderB->value())/100.00;
-
-//    for (int x=0; x < actors.size(); x++){
-//        actors[x]->GetProperty()->SetColor(R,G,B);
-//    }
-
-//    ui->qtvtkWidget->GetRenderWindow()->Render();
-//     ui->lineEditG->setText(QString::number(G*100));
-//}
-
-//void MainWindow::on_sliderR_sliderMoved()
-//{
-//    double R = (ui->sliderR->value())/100.00;
-//    double G = (ui->sliderG->value())/100.00;
-//    double B = (ui->sliderB->value())/100.00;
-
-//    for (int x=0; x < actors.size(); x++){
-//        actors[x]->GetProperty()->SetColor(R,G,B);
-//    }
-
-//    ui->qtvtkWidget->GetRenderWindow()->Render();
-//    ui->lineEditR->setText(QString::number(R*100));
-//}
-
-//Model color change with color dialog
-
 void MainWindow::on_actionModel_triggered()
 {
     QColor color = QColorDialog::getColor(Qt::white,this,"Choose Color");
@@ -202,14 +158,7 @@ void MainWindow::on_actionBackground_triggered()
 }
 
 
-//Loading Models below
-void MainWindow::on_Save_Button_clicked(){
-    if( Indicator == 1){
-        M.SaveModel();
 
-    }
-
-}
 
 void MainWindow::on_actionOpen_triggered(){
     planeLeft->SetOrigin(1000, 0.0, 0.0);
@@ -230,6 +179,33 @@ void MainWindow::on_actionOpen_triggered(){
     }
     ui->qtvtkWidget->GetRenderWindow()->Render();
 }
+
+void MainWindow::on_actionSave_triggered(){
+
+    if( Indicator == 1){
+        M.SaveModel(Opened_FileName);
+        cout << "saving" << endl;
+    }
+
+}
+
+void MainWindow::on_actionSave_as_triggered(){
+
+    QString File = QFileDialog::getSaveFileName(this,
+            tr("Save Model"), "",
+            tr("Mod Files (*.mod);;All Files (*)"));
+    std::string FileName = File.toUtf8().constData();
+    if (FileName != ""){
+
+        if( Indicator == 1){
+            Opened_FileName = FileName;
+            M.SaveModel(Opened_FileName);
+            cout << "saving" << endl;
+        }
+    }
+
+}
+
 
 
 void MainWindow::Load_STL_File(QString File){
@@ -278,7 +254,7 @@ void MainWindow::Load_Mod_File(std::string FileName){
     //Model M(FileName);
     M = Model();
     M.LoadModel(FileName);
-
+    Opened_FileName = FileName;
     NumCells = M.NumberCells(); //Retrieves the number of cells for each shape
 
 
