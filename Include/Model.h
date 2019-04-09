@@ -29,7 +29,7 @@ private:
 public:
 	Model();
 	~Model();
-        void SaveModel(string FileName);
+        void SaveModel(string FileName,string Hexstring);
 	void LoadModel(string FileName);
 	void SetCell(string data);
 	void SetVertices(string data); 

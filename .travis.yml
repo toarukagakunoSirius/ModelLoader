@@ -11,9 +11,17 @@ branches:
   except:
     - gh-pages
     
+
+
 # Build your code
 script:
   - doxygen Doxyfile
+  - cd C:\Users\edwar\Desktop\ModelLoader\Automated testing
+  - mkdir build
+  - cd build
+  - cmake ..
+  - make
+  - make Model_Test
   
 env:
   global:
