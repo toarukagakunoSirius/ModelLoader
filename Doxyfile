@@ -856,7 +856,6 @@ FILE_PATTERNS          = *.c \
                          *.hh \
                          *.hxx \
                          *.h++ \
-						 *.hpp \
                          *.cs \
                          *.d \
                          *.php \
