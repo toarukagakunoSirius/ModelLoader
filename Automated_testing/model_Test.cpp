@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include "catch.hpp"
-#include "Model.h"
+#include "model.h"
 
 TEST_CASE( "Factorials are computed", "[factorial]" ) {
 	SECTION( "Testing loaded data" ) { 
