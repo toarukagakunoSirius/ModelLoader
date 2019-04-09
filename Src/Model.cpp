@@ -1,5 +1,6 @@
 #include "model.h"
 #include <vector>
+#include <cstring>
 Model::Model() { //Model class constructor
 	//LoadModel(FileName);
 }
@@ -231,7 +232,7 @@ vector<float> Model::GetMaterialColour(int ID) { //Gets the material data from t
         RGB.clear();
         string hex = Materials[ID].getColour();
         char *cstr = new char[hex.length() + 1];
-        strcpy(cstr, hex.c_str());
+        std::strcpy(cstr, hex.c_str());
 
         int r, g, b;
         sscanf(cstr, "%02x%02x%02x", &r, &g, &b);
