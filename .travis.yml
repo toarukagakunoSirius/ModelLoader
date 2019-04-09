@@ -15,11 +15,14 @@ branches:
 
 # Build your code
 script:
-  - doxygen Doxyfile
+  //- doxygen Doxyfile
   - cd Automated_testing
-  - cmake .
+  - mkdir build
+  - cd build
+  - cmake ..
   - make
-  - make Model_Test
+  - cmake -Dtest=ON ..
+  - make test
   
 env:
   global:

@@ -11,6 +11,7 @@
 //Include Utility parameters
 #include <array>
 #include <vector>
+#include <QTimer>
 
 //Include Qt Header files
 #include <QMainWindow>
