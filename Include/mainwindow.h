@@ -85,6 +85,8 @@
 //Second Window header files
 #include "clipdialog.h"
 
+#include <QTimer>
+
 namespace Ui {
 class MainWindow;
 }
