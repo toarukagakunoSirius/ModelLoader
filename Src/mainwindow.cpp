@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     // standard call to setup Qt UI (same as previously)
     ui->setupUi( this );
-
+    QTimer::singleShot(200, this, SLOT(showMaximized()));
     //Clip Second Window
     ClipWindow = new ClipDialog(this);
 
