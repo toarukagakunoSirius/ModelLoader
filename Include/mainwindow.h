@@ -1,4 +1,5 @@
 #ifndef MAINWINDOW_H
+#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 	/** @file
@@ -80,7 +81,7 @@
 #include <vtkClipDataSet.h>
 
 //Other Header files
-#include "Model.h"//ModelLoader
+#include "model.h"//ModelLoader
 #include "ui_mainwindow.h"
 
 //Second Window header files

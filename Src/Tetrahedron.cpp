@@ -1,4 +1,4 @@
-#include "Tetrahedron.h"
+#include "tetrahedron.h"
 
 //calculate the volume of this cell
 //execute one time of vector calculation

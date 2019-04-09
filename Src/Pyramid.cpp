@@ -1,4 +1,4 @@
-#include "Pyramid.h"
+#include "pyramid.h"
 
 //calculate the volume of this cell
 //a pyramid can be spilted into two tetrahedrons

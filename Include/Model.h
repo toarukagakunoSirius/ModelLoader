@@ -4,12 +4,12 @@
 #include <vector>   //for std::vector
 #include <sstream>  //for std::istringstream
 #include <iterator> //for std::istream_iterator
-#include "Cell.h"
-#include "Vector.h"
-#include "Material.h"
-#include "Pyramid.h"
-#include "Hexahedron.h"
-#include "Tetrahedron.h"
+#include "cell.h"
+#include "vector.h"
+#include "material.h"
+#include "pyramid.h"
+#include "hexahedron.h"
+#include "tetrahedron.h"
 
 using namespace std;
 

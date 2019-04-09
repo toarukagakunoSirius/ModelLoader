@@ -1,4 +1,4 @@
-#include "Material.h"
+#include "material.h"
 
 //Create Material with Default Value
 Material::Material()

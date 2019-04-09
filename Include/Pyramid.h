@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Cell.h"
+#include "cell.h"
 
 class Pyramid : public cell {
 public:

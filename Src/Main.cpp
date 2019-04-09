@@ -1,6 +1,6 @@
 // main.cpp-------------------------------------------------------------------
 
-#include "Main.h"
+#include "main.h"
 /** @file
 	* This file starts the program  
 	*/

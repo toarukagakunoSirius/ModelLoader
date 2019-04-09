@@ -21,7 +21,7 @@ script:
   - cd build
   - cmake ..
   - make
-  - make Model_Test
+  - make test
   
 env:
   global:

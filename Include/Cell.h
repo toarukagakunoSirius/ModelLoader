@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
-#include "Vector.h"
-#include "Material.h"
+#include "vector.h"
+#include "material.h"
 
 #include <cmath>
 

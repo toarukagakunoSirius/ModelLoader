@@ -8,7 +8,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <iostream>
-#include "Matrix.h"
+#include "matrix.h"
 using namespace std;
 
 /*-- -------------------------------------------------------*/
