@@ -11,9 +11,15 @@ branches:
   except:
     - gh-pages
     
+
+
 # Build your code
 script:
   - doxygen Doxyfile
+  - cd Automated_testing
+  - cmake .
+  - make
+  - make Model_Test
   
 env:
   global:

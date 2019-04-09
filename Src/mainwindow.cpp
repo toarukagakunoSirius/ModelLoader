@@ -114,9 +114,17 @@ void MainWindow::on_actionModel_triggered()
     QColor color = QColorDialog::getColor(Qt::white,this,"Choose Color");
     if ( color.isValid() )
     {
+
+        QString Hex = color.name();
+        Hexstring = Hex.toUtf8().constData();
+        Hexstring.substr(1);
+        Hexstring.replace(0,1,"");
+
+
         for (int x=0; x < actors.size(); x++){
             actors[x]->GetProperty()->SetColor(color.redF(), color.greenF(), color.blueF());
         }
+
         ui->qtvtkWidget->GetRenderWindow()->Render();
     }
 }
@@ -158,7 +166,7 @@ void MainWindow::on_actionOpen_triggered(){
 void MainWindow::on_actionSave_triggered(){
 
     if( Indicator == 1){
-        M.SaveModel(Opened_FileName);
+        M.SaveModel(Opened_FileName,Hexstring);
         cout << "saving" << endl;
     }
 
@@ -166,15 +174,14 @@ void MainWindow::on_actionSave_triggered(){
 
 void MainWindow::on_actionSave_as_triggered(){
 
-    QString File = QFileDialog::getSaveFileName(this,
-            tr("Save Model"), "",
-            tr("Mod Files (*.mod);;All Files (*)"));
+    QString File = QFileDialog::getSaveFileName(this,tr("Save Model"), "",tr("Mod Files (*.mod);;All Files (*)"));
+
     std::string FileName = File.toUtf8().constData();
     if (FileName != ""){
 
         if( Indicator == 1){
             Opened_FileName = FileName;
-            M.SaveModel(Opened_FileName);
+            M.SaveModel(Opened_FileName,Hexstring);
             cout << "saving" << endl;
         }
     }
@@ -222,6 +229,7 @@ void MainWindow::Load_STL_File(QString File){
 void MainWindow::Load_Mod_File(std::string FileName){
 
     //INITIALISATIONS
+    Hexstring = "";
     CellColours.clear();
     Indicator = 1; //Indicator for ModelLoader scenario
     renderer->RemoveAllViewProps();

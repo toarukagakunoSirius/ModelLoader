@@ -10,6 +10,7 @@ endforeach()
 
 project( Model )
 
+
 set( CMAKE_INCLUDE_CURRENT_DIR ON )
 
 include_directories( include )
@@ -75,3 +76,4 @@ target_link_libraries( Model_Test
 								hexahedron
 								)
 # Tell CMake that the executable depends on the Qt::Widget libraries.
+
