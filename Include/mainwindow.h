@@ -18,6 +18,7 @@
 #include <QColorDialog>
 #include <QColor>
 #include <QString>
+#include <iostream>
 
 
 //Include Vtk Header files
@@ -170,9 +171,11 @@ private:
     vector<float> MatColour;
     vector<array<double, 3>> pointCoordinates;
     vector<array<double, 3>> CellColours;
+    array<double, 3> SaveColour;
     ClipDialog *ClipWindow;
     Model M;
     string Opened_FileName;
+    std::string Hexstring = "";
 
 };
 
