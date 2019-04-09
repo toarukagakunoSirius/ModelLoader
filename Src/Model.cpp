@@ -1,7 +1,7 @@
 #include "Model.h"
 #include <vector>
-Model::Model(string FileName) { //Model class constructor
-	LoadModel(FileName);
+Model::Model() { //Model class constructor
+	//LoadModel(FileName);
 }
 Model::~Model() {
 	//Clears all the vector lists from memory
@@ -12,9 +12,10 @@ Model::~Model() {
 	Tetrahedrons.clear();
 	Hexahedrons.clear();
 }
-void Model::SaveModel(void) {
-	cout << "Saving..." << endl;
-	std::ofstream outfile("Model.mod");
+
+void Model::SaveModel(string FileName) {
+        cout << "Saving to "<< FileName << endl;
+        std::ofstream outfile(FileName);
 	
 	//Write materials
 	for (int m = 0; m < Materials.size(); m++) {

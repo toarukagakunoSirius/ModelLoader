@@ -148,6 +148,7 @@ private slots:
     void Load_STL_File(QString File);
     void Load_Mod_File(std::string FileName);
 
+
     void on_ClipFilterSlider_sliderMoved();
 
     void on_Light_sliderMoved(int position);
@@ -159,6 +160,8 @@ private slots:
     void on_LightradioButton_clicked(bool checked);
 
     void on_actionOpen_triggered();//Loading of model
+    void on_actionSave_as_triggered();
+    void on_actionSave_triggered();
 
 private:
     Ui::MainWindow *ui;
@@ -168,6 +171,8 @@ private:
     vector<array<double, 3>> pointCoordinates;
     vector<array<double, 3>> CellColours;
     ClipDialog *ClipWindow;
+    Model M;
+    string Opened_FileName;
 
 };
 
