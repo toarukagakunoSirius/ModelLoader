@@ -17,7 +17,9 @@ branches:
 script:
   - doxygen Doxyfile
   - cd Automated_testing
-  - cmake .
+  - mkdir build
+  - cd build
+  - cmake ..
   - make
   - make Model_Test
   
