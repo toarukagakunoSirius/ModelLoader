@@ -35,7 +35,7 @@ add_executable(Model_Test MACOSX_BUNDLE
  ../Include/Vector.h
   ../Include/Hexahedron.h
   ../Include/Tetrahedron.h
-  ../Include/pyramid.h
+  ../Include/Pyramid.h
   catch.hpp
   Model_Test.cpp
   test.cpp
