@@ -12,17 +12,11 @@ include_directories(../include )
 # 2 requirements
 
 # output library name and File input for library
-add_library( Vector STATIC ../src/vector.cpp)
-add_library( Material STATIC ../src/material.cpp )
-add_library( Cell STATIC ../src/cell.cpp )
-add_library( Model STATIC ../src/model.cpp )
-add_library( Hexahedron STATIC ../src/hexahedron.cpp )
-add_library( Tetrahedron STATIC ../src/tetrahedron.cpp )
-add_library( Pyramid STATIC ../src/pyramid.cpp )
+
 
 set( CMAKE_INCLUDE_CURRENT_DIR ON )
 
-add_executable(Model_Test 
+add_library( Model
   ../include/cell.h
   ../include/model.h
   ../include/material.h
@@ -30,23 +24,21 @@ add_executable(Model_Test
   ../include/hexahedron.h
   ../include/tetrahedron.h
   ../include/pyramid.h
-  
-  catch.hpp
-  model_Test.cpp
-  test.cpp
+  ../src/model.cpp
+  ../src/vector.cpp
+  ../src/material.cpp
+  ../src/cell.cpp
+  ../src/hexahedron.cpp
+  ../src/tetrahedron.cpp
+  ../src/pyramid.cpp
+
 
 )
 
+add_executable(Model_Test test.cpp model_test.cpp)
 
 
-target_link_libraries( Model_Test
-								model
-								vector
-								material
-								cell
-								hexahedron
-								pyramid
-								tetrahedron
-								)
+
+target_link_libraries( Model_Test Model )
 
 add_test(Model_Test Model_Test)
