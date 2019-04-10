@@ -464,7 +464,7 @@ void MainWindow::Load_Mod_File(std::string FileName){
     //Loop through the vector of unstructured grids to render them and link a mapper plus add filters
 
     for (int G=0;G<uGrids.size();G++){
-        vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();        
+        vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
         mapper->SetInputData(uGrids[G]); //Create a mapper and send the grid as the inputted data
 
         //Link the shrink filter into the grid
@@ -571,7 +571,7 @@ void MainWindow::on_Light_sliderMoved(int position){
 void MainWindow::on_LightradioButton_toggled(bool checked)
 {
     if (checked){
-        light->SetIntensity( (double) (ui->Light->value())/100);}
+        light->SetIntensity( 1- (double) (ui->Light->value())/100);}
     else{
             light->SetIntensity( 1 );
     }
@@ -639,12 +639,3 @@ void MainWindow::on_ContourSpinBox_valueChanged(int arg1){
 void MainWindow::on_ContourPosition_currentTextChanged(const QString &arg1){
     ContourFunction();
 }
-
-
-
-
-
-
-
-
-
