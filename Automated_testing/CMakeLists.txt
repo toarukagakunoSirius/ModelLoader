@@ -1,71 +1,44 @@
 cmake_minimum_required(VERSION 3.3 FATAL_ERROR)
+set(CMAKE_CXX_STANDARD 17)
 
-foreach(p
-    CMP0071 # 3.10: Let AUTOMOC and AUTOUIC process GENERATED files
-    )
-  if(POLICY ${p})
-    cmake_policy(SET ${p} NEW)
-  endif()
-endforeach()
 
 project( Model )
 include(CTest)
 
-set( CMAKE_INCLUDE_CURRENT_DIR ON )
-
-include_directories( $(TRAVIS_BUILD_DIR)/include )
 
 
-set( CMAKE_AUTOMOC ON )
-set( CMAKE_AUTOUIC ON )
-
-
-
-
-
+include_directories(../include )
 
 # 2 requirements
 
 # output library name and File input for library
-add_library( vector STATIC $(TRAVIS_BUILD_DIR)/src/Vector.cpp)
-add_library( material STATIC $(TRAVIS_BUILD_DIR)/src/Material.cpp )
-add_library( cell STATIC $(TRAVIS_BUILD_DIR)/src/Cell.cpp )
-add_library( model STATIC $(TRAVIS_BUILD_DIR)/src/Model.cpp )
-add_library( hexahedron STATIC $(TRAVIS_BUILD_DIR)/src/Hexahedron.cpp )
 
-add_executable(Model_Test MACOSX_BUNDLE
-  $(TRAVIS_BUILD_DIR)/include/Cell.h
-  $(TRAVIS_BUILD_DIR)/include/Model.h
-  $(TRAVIS_BUILD_DIR)/include/Material.h
-  $(TRAVIS_BUILD_DIR)/include/Vector.h
-  $(TRAVIS_BUILD_DIR)/include/Hexahedron.h
 
-  catch.hpp
-  Model_Test.cpp
-  test.cpp
+set( CMAKE_INCLUDE_CURRENT_DIR ON )
+
+add_library( Model
+  ../include/cell.h
+  ../include/model.h
+  ../include/material.h
+ ../include/vector.h
+  ../include/hexahedron.h
+  ../include/tetrahedron.h
+  ../include/pyramid.h
+  ../src/model.cpp
+  ../src/vector.cpp
+  ../src/material.cpp
+  ../src/cell.cpp
+  ../src/hexahedron.cpp
+  ../src/tetrahedron.cpp
+  ../src/pyramid.cpp
+
 
 )
 
-# Create executable
-
-# 2 requirements
-
-# output exe name and Test file
+add_executable(Model_Test test.cpp model_test.cpp)
 
 
 
-# For link output and library
-
-
-# Tell CMake that the executable depends on the VTK libraries
-
-target_link_libraries( Model_Test
-								model
-								vector
-								material
-								cell
-								hexahedron
-								)
-# Tell CMake that the executable depends on the Qt::Widget libraries.
+target_link_libraries( Model_Test Model )
 
 add_test(Model_Test Model_Test)
