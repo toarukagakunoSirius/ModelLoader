@@ -7,17 +7,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // standard call to setup Qt UI (same as previously)
     ui->setupUi( this );
     QTimer::singleShot(200, this, SLOT(showMaximized()));
-    //Clip Second Window
-    ClipWindow = new ClipDialog(this);
 
     //Indicator Value at the beginning
     Indicator = 0;
+    ClipFactor = 0;
 
     //Create the render window
     vtkNew<vtkGenericOpenGLRenderWindow> renderWindow; //New render window
 
     //Set Ui Connection
-    connect(ClipWindow, SIGNAL(accepted()), this, SLOT(ClipOperation()));
 
     ui->qtvtkWidget->SetRenderWindow( renderWindow );	 //Assign window to Qtwidget in mainwindow.ui
     renderer = vtkSmartPointer<vtkRenderer>::New(); //Create a smartpointer pointing to the window renderer
@@ -30,18 +28,19 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //Create light on the screen
     light = vtkSmartPointer<vtkLight>::New();
     light->SetLightTypeToHeadlight();
+    light->SetIntensity(1);
 
     planeLeft = vtkSmartPointer<vtkPlane>::New();
-    planeLeft->SetOrigin(1000, 0.0, 0.0);
-    planeLeft->SetNormal(-1, 0, 0);
+    planeLeft->SetOrigin(ClipFactor, 0.0, 0.0);
+    planeLeft->SetNormal(ClipFactor, 0.0, 0.0);
 
     clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
-    clipFilter->SetInputConnection( cubeSource->GetOutputPort() ) ;
+    clipFilter->SetInputConnection(0, cubeSource->GetOutputPort() ) ;
     clipFilter->SetClipFunction( planeLeft.Get() );
 
     shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
     shrinkFilter->SetShrinkFactor(1);
-    shrinkFilter->SetInputConnection(0, clipFilter->GetOutputPort());
+    shrinkFilter->SetInputConnection(0, clipFilter->GetOutputPort(0));
 
 
 
@@ -49,17 +48,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     //vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New(); //mapper is defined in the header file in private member variables
     mapper = vtkSmartPointer<vtkDataSetMapper>::New();
-    mapper->SetInputConnection( 0, shrinkFilter->GetOutputPort() );
+    mapper->SetInputConnection( 0, shrinkFilter->GetOutputPort(0) );
 
     // Create an actor that is used to set the cube's properties for rendering and place it in the window
     vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
+    vtkSmartPointer<vtkNamedColors> colors = vtkSmartPointer<vtkNamedColors>::New();
     actor->SetMapper(mapper);
     actor->GetProperty()->EdgeVisibilityOn();
+    actor->GetProperty()->SetColor( colors->GetColor3d("Red").GetData() );
 
     // Add the actor to the scene
     renderer->AddActor(actor);
     renderer->AddLight(light);
     renderer->ResetCamera(); //Set the camera back to origin
+    renderer->ResetCameraClippingRange();
 
 }
 
@@ -70,43 +72,123 @@ MainWindow::~MainWindow()
 
 //Clip Filter
 void MainWindow::on_ClipFilterSlider_sliderMoved(){
+    ClipFunction();
+}
 
-   //ModelLoader Condition
-   if (Indicator == 1) {
-        for(int x = 0;x < ClipFilters.size();x++){
-            planeLeft->SetOrigin((float) ui->ClipFilterSlider->value()/100, 0.0, 0.0);
-           // planeLeft->SetNormal((float) ui->ClipFilterSlider->value() / 100 , 0.0, 0.0);
-            ClipFilters[x]->SetClipFunction( planeLeft.Get() );
-            ClipFilters[x]->Update();
+void MainWindow::on_ReverseClip_clicked(){
+    ClipFunction();
+}
+
+void MainWindow::on_ClipSpinBox_valueChanged(double arg1){
+    ClipFunction();
+}
+
+void MainWindow::on_ClipPosition_currentIndexChanged(const QString &arg1){
+    ClipFunction();
+}
+
+void MainWindow::on_Clip_toggled(bool checked){
+    ClipFunction();
+}
+
+void MainWindow::ClipOperation(){
+    ClipFactor = ui->ClipSpinBox->value();
+    if (ui->Clip->isChecked()) {
+        if (ui->ReverseClip->isChecked()){
+            if (ui->ClipPosition->currentText() == "X-Axis"){
+                planeLeft->SetNormal(ClipFactor,0,0);
+                planeLeft->SetOrigin(-(ClipFactor-2*ClipFactor*ui->ClipFilterSlider->value()/100),0,0);
+            }
+            else if (ui->ClipPosition->currentText() == "Y-Axis"){
+                planeLeft->SetNormal(0,ClipFactor,0);
+                planeLeft->SetOrigin(0,-(ClipFactor-2*ClipFactor*ui->ClipFilterSlider->value()/100),0);
+            }
+            else{
+                planeLeft->SetNormal(0,0,ClipFactor);
+                planeLeft->SetOrigin(0,0,-(ClipFactor-2*ClipFactor*ui->ClipFilterSlider->value()/100));
+            }
         }
+        else {
+            if (ui->ClipPosition->currentText() == "X-Axis"){
+                planeLeft->SetNormal(-ClipFactor,0,0);
+                planeLeft->SetOrigin((ClipFactor-2*ClipFactor*ui->ClipFilterSlider->value()/100),0,0);
+            }
+            else if (ui->ClipPosition->currentText() == "Y-Axis"){
+                planeLeft->SetNormal(0,-ClipFactor,0);
+                planeLeft->SetOrigin(0,(ClipFactor-2*ClipFactor*ui->ClipFilterSlider->value()/100),0);
+            }
+            else{
+                planeLeft->SetNormal(0,0,-ClipFactor);
+                planeLeft->SetOrigin(0,0,(ClipFactor-2*ClipFactor*ui->ClipFilterSlider->value()/100));
+            }
+        }
+     }
+    else{
+        planeLeft->SetOrigin(0,0,0);
+        planeLeft->SetNormal(0,0,0);
     }
-    else if (Indicator == 0){
-        planeLeft->SetOrigin((float) ui->ClipFilterSlider->value() /100, 0.0, 0.0);
-        //planeLeft->SetNormal((float) ui->ClipFilterSlider->value() / 100 , 0.0, 0.0);
-        clipFilter->SetClipFunction( planeLeft.Get() );
-        clipFilter->Update();
-    }
-    ui->qtvtkWidget->GetRenderWindow()->Render();
 
 }
 
+void MainWindow::ClipFunction(){
+    if (Indicator == 1) {
+         for(int x = 0;x < ClipFilters.size();x++){
+
+ //            planeLeft->SetOrigin((float) ui->ClipFilterSlider->value()/100, 0.0, 0.0);
+ //           // planeLeft->SetNormal((float) ui->ClipFilterSlider->value() / 100 , 0.0, 0.0);
+ //            ClipFilters[x]->SetClipFunction( planeLeft.Get() );
+
+             ClipOperation();
+             ClipFilters[x]->Update();
+         }
+     }
+     else if (Indicator == 0){
+             ClipOperation();
+             clipFilter->Update();
+    }
+    ui->qtvtkWidget->GetRenderWindow()->Render();
+}
+
+//Shrink Filter
 void MainWindow::on_ShrinkFilter_sliderMoved()
 {
-    //ModelLoader Condition
-    if (Indicator == 1) {
-      for(int x = 0;x < Shrinks.size();x++){
-            Shrinks[x]->SetShrinkFactor( (float) (100 - ui->ShrinkFilter->value())/ 100);
-            Shrinks[x]->Update();
-          }
-    }
-    else if (Indicator == 0){
-      shrinkFilter->SetShrinkFactor( (float) (100 - ui -> ShrinkFilter -> value())/ 100);
-      shrinkFilter->Update();
-      }
-    ui->qtvtkWidget->GetRenderWindow()->Render();
+    ShrinkOperation();
 }
 
+void MainWindow::on_Shrink_toggled(bool checked){
+    ShrinkOperation();
+}
 
+void MainWindow::ShrinkOperation(){
+    if (ui->Shrink->isChecked()){
+
+     //ModelLoader Condition 1 for mod 0 for stl
+     if (Indicator == 1) {
+       for(int x = 0;x < Shrinks.size();x++){
+             Shrinks[x]->SetShrinkFactor( (double) (100 - ui->ShrinkFilter->value())/ 100);
+             Shrinks[x]->Update();
+           }
+     }
+     else if (Indicator == 0){
+       shrinkFilter->SetShrinkFactor( (double) (100 - ui -> ShrinkFilter -> value())/ 100);
+       shrinkFilter->Update();
+       }
+     }
+    else {
+
+        if (Indicator == 1) {
+          for(int x = 0;x < Shrinks.size();x++){
+                Shrinks[x]->SetShrinkFactor(1);
+                Shrinks[x]->Update();
+              }
+        }
+        else if (Indicator == 0){
+          shrinkFilter->SetShrinkFactor(1);
+          shrinkFilter->Update();
+          }
+    }
+  ui->qtvtkWidget->GetRenderWindow()->Render();
+}
 
 //Model color change with color dialog
 void MainWindow::on_actionModel_triggered()
@@ -140,11 +222,8 @@ void MainWindow::on_actionBackground_triggered()
     ui->qtvtkWidget->GetRenderWindow()->Render();
 }
 
-
-
-
 void MainWindow::on_actionOpen_triggered(){
-    planeLeft->SetOrigin(1000, 0.0, 0.0);
+    //planeLeft->SetOrigin(1000, 0.0, 0.0);
     //Load the model
     QString File = QFileDialog::getOpenFileName(this, tr("Open MOD File"), "./../../Resource", tr("MODEL Files(*.mod *.stl)"));
     std::string FileName = File.toUtf8().constData();
@@ -188,8 +267,6 @@ void MainWindow::on_actionSave_as_triggered(){
 
 }
 
-
-
 void MainWindow::Load_STL_File(QString File){
 
     vtkSmartPointer<vtkSTLReader> reader = vtkSmartPointer<vtkSTLReader>::New();
@@ -207,19 +284,36 @@ void MainWindow::Load_STL_File(QString File){
     Shrinks.push_back(shrinkFilter);
 
     clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
-    clipFilter->SetInputConnection( shrinkFilter->GetOutputPort() ) ;
+    clipFilter->SetInputConnection( 0,shrinkFilter->GetOutputPort() ) ;
     clipFilter->SetClipFunction( planeLeft.Get() );
     ClipFilters.push_back(clipFilter);
 
+    //Contour Filter
+    vtkSmartPointer<vtkDataSetMapper> Contourmapper = vtkSmartPointer<vtkDataSetMapper>::New();
+
+    ContourOperation();
+    contourFilter = vtkSmartPointer<vtkContourFilter>::New();
+    //contourFilter->ComputeScalarsOn();
+    contourFilter->GenerateValues(NumberofPieces*2,
+            .99 * shrinkFilter->GetUnstructuredGridInput(0)->GetPointData()->GetScalars()->GetRange()[0],
+            .99 * shrinkFilter->GetUnstructuredGridInput(0)->GetPointData()->GetScalars()->GetRange()[1]);
+    contourFilter->SetInputConnection(0,reader->GetOutputPort());
+    Contours.push_back(contourFilter);
+
+    Contourmapper->SetInputConnection(contourFilter->GetOutputPort(0));
 
     mapper->SetInputConnection( clipFilter->GetOutputPort() );
 
     vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
     actor->SetMapper(mapper);
 
+    vtkSmartPointer<vtkActor> Contouractor = vtkSmartPointer<vtkActor>::New();
+    Contouractor->SetMapper(Contourmapper);//Link the contour actor to mapper
+
     vtkSmartPointer<vtkNamedColors> colors = vtkSmartPointer<vtkNamedColors>::New();
     actor->GetProperty()->SetColor( 1.30,0.97,1.64 );
     renderer->AddActor(actor);
+    renderer->AddActor(Contouractor);//Add the Contour actor to window
     renderer->ResetCamera(); //Set the camera back to origin
     renderer->GetActiveCamera()->Azimuth(30);
     renderer->GetActiveCamera()->Elevation(30);
@@ -370,27 +464,48 @@ void MainWindow::Load_Mod_File(std::string FileName){
     //Loop through the vector of unstructured grids to render them and link a mapper plus add filters
 
     for (int G=0;G<uGrids.size();G++){
-        vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
+        vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();        
         mapper->SetInputData(uGrids[G]); //Create a mapper and send the grid as the inputted data
 
         //Link the shrink filter into the grid
         shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
+        shrinkFilter->SetInputDataObject(0,uGrids[G]);
         shrinkFilter->SetShrinkFactor(1);
-        shrinkFilter->AddInputDataObject(0,uGrids[G]);
+        //shrinkFilter->AddInputDataObject(0,uGrids[G]);
         Shrinks.push_back(shrinkFilter);
 
         clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
-        clipFilter->SetInputConnection( shrinkFilter->GetOutputPort() ) ;
+        clipFilter->SetInputConnection( 0,shrinkFilter->GetOutputPort(0) ) ;
         clipFilter->SetClipFunction( planeLeft.Get() );
         ClipFilters.push_back(clipFilter);
 
-        mapper->SetInputConnection( clipFilter->GetOutputPort() );
+        //Contour Filter
+        vtkSmartPointer<vtkDataSetMapper> Contourmapper = vtkSmartPointer<vtkDataSetMapper>::New();
+
+        ContourOperation();
+        contourFilter = vtkSmartPointer<vtkContourFilter>::New();
+        //contourFilter->ComputeScalarsOn();
+        contourFilter->GenerateValues(NumberofPieces*2,
+                .99 * shrinkFilter->GetUnstructuredGridInput(0)->GetPointData()->GetScalars()->GetRange()[0],
+                .99 * shrinkFilter->GetUnstructuredGridInput(0)->GetPointData()->GetScalars()->GetRange()[1]);
+        contourFilter->SetInputDataObject(0,uGrids[G]);
+        Contours.push_back(contourFilter);
+
+        Contourmapper->SetInputConnection(contourFilter->GetOutputPort(0));
+
+        mapper->SetInputConnection(clipFilter->GetOutputPort(0));
 
         //Add as an actor
         vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
         actor->GetProperty()->SetColor( CellColours[G][0]/100,CellColours[G][1]/100,CellColours[G][2]/100 ); //Set the colour of the actor
         actor->SetMapper(mapper); //Link the actor to a mapper
+
+        //Add an contour actor
+        vtkSmartPointer<vtkActor> Contouractor = vtkSmartPointer<vtkActor>::New();
+        Contouractor->SetMapper(Contourmapper);//Link the contour actor to mapper
+
         renderer->AddActor(actor); //Add the actor to the render window
+        renderer->AddActor(Contouractor);//Add the Contour actor to window
         actors.push_back(actor); //Put the actors into a vector of actors so they can be accessed later
     }
 
@@ -442,16 +557,10 @@ void MainWindow::on_ListView_activated(const QString &View)
     }
 }
 
-void MainWindow::on_ClipButton_clicked()
-{
-    ClipWindow->setWindowTitle("Clip Fliter");
-    ClipWindow->show();
-}
-
 void MainWindow::on_Light_sliderMoved(int position){
 
     if (ui->LightradioButton->isChecked()){
-      light->SetIntensity( (float) (position)/100);}
+      light->SetIntensity(1-(double) (position)/100);}
 
     else{
             light->SetIntensity( 1 );
@@ -459,28 +568,83 @@ void MainWindow::on_Light_sliderMoved(int position){
       ui->qtvtkWidget->GetRenderWindow()->Render();
 }
 
-void MainWindow::ClipOperation(){
-    if (ClipWindow->getClipcheck() == 1){
-        planeLeft->SetOrigin(ClipWindow->getClipfactor(), 0.0, 0.0);
-    }
-    else if (ClipWindow->getClipcheck() == 2){
-        planeLeft->SetOrigin(0.0,ClipWindow->getClipfactor(), 0.0);
-    }
-    else if (ClipWindow->getClipcheck() == 3){
-        planeLeft->SetOrigin(0.0, 0.0,ClipWindow->getClipfactor());
-    }
-    clipFilter->SetClipFunction( planeLeft.Get() );
-    clipFilter->Update();
-    //cout<<ClipWindow->getClipcheck();
-    ui->qtvtkWidget->GetRenderWindow()->Render();
-}
-
-void MainWindow::on_LightradioButton_clicked(bool checked)
+void MainWindow::on_LightradioButton_toggled(bool checked)
 {
     if (checked){
-        light->SetIntensity( (float) (ui->Light->value())/100);}
+        light->SetIntensity( (double) (ui->Light->value())/100);}
     else{
             light->SetIntensity( 1 );
     }
     ui->qtvtkWidget->GetRenderWindow()->Render();
 }
+
+void MainWindow::ContourOperation(){
+    ContourLength = ui->ContourLength->value();
+    NumberofPieces = ui->ContourSpinBox->value();
+    vtkSmartPointer<vtkPlane> planeContour = vtkSmartPointer<vtkPlane>::New();
+    if (ui->Contour->isChecked()){
+        if (ui->ContourPosition->currentText() == "X-Axis"){
+            planeContour->SetOrigin(ContourLength,0.0,0.0);
+            planeContour->SetNormal(-ContourLength,0.0,0.0);
+        }
+        else if (ui->ContourPosition->currentText() == "Y-Axis"){
+            planeContour->SetOrigin(0.0,ContourLength,0.0);
+            planeContour->SetNormal(0.0,-ContourLength,0.0);
+        }
+        else {
+            planeContour->SetOrigin(0.0,0.0,ContourLength);
+            planeContour->SetNormal(0.0,0.0,-ContourLength);
+        }
+    }
+    else {
+        planeContour->SetOrigin(0.0,0.0,0.0);
+        planeContour->SetNormal(0.0,0.0,0.0);
+    }
+
+    vtkSmartPointer<vtkDoubleArray> scalars = vtkSmartPointer<vtkDoubleArray>::New();
+    int numberOfPoints = shrinkFilter->GetUnstructuredGridInput(0)->GetNumberOfPoints();
+    scalars->SetNumberOfTuples(numberOfPoints);
+    vtkPoints *pts = shrinkFilter->GetUnstructuredGridInput(0)->GetPoints();
+    for (int i = 0; i < numberOfPoints; ++i)
+      {
+        double point[3];
+        pts->GetPoint(i, point);
+        scalars->SetTuple1(i, planeContour->EvaluateFunction(point));
+    }
+      shrinkFilter->GetUnstructuredGridInput(0)->GetPointData()->SetScalars(scalars);
+      shrinkFilter->GetUnstructuredGridInput(0)->GetPointData()->GetScalars()->GetRange();
+}
+
+void MainWindow::ContourFunction(){
+    ContourOperation();
+    contourFilter->GenerateValues(NumberofPieces*2,
+            .99 * shrinkFilter->GetUnstructuredGridInput(0)->GetPointData()->GetScalars()->GetRange()[0],
+            .99 * shrinkFilter->GetUnstructuredGridInput(0)->GetPointData()->GetScalars()->GetRange()[1]);
+    contourFilter->Update();
+    ui->qtvtkWidget->GetRenderWindow()->Render();
+}
+
+void MainWindow::on_Contour_toggled(bool checked){
+    ContourFunction();
+}
+
+void MainWindow::on_ContourLength_valueChanged(double arg1){
+    ContourFunction();
+}
+
+void MainWindow::on_ContourSpinBox_valueChanged(int arg1){
+    ContourFunction();
+}
+
+void MainWindow::on_ContourPosition_currentTextChanged(const QString &arg1){
+    ContourFunction();
+}
+
+
+
+
+
+
+
+
+
