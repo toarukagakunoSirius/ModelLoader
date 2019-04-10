@@ -129,12 +129,14 @@ public:
     vector<vtkSmartPointer<vtkClipDataSet>> ClipFilters;
     double ClipFactor;
 
+
     //Contour
     vector<vtkSmartPointer<vtkContourFilter>> Contours;
     int NumberofPieces;
     double ContourLength;
     vtkSmartPointer<vtkContourFilter> contourFilter;
     vtkSmartPointer<vtkPlane> planeContour;
+
 
     //Light
     vtkSmartPointer<vtkLight> light;

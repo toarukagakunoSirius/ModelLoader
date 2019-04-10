@@ -221,11 +221,11 @@
        </item>
        <item>
         <widget class="QSpinBox" name="ContourSpinBox">
+         <property name="minimum">
+          <number>1</number>
+         </property>
          <property name="maximum">
           <number>10000</number>
-         </property>
-         <property name="value">
-          <number>1</number>
          </property>
         </widget>
        </item>
@@ -293,6 +293,9 @@
        </item>
        <item>
         <widget class="QDoubleSpinBox" name="ClipSpinBox">
+         <property name="decimals">
+          <number>4</number>
+         </property>
          <property name="maximum">
           <double>10000.000000000000000</double>
          </property>
