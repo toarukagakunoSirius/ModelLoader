@@ -267,6 +267,7 @@ void MainWindow::on_actionSave_as_triggered(){
 
 }
 
+//Add Contour Connection with another actor
 void MainWindow::Load_STL_File(QString File){
 
     vtkSmartPointer<vtkSTLReader> reader = vtkSmartPointer<vtkSTLReader>::New();
@@ -320,6 +321,7 @@ void MainWindow::Load_STL_File(QString File){
     ui->qtvtkWidget->GetRenderWindow()->Render();
 }
 
+//Add Contour Connection with another actor
 void MainWindow::Load_Mod_File(std::string FileName){
 
     //INITIALISATIONS
@@ -557,6 +559,7 @@ void MainWindow::on_ListView_activated(const QString &View)
     }
 }
 
+//Light
 void MainWindow::on_Light_sliderMoved(int position){
 
     if (ui->LightradioButton->isChecked()){
@@ -578,6 +581,7 @@ void MainWindow::on_LightradioButton_toggled(bool checked)
     ui->qtvtkWidget->GetRenderWindow()->Render();
 }
 
+//Contour Filter
 void MainWindow::ContourOperation(){
     ContourLength = ui->ContourLength->value();
     NumberofPieces = ui->ContourSpinBox->value();

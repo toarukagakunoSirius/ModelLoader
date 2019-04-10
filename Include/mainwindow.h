@@ -173,12 +173,10 @@ private slots:
     void on_actionSave_as_triggered();
     void on_actionSave_triggered();
 
+    //Contour
     void on_Contour_toggled(bool checked);
-
     void on_ContourLength_valueChanged(double arg1);
-
     void on_ContourSpinBox_valueChanged(int arg1);
-
     void on_ContourPosition_currentTextChanged(const QString &arg1);
 
 private:
