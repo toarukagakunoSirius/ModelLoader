@@ -79,13 +79,20 @@
 //Feature
 #include <vtkShrinkFilter.h>
 #include <vtkClipDataSet.h>
+#include <vtkContourFilter.h>
+
+//Convert Point to Scalar
+#include <vtkDoubleArray.h>
+#include <vtkPointData.h>
 
 //Other Header files
 #include "model.h"//ModelLoader
 #include "ui_mainwindow.h"
 
 //Second Window header files
-#include "clipdialog.h"
+//#include "clipdialog.h"
+
+#include <QTimer>
 
 namespace Ui {
 class MainWindow;
@@ -99,73 +106,80 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-
     //Create global variables
 
     vector<int> NumCells;
 
     vtkSmartPointer<vtkRenderer> renderer;
     vector<vtkSmartPointer<vtkActor>> actors;
-    vector<vtkSmartPointer<vtkShrinkFilter>> Shrinks;
     vtkSmartPointer<vtkDataSetMapper> mapper;
     vtkSmartPointer<vtkHexahedron> hex ;
-     vtkSmartPointer<vtkActor> actor;
-     vtkSmartPointer<vtkShrinkFilter> shrinkFilter;
+    vtkSmartPointer<vtkActor> actor;
+
+    //Shrink
+    vtkSmartPointer<vtkShrinkFilter> shrinkFilter;
+    vector<vtkSmartPointer<vtkShrinkFilter>> Shrinks;
+
     vtkSmartPointer<vtkUnstructuredGrid> uGrid;
-
-
     vector<vtkSmartPointer<vtkUnstructuredGrid>> uGrids;
+
+    //Clip
     vtkSmartPointer<vtkPlane> planeLeft;
     vtkSmartPointer<vtkClipDataSet> clipFilter;
     vector<vtkSmartPointer<vtkClipDataSet>> ClipFilters;
+    double ClipFactor;
 
+    //Contour
+    vector<vtkSmartPointer<vtkContourFilter>> Contours;
+    int NumberofPieces;
+    double ContourLength;
+    vtkSmartPointer<vtkContourFilter> contourFilter;
+    vtkSmartPointer<vtkPlane> planeContour;
+
+    //Light
     vtkSmartPointer<vtkLight> light;
+
      //Hana: clip filter
-
      vtkSmartPointer<vtkCubeSource> cubeSource;
-     vtkSmartPointer<vtkPlane> plane;
-
-
-
 
     //Create Indicator
     int Indicator;
     int Cell_Iterations = 0;
     vector<float> Last_Colour = {0,0,0};
 
-
-
-
-
 private slots:
-
-//  void on_sliderB_sliderMoved(); //Colour Blue Slider
-//  void on_sliderG_sliderMoved(); //Colour Green Slider
-//  void on_sliderR_sliderMoved(); //Colour Red Slider
 
     void on_actionModel_triggered(); //Colour model function
     void on_actionBackground_triggered(); //Colour of background function
-    void on_ShrinkFilter_sliderMoved();//ShrinkFilter
-    //void on_ClipFilterButton_clicked(); //clip filter
+
+    //Shrink Filter
+    void on_ShrinkFilter_sliderMoved();
+    void on_Shrink_toggled(bool checked);
+
     void on_ListView_activated(const QString &View); //Camera combo box
     void Load_STL_File(QString File);
     void Load_Mod_File(std::string FileName);
 
-
+    //Clip Filter
     void on_ClipFilterSlider_sliderMoved();
+    void on_Clip_toggled(bool checked);
+    void on_ReverseClip_clicked();
+    void on_ClipSpinBox_valueChanged(double arg1);
+    void on_ClipPosition_currentIndexChanged(const QString &arg1);
 
+    //Light
     void on_Light_sliderMoved(int position);
-
-    void on_ClipButton_clicked();
-
-    void ClipOperation();
-
-    void on_LightradioButton_clicked(bool checked);
+    void on_LightradioButton_toggled(bool checked);
 
     void on_actionOpen_triggered();//Loading of model
     void on_actionSave_as_triggered();
     void on_actionSave_triggered();
 
+    //Contour
+    void on_Contour_toggled(bool checked);
+    void on_ContourLength_valueChanged(double arg1);
+    void on_ContourSpinBox_valueChanged(int arg1);
+    void on_ContourPosition_currentTextChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
@@ -175,11 +189,21 @@ private:
     vector<array<double, 3>> pointCoordinates;
     vector<array<double, 3>> CellColours;
     array<double, 3> SaveColour;
-    ClipDialog *ClipWindow;
     Model M;
     string Opened_FileName;
     std::string Hexstring = "";
 
+    //Clip Filter
+    void ClipOperation();
+    void ClipFunction();
+
+
+    //Shrink Filter
+    void ShrinkOperation();
+
+    //Contour Filter
+    void ContourOperation();
+    void ContourFunction();
 };
 
 #endif // MAINWINDOW_H
