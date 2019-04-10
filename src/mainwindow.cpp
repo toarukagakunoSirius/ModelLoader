@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	
     QTimer::singleShot(200, this, SLOT(showMaximized()));
     //Clip Second Window
-    ClipWindow = new ClipDialog(this);
+    //ClipWindow = new ClipDialog(this);
 
 
 

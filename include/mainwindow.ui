@@ -17,19 +17,6 @@
    <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>330</y>
-      <width>311</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>P: Please Recreate All spinboxs -&gt; Max at 10K Value 1</string>
-    </property>
-   </widget>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
@@ -234,11 +221,11 @@
        </item>
        <item>
         <widget class="QSpinBox" name="ContourSpinBox">
-         <property name="minimum">
-          <number>1</number>
-         </property>
          <property name="maximum">
           <number>10000</number>
+         </property>
+         <property name="value">
+          <number>1</number>
          </property>
         </widget>
        </item>
@@ -306,9 +293,6 @@
        </item>
        <item>
         <widget class="QDoubleSpinBox" name="ClipSpinBox">
-         <property name="decimals">
-          <number>4</number>
-         </property>
          <property name="maximum">
           <double>10000.000000000000000</double>
          </property>
@@ -369,7 +353,7 @@
      </sizepolicy>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>310</x>
@@ -551,7 +535,7 @@
      <x>0</x>
      <y>0</y>
      <width>994</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
