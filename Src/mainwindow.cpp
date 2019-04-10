@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     // standard call to setup Qt UI (same as previously)
     ui->setupUi( this );
+
 	
     QTimer::singleShot(200, this, SLOT(showMaximized()));
     //Clip Second Window
@@ -80,9 +81,11 @@ void MainWindow::on_ClipFilterSlider_sliderMoved(){
     ClipFunction();
 }
 
+
 void MainWindow::on_ReverseClip_clicked(){
     ClipFunction();
 }
+
 
 void MainWindow::on_ClipSpinBox_valueChanged(double arg1){
     ClipFunction();
