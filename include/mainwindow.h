@@ -57,9 +57,8 @@
 #include <vtkTextProperty.h>
 #include <vtkRenderer.h>
 
-#include <vtkRenderWindow.h>
-
-#include <vtkRenderWindowInteractor.h>
+//#include <vtkRenderWindow.h>
+//#include <vtkRenderWindowInteractor.h>
 
 #include <vtkSmartPointer.h>
 #include <vtkSTLReader.h>
@@ -69,17 +68,16 @@
 //Type of the object
 #include <vtkTetra.h>
 #include <vtkPyramid.h>
-#include <vtkCubeSource.h>
-
 #include <vtkHexahedron.h>
 
+#include <vtkCubeSource.h>
 #include <vtkSphereSource.h>
 
 
 //Feature
 #include <vtkShrinkFilter.h>
 #include <vtkClipDataSet.h>
-#include <vtkContourFilter.h>
+//#include <vtkContourFilter.h>
 
 //Convert Point to Scalar
 #include <vtkDoubleArray.h>
@@ -131,11 +129,11 @@ public:
 
 
     //Contour
-    vector<vtkSmartPointer<vtkContourFilter>> Contours;
-    int NumberofPieces;
-    double ContourLength;
-    vtkSmartPointer<vtkContourFilter> contourFilter;
-    vtkSmartPointer<vtkPlane> planeContour;
+//    vector<vtkSmartPointer<vtkContourFilter>> Contours;
+//    int NumberofPieces;
+//    double ContourLength;
+//    vtkSmartPointer<vtkContourFilter> contourFilter;
+//    vtkSmartPointer<vtkPlane> planeContour;
 
 
     //Light
@@ -154,34 +152,43 @@ private slots:
     void on_actionModel_triggered(); //Colour model function
     void on_actionBackground_triggered(); //Colour of background function
 
-    //Shrink Filter
+    //-----------------Shrink Filter----------------------------
     void on_ShrinkFilter_sliderMoved();
     void on_Shrink_toggled(bool checked);
+    //----------------------------------------------------------
 
     void on_ListView_activated(const QString &View); //Camera combo box
     void Load_STL_File(QString File);
     void Load_Mod_File(std::string FileName);
 
-    //Clip Filter
+    //-------------------Clip Filter------------------------------
     void on_ClipFilterSlider_sliderMoved();
     void on_Clip_toggled(bool checked);
     void on_ReverseClip_clicked();
     void on_ClipSpinBox_valueChanged(double arg1);
     void on_ClipPosition_currentIndexChanged(const QString &arg1);
+    //------------------------------------------------------------
 
-    //Light
+    //-----------------Light-------------------------
     void on_Light_sliderMoved(int position);
     void on_LightradioButton_toggled(bool checked);
+    //-----------------------------------------------
 
     void on_actionOpen_triggered();//Loading of model
     void on_actionSave_as_triggered();
     void on_actionSave_triggered();
 
     //Contour
-    void on_Contour_toggled(bool checked);
-    void on_ContourLength_valueChanged(double arg1);
-    void on_ContourSpinBox_valueChanged(int arg1);
-    void on_ContourPosition_currentTextChanged(const QString &arg1);
+//    void on_Contour_toggled(bool checked);
+//    void on_ContourLength_valueChanged(double arg1);
+//    void on_ContourSpinBox_valueChanged(int arg1);
+//    void on_ContourPosition_currentTextChanged(const QString &arg1);
+
+    //----------------------Display------------------
+    void on_Default_toggled(bool checked);
+    void on_wireframe_toggled(bool checked);
+    void on_vertices_toggled(bool checked);
+    //-----------------------------------------------
 
 private:
     Ui::MainWindow *ui;
@@ -204,8 +211,11 @@ private:
     void ShrinkOperation();
 
     //Contour Filter
-    void ContourOperation();
-    void ContourFunction();
+//    void ContourOperation();
+//    void ContourFunction();
+
+    //Display
+    void WhatToDisplay();
 };
 
 #endif // MAINWINDOW_H
