@@ -21,7 +21,7 @@ set( CMAKE_AUTOUIC ON )
 
 find_package( Qt5Widgets )
 
-set( UIS include/mainwindow.ui include/clipdialog.ui )
+set( UIS include/mainwindow.ui)
 qt5_wrap_ui( UI_Srcs ${UIS} )
 
 find_package( VTK REQUIRED )
@@ -45,8 +45,6 @@ add_executable(Model_Test MACOSX_BUNDLE
   include/Vector.h
   include/Hexahedron.h
   include/mainwindow.h
-  include/clipdialog.h
-  src/clipdialog.cpp
   src/mainwindow.cpp
   src/Main.cpp
   ${UI_Srcs}

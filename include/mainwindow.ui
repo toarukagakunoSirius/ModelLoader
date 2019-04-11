@@ -47,7 +47,7 @@
            </size>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>3</number>
           </property>
           <widget class="QWidget" name="view">
            <attribute name="title">
@@ -199,6 +199,9 @@
                   <property name="text">
                    <string>Clip  </string>
                   </property>
+                  <property name="autoExclusive">
+                   <bool>false</bool>
+                  </property>
                  </widget>
                 </item>
                 <item>
@@ -250,6 +253,9 @@
                   </property>
                   <property name="text">
                    <string>Reverse Clip</string>
+                  </property>
+                  <property name="autoExclusive">
+                   <bool>false</bool>
                   </property>
                  </widget>
                 </item>
