@@ -1,3 +1,9 @@
+/** @file
+* This file is the main model loader and has functionality to save
+*/
+/** Brief description
+* Passes all of the model data to each of the respected classes 
+*/
 #include "model.h"
 #include <vector>
 #include <cstring>

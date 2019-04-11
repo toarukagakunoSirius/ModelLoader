@@ -1,3 +1,9 @@
+/** @file
+* This file stores the pyramid data. Child class of the cell
+*/
+/** Brief description
+* Allows the volume, weight and centre to be calculated
+*/
 #include "pyramid.h"
 
 //calculate the volume of this cell
