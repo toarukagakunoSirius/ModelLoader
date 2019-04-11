@@ -713,7 +713,7 @@ void MainWindow::on_LightradioButton_toggled(bool checked)
 //------------------------------
 
 
-//----------Display Object----------
+//----------Display Object-------------------------------------------
 void MainWindow::on_Default_toggled(bool checked){
     WhatToDisplay();
 }
@@ -730,6 +730,12 @@ void MainWindow::WhatToDisplay(){
         if (ui->Default->isChecked()){
             for (int x=0; x < actors.size(); x++){
                 actors[x]->GetProperty()->SetRepresentationToSurface();
+                if (ui->OpacitySlider->value() <= 1){
+                    actors[x]->GetProperty()->SetOpacity(1.0);
+                }
+                else {
+                    actors[x]->GetProperty()->SetOpacity(1-(double)ui->OpacitySlider->value()/100);
+                }
             }
         }
         else if (ui->wireframe->isChecked()){
@@ -746,7 +752,9 @@ void MainWindow::WhatToDisplay(){
     ui->qtvtkWidget->GetRenderWindow()->Render();
 }
 
-
-
+void MainWindow::on_OpacitySlider_sliderMoved(int position){
+    WhatToDisplay();
+}
+//--------------------------------------------------------------------
 
 

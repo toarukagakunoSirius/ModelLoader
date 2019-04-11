@@ -188,7 +188,10 @@ private slots:
     void on_Default_toggled(bool checked);
     void on_wireframe_toggled(bool checked);
     void on_vertices_toggled(bool checked);
+    void on_OpacitySlider_sliderMoved(int position);
     //-----------------------------------------------
+
+
 
 private:
     Ui::MainWindow *ui;
