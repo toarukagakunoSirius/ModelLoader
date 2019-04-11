@@ -1,5 +1,10 @@
 #include "cell.h"
-
+/** @file
+* This file stores the data for each cell of the model
+*/
+/** Brief description
+* It stores the ID, material and type of cell (Hexahedron, tetrahedron, pyramid)
+*/
 using namespace std;
 
 //store cellID, matID and cell type
