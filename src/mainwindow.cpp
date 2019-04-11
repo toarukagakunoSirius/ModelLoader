@@ -1,4 +1,10 @@
-﻿#include "mainwindow.h"
+﻿/** @file
+* This file contains the QT slots and functions 
+*/
+/** Brief description
+* Allows the user to interact with the screen 
+*/
+#include "mainwindow.h"
 
 //Hana: window not opening (trying to get axis filter to work)
 
@@ -525,8 +531,35 @@ void MainWindow::Load_Mod_File(std::string FileName){
     renderer->GetActiveCamera()->Azimuth(30);
     renderer->GetActiveCamera()->Elevation(30);
     ui->qtvtkWidget->GetRenderWindow()->Render();
-    CellVertex.clear();
 
+
+    ui->listWidget->clear();
+    QString end = QString::number(M.NumberVertices());
+    QString start = "Number of vertices: ";
+    QString result = start + end;
+    ui->listWidget->addItem(result);
+
+    vector<int> NCells = M.NumberCells();
+    for (int x = 0; x <3; x++){
+    QString end = QString::number(NCells[x]);
+    if (x == 0)
+        start = "Number of Pyramids: ";
+    else if (x == 1)
+        start = "Number of Tetrahedrons: ";
+    else
+        start = "Number of Hexahedrons: ";
+    QString result = start + end;
+    ui->listWidget->addItem(result);
+    }
+
+    vector<float> Mcentre = M.FindCentre();
+    start = "Centre of model: ";
+    end = "X: " + QString::number(Mcentre[0]) + " Y: "+ QString::number(Mcentre[1]) +" Z: "+ QString::number(Mcentre[2]);
+    result = start + end;
+    ui->listWidget->addItem(result);
+
+
+    CellVertex.clear();
     CellVertices.clear();
     MatColour.clear();
     pointCoordinates.clear();

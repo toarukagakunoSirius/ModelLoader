@@ -1,3 +1,9 @@
+/** @file
+* This file handles matrices 
+*/
+/** Brief description
+* It can currently calculate the determinant of a 3x3 matrix as well as rotate it 90 degrees anti clockwise
+*/
 //Matrix source file by Hana Makhlouf as part of H62PEP
 //The matrix class is a work in progress. It can currently calculate the determinant
 //of a 3x3 matrix as well as rotate it 90 degrees anti clockwise

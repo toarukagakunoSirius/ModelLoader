@@ -1,3 +1,10 @@
+/** @file
+* This file is a child class of cell
+*/
+/** Brief description
+* It can calculate the volume, weight and centre
+*/
+
 #include "hexahedron.h"
 
 //calculate the volume of this cell
