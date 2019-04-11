@@ -6,19 +6,12 @@
 */
 #include "mainwindow.h"
 
-//Hana: window not opening (trying to get axis filter to work)
-
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     // standard call to setup Qt UI (same as previously)
     ui->setupUi( this );
-
 	
     QTimer::singleShot(200, this, SLOT(showMaximized()));
-    //Clip Second Window
-    //ClipWindow = new ClipDialog(this);
-
-
 
     //Indicator Value at the beginning
     Indicator = 0;
@@ -54,8 +47,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     shrinkFilter->SetShrinkFactor(1);
     shrinkFilter->SetInputConnection(0, clipFilter->GetOutputPort(0));
 
-
-
     // Create a mapper that will hold the cube's geometry in a format suitable for rendering
 
     //vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New(); //mapper is defined in the header file in private member variables
@@ -74,7 +65,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     renderer->AddLight(light);
     renderer->ResetCamera(); //Set the camera back to origin
     renderer->ResetCameraClippingRange();
-
 }
 
 MainWindow::~MainWindow()
@@ -82,27 +72,46 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//Clip Filter
+
+
+//----------Clip Filter----------
+//Slider
 void MainWindow::on_ClipFilterSlider_sliderMoved(){
     ClipFunction();
 }
-
-
+//Reverse Button
 void MainWindow::on_ReverseClip_clicked(){
     ClipFunction();
 }
-
-
+//Clip Range Spinbox
 void MainWindow::on_ClipSpinBox_valueChanged(double arg1){
     ClipFunction();
 }
-
+//Perspective List
 void MainWindow::on_ClipPosition_currentIndexChanged(const QString &arg1){
     ClipFunction();
 }
-
+//Apply Button
 void MainWindow::on_Clip_toggled(bool checked){
     ClipFunction();
+}
+
+//Clip Functions
+void MainWindow::ClipFunction(){
+    if (Indicator == 1) {
+         for(int x = 0;x < ClipFilters.size();x++){
+ //            planeLeft->SetOrigin((float) ui->ClipFilterSlider->value()/100, 0.0, 0.0);
+ //           // planeLeft->SetNormal((float) ui->ClipFilterSlider->value() / 100 , 0.0, 0.0);
+ //            ClipFilters[x]->SetClipFunction( planeLeft.Get() );
+             ClipOperation();
+             ClipFilters[x]->Update();
+         }
+     }
+     else if (Indicator == 0){
+             ClipOperation();
+             clipFilter->Update();
+    }
+    ui->qtvtkWidget->GetRenderWindow()->Render();
 }
 
 void MainWindow::ClipOperation(){
@@ -141,41 +150,25 @@ void MainWindow::ClipOperation(){
         planeLeft->SetOrigin(0,0,0);
         planeLeft->SetNormal(0,0,0);
     }
-
 }
+//------------------------------
 
-void MainWindow::ClipFunction(){
-    if (Indicator == 1) {
-         for(int x = 0;x < ClipFilters.size();x++){
 
- //            planeLeft->SetOrigin((float) ui->ClipFilterSlider->value()/100, 0.0, 0.0);
- //           // planeLeft->SetNormal((float) ui->ClipFilterSlider->value() / 100 , 0.0, 0.0);
- //            ClipFilters[x]->SetClipFunction( planeLeft.Get() );
 
-             ClipOperation();
-             ClipFilters[x]->Update();
-         }
-     }
-     else if (Indicator == 0){
-             ClipOperation();
-             clipFilter->Update();
-    }
-    ui->qtvtkWidget->GetRenderWindow()->Render();
-}
-
-//Shrink Filter
+//----------Shrink Filter----------
+//Slider
 void MainWindow::on_ShrinkFilter_sliderMoved()
 {
     ShrinkOperation();
 }
-
+//Apply Button
 void MainWindow::on_Shrink_toggled(bool checked){
     ShrinkOperation();
 }
 
+//Shrink Function
 void MainWindow::ShrinkOperation(){
     if (ui->Shrink->isChecked()){
-
      //ModelLoader Condition 1 for mod 0 for stl
      if (Indicator == 1) {
        for(int x = 0;x < Shrinks.size();x++){
@@ -189,7 +182,6 @@ void MainWindow::ShrinkOperation(){
        }
      }
     else {
-
         if (Indicator == 1) {
           for(int x = 0;x < Shrinks.size();x++){
                 Shrinks[x]->SetShrinkFactor(1);
@@ -203,8 +195,12 @@ void MainWindow::ShrinkOperation(){
     }
   ui->qtvtkWidget->GetRenderWindow()->Render();
 }
+//------------------------------
 
-//Model color change with color dialog
+
+
+//----------Color Change----------
+//Model
 void MainWindow::on_actionModel_triggered()
 {
     QColor color = QColorDialog::getColor(Qt::white,this,"Choose Color");
@@ -225,7 +221,7 @@ void MainWindow::on_actionModel_triggered()
     }
 }
 
-//Background color change with color dialog
+//Background
 void MainWindow::on_actionBackground_triggered()
 {
     QColor color = QColorDialog::getColor(Qt::white,this,"Choose Color");
@@ -235,7 +231,12 @@ void MainWindow::on_actionBackground_triggered()
     }
     ui->qtvtkWidget->GetRenderWindow()->Render();
 }
+//------------------------------
 
+
+
+//----------Load Model----------
+//Open
 void MainWindow::on_actionOpen_triggered(){
     //planeLeft->SetOrigin(1000, 0.0, 0.0);
     //Load the model
@@ -256,32 +257,7 @@ void MainWindow::on_actionOpen_triggered(){
     ui->qtvtkWidget->GetRenderWindow()->Render();
 }
 
-void MainWindow::on_actionSave_triggered(){
-
-    if( Indicator == 1){
-        M.SaveModel(Opened_FileName,Hexstring);
-        cout << "saving" << endl;
-    }
-
-}
-
-void MainWindow::on_actionSave_as_triggered(){
-
-    QString File = QFileDialog::getSaveFileName(this,tr("Save Model"), "",tr("Mod Files (*.mod);;All Files (*)"));
-
-    std::string FileName = File.toUtf8().constData();
-    if (FileName != ""){
-
-        if( Indicator == 1){
-            Opened_FileName = FileName;
-            M.SaveModel(Opened_FileName,Hexstring);
-            cout << "saving" << endl;
-        }
-    }
-
-}
-
-//Add Contour Connection with another actor
+//Load STL Function
 void MainWindow::Load_STL_File(QString File){
 
     vtkSmartPointer<vtkSTLReader> reader = vtkSmartPointer<vtkSTLReader>::New();
@@ -335,7 +311,7 @@ void MainWindow::Load_STL_File(QString File){
     ui->qtvtkWidget->GetRenderWindow()->Render();
 }
 
-//Add Contour Connection with another actor
+//Load Mod Function
 void MainWindow::Load_Mod_File(std::string FileName){
 
     //INITIALISATIONS
@@ -349,8 +325,6 @@ void MainWindow::Load_Mod_File(std::string FileName){
     M.LoadModel(FileName);
     Opened_FileName = FileName;
     NumCells = M.NumberCells(); //Retrieves the number of cells for each shape
-
-
 
 
     //-------------LOAD HEXAHEDRONS--------------
@@ -382,13 +356,13 @@ void MainWindow::Load_Mod_File(std::string FileName){
         uGrid->InsertNextCell(hex->GetCellType(), hex->GetPointIds()); //Insert the created cell into the grid
         Last_Colour = MatColour; //Set the last_colour reference to the current colour so it can be checked on the next loop
     }
-	if (NumCells[2] > 0){
+        if (NumCells[2] > 0){
     //Send the final group of cells into an unstructured grid
     CellColours.push_back({Last_Colour[0],Last_Colour[1],Last_Colour[2]}); //Send the colour of the actor to a vector for later use
     uGrid->SetPoints(points); //Sets the points for the grouop of cells into an unstructured grid
     uGrids.push_back(uGrid); //Adds the unstructuredgrid to vector of grids for later rendering
     Cell_Iterations = 0;
-	}
+        }
     //-------------------------------------------
 
 
@@ -424,13 +398,13 @@ void MainWindow::Load_Mod_File(std::string FileName){
         uGrid->InsertNextCell(pyramid->GetCellType(),pyramid->GetPointIds()); //Insert the created cell into the grid
         Last_Colour = MatColour; //Set the last_colour reference to the current colour so it can be checked on the next loop
     }
-	if (NumCells[0] > 0){
+        if (NumCells[0] > 0){
     //Send the final group of cells into an unstructured grid
     CellColours.push_back({Last_Colour[0],Last_Colour[1],Last_Colour[2]}); //Send the colour of the actor to a vector for later use
     uGrid->SetPoints(points); //Sets the points for the grouop of cells into an unstructured grid
     uGrids.push_back(uGrid); //Adds the unstructuredgrid to vector of grids for later rendering
     Cell_Iterations = 0;
-	}
+        }
     //-------------------------------------------
 
 
@@ -466,13 +440,13 @@ void MainWindow::Load_Mod_File(std::string FileName){
         uGrid->InsertNextCell(tetra->GetCellType(),tetra->GetPointIds()); //Insert the created cell into the grid
         Last_Colour = MatColour; //Set the last_colour reference to the current colour so it can be checked on the next loop
     }
-	if (NumCells[1] > 0){
+        if (NumCells[1] > 0){
     //Send the final group of cells into an unstructured grid
     CellColours.push_back({Last_Colour[0],Last_Colour[1],Last_Colour[2]}); //Send the colour of the actor to a vector for later use
     uGrid->SetPoints(points); //Sets the points for the grouop of cells into an unstructured grid
     uGrids.push_back(uGrid); //Adds the unstructuredgrid to vector of grids for later rendering
     Cell_Iterations = 0;
-	}
+        }
     //-------------------------------------------
 
 
@@ -565,7 +539,42 @@ void MainWindow::Load_Mod_File(std::string FileName){
     pointCoordinates.clear();
     uGrids.clear();
 }
+//------------------------------
 
+
+
+//----------Save Model----------
+//Save
+void MainWindow::on_actionSave_triggered(){
+
+    if( Indicator == 1){
+        M.SaveModel(Opened_FileName,Hexstring);
+        cout << "saving" << endl;
+    }
+
+}
+//Save As
+void MainWindow::on_actionSave_as_triggered(){
+
+    QString File = QFileDialog::getSaveFileName(this,tr("Save Model"), "",tr("Mod Files (*.mod);;All Files (*)"));
+
+    std::string FileName = File.toUtf8().constData();
+    if (FileName != ""){
+
+        if( Indicator == 1){
+            Opened_FileName = FileName;
+            M.SaveModel(Opened_FileName,Hexstring);
+            cout << "saving" << endl;
+        }
+    }
+
+}
+//------------------------------
+
+
+
+//----------View Functions----------
+//Perspective
 void MainWindow::on_ListView_activated(const QString &View)
 {
     if (View == "Left"){
@@ -621,8 +630,28 @@ void MainWindow::on_LightradioButton_toggled(bool checked)
     }
     ui->qtvtkWidget->GetRenderWindow()->Render();
 }
+//------------------------------
 
-//Contour Filter
+
+
+//----------Contour Filter----------
+//Apply Button
+void MainWindow::on_Contour_toggled(bool checked){
+    ContourFunction();
+}
+//Object Length
+void MainWindow::on_ContourLength_valueChanged(double arg1){
+    ContourFunction();
+}
+//
+void MainWindow::on_ContourSpinBox_valueChanged(int arg1){
+    ContourFunction();
+}
+
+void MainWindow::on_ContourPosition_currentTextChanged(const QString &arg1){
+    ContourFunction();
+}
+
 void MainWindow::ContourOperation(){
     ContourLength = ui->ContourLength->value();
     NumberofPieces = ui->ContourSpinBox->value();
@@ -668,19 +697,4 @@ void MainWindow::ContourFunction(){
     contourFilter->Update();
     ui->qtvtkWidget->GetRenderWindow()->Render();
 }
-
-void MainWindow::on_Contour_toggled(bool checked){
-    ContourFunction();
-}
-
-void MainWindow::on_ContourLength_valueChanged(double arg1){
-    ContourFunction();
-}
-
-void MainWindow::on_ContourSpinBox_valueChanged(int arg1){
-    ContourFunction();
-}
-
-void MainWindow::on_ContourPosition_currentTextChanged(const QString &arg1){
-    ContourFunction();
-}
+//------------------------------
