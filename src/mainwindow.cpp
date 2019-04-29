@@ -1,8 +1,8 @@
 ﻿/** @file
-* This file contains the QT slots and functions 
+* This file contains the QT slots and functions
 */
 /** Brief description
-* Allows the user to interact with the screen 
+* Allows the user to interact with the screen
 */
 #include "mainwindow.h"
 
@@ -10,7 +10,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     // standard call to setup Qt UI (same as previously)
     ui->setupUi( this );
-	
+    this->setWindowTitle("ModelLoader");
+
     QTimer::singleShot(200, this, SLOT(showMaximized()));
 
     //Indicator Value at the beginning
@@ -756,5 +757,3 @@ void MainWindow::on_OpacitySlider_sliderMoved(int position){
     WhatToDisplay();
 }
 //--------------------------------------------------------------------
-
-
